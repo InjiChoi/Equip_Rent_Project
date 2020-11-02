@@ -21,8 +21,8 @@
     </script>
 </head>
 <body>
-<input type="text" name="" id="">
-    <form id="rent_form" action="" method="post" onkeydown="return event.key != 'Enter';"> 
+    <form id="rent_form" action="" method="post" onkeydown="return event.key != 'Enter';">
+                                                <!-- 바코드 스캔 시 자동으로 제출되는 것 방지-->
         {% csrf_token %}
         {% comment %} 
             {{rent_student_form}} <br>
