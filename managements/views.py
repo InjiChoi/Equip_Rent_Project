@@ -31,3 +31,7 @@ def rent(request):
 
 # def rent_list(request):
 #     return render(request, 'managements/rent.html')
+
+
+def main_page(request):
+    return render(request, 'managements/main.html',{})
