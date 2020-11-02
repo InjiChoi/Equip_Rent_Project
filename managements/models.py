@@ -1,4 +1,6 @@
 from django.db import models
+from students.models import Student
+from equipments.models import Equipment
 
 class RentManage(models.Model):
     rent_id = models.PositiveIntegerField(default=0)
