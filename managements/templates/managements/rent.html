@@ -14,29 +14,35 @@
             $("button[name=cur_focus]").click(function(){
                 $("input[name=beforeAmt]").focus();
             });
+            $("button[name=cur_focus2]").click(function(){
+                $("input[name=beforeAmt2]").focus();
+            });
         });
     </script>
 </head>
 <body>
-    <form id="rent_form" action="" method="post">
+    <form id="rent_form" action="" method="post" onkeydown="return event.key != 'Enter';">
+                                                <!-- 바코드 스캔 시 자동으로 제출되는 것 방지-->
         {% csrf_token %}
-
-        {{rent_student_form}} <br>
-        {{rent_equipment_form}} <br>
-        {{rent_form}} <br>
-        <input type="submit" value="대여">
-        {% comment %} 학번: <input type="text" name="afterAmt" id="afterAmt" value="" />
-        <button name='cur_focus'>학생증 스캔</button>
+        {% comment %} 
+            {{rent_student_form}} <br>
+            {{rent_equipment_form}} <br>
+            {{rent_form}} <br> 
+        {% endcomment %}
+        학번: <input type="text" name="afterAmt" id="afterAmt" value="" />
+        <button type='button' name='cur_focus'>학생증 스캔</button>
         <input  name="beforeAmt" id="beforeAmt" value="" onkeyup="eventKeyup(this.value)"/><br>
         이름: <input type="text" name="" id="" placeholder="김눈송"><br>
-        연락처: <input type="text" name="" id=""><br>
-        물품 번호: <input type="text" name="" id="">
+        연락처: <input type="text" name="" id="" placeholder="010-1234-1234"><br>
+        물품 번호: <input type="text" name="beforeAmt2" id="beforeAmt2" value="" onkeyup="eventKeyup(this.value)">
+        <button type='button' name='cur_focus2'>기자재 스캔</button> <br>
         물품 종류: <select name="" id="">
             <option value="notebook">노트북</option>
             <option value="">태블릿</option>
             <option value="">센서</option>
-        </select>
-        사진:  {% endcomment %}
+        </select><br>
+        사진: <br>
+                <input type="submit" value="대여">
     </form>
 </body>
 </html>
