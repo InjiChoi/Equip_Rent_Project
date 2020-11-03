@@ -1,15 +1,28 @@
-from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
-# from .models import RentManage
-from managements.forms import RentForm, RentStudentForm, RentEquipmentForm
+from .models import RentManage
+from managements.forms import RentForm
 # Create your views here.
 
 def rent(request):
-        return render(request, 'managements/rent.html', {})
+        if request.method == 'POST':
+                # student = Student.objects.get(id=pk)
+                rent_form = RentForm(request.POST, request.FILES)
+                equip_pic = request.POST['equip_pic']
+                print(0)
+                if rent_form.is_valid():
+                        print(55)
+                        info = RentManage(equip_pic=rent_form.data['equip_pic'])
+                        # rent_info = rent_form.save(commit=False)
+                        print(1)
+                        info.save()
+                        print(2)
+                else:
+                        print(10)
 
-# def rent_list(request):
-#     return render(request, 'managements/rent.html')
+                return render(request, 'managements/rent.html', {'rent_form':rent_form} )
+        else:
+                
+                print(4)
+                rent_form = RentForm()
 
-
-def main_page(request):
-    return render(request, 'managements/main.html',{})
+                return render(request, 'managements/rent.html', {'rent_form':rent_form})
