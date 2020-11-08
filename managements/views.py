@@ -5,7 +5,10 @@ from students.models import Student
 from equipments.models import Equipment
 # from django.db import transaction
 # Create your views here.
+def main_page(request):
+    return render(request, 'managements/main.html',{})
 
+# 대여 페이지
 def rent(request):
         if request.method == 'POST':
                 rent_student = Student.objects.get_or_create(
@@ -37,7 +40,7 @@ def rent(request):
                 else:
                         print(10)
 
-                return render(request, 'managements/main.html',{})
+                return render(request, 'managements/rent_list.html')
         else:
                 print(4)
                 rent_form = RentForm()
@@ -45,5 +48,5 @@ def rent(request):
                 rent_equipment_form = RentEquipmentForm()
                 return render(request, 'managements/rent.html', {'rent_form':rent_form, 'rent_student_form':rent_student_form, 'rent_equipment_form':rent_equipment_form})
 
-def main_page(request):
-    return render(request, 'managements/main.html',{})
+def rent_list(request):
+        return render(request, 'managements/rent_list.html')
