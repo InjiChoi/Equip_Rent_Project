@@ -18,7 +18,7 @@ from equipments.models import Equipment
 class RentForm(forms.ModelForm):
         class Meta:
                 model = RentManage
-                exclude = ['student_id', 'name', 'phone_number', 'email','equip_id','equip_type','return_date']
+                exclude = ['student_id', 'equip_id', 'return_date',]
                 
 
 

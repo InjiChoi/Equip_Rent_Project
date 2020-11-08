@@ -6,14 +6,14 @@
     <script type="text/javaScript">
         function eventKeyup(str){
             let str2 = str.slice(3, 10)
-            $("#afterAmt").val(str2);    // jQuery 이용
+            $("#id_student_id").val(str2);    // jQuery 이용
         }
         $(function(){
-            $("button[name=cur_focus]").click(function(){
+            $("input[name=cur_focus]").click(function(){
                 $("input[name=beforeAmt]").focus();
             });
-            $("button[name=cur_focus2]").click(function(){
-                $("input[name=beforeAmt2]").focus();
+            $("input[name=cur_focus2]").click(function(){
+                $("input[name=equip_id]").focus();
             });
         });
     </script>
@@ -35,8 +35,15 @@
             <form id="rent_form" action="" method="post" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
                                                         <!-- 바코드 스캔 시 자동으로 제출되는 것 방지-->
                 {% csrf_token %}
-                    {{rent_student_form.as_p}}
-                    {{rent_equipment_form.as_p}}
+                    <input style='opacity:0' name="beforeAmt" id="beforeAmt" value="" onkeyup="eventKeyup(this.value)"/>
+                    <p>학번 : {{rent_student_form.student_id}} 
+                    <input type='button' name='cur_focus' value='학생증 스캔'></p>
+                    <p>이름 : {{rent_student_form.name}}</p>
+                    <p>연락처 : {{rent_student_form.phone_number}}</p>
+                    <p>이메일 : {{rent_student_form.email}}</p>
+                    <p>물품 번호 : {{rent_equipment_form.equip_id}}
+                    <input type="button" name='cur_focus2' value='기자재 스캔'></p>
+                    <p>물품 종류 : {{rent_equipment_form.equip_type}}</p>
                     {{rent_form.as_p}}
                     <input type="submit" value="대여"> 
             </form>
