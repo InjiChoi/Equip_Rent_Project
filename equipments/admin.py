@@ -1,4 +1,6 @@
 from django.contrib import admin
-from equipments.models import Equipment
+from .models import Equipment
 # Register your models here.
-admin.site.register(Equipment)
+@admin.register(Equipment)
+class EquipmentAdmin(admin.ModelAdmin):
+    list_display=('equip_id', 'equip_type', 'rent_status')
