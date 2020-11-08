@@ -20,14 +20,14 @@
 {% endblock custom_script %}
 
 {% block custom_css %}
-    <link rel="stylesheet" href="{% static 'equipments/equip_register.css' %}">
+    <link rel="stylesheet" href="{% static 'students/student_register.css' %}">
 {% endblock custom_css %}
 
 {%block content%}
 <div class="container">
     <div class="row">
         <div class="subtitle">
-            <h1>기자재 등록</h1>
+            <h1>학생 등록</h1>
         </div>
     </div>
     <div class="row">
@@ -35,7 +35,7 @@
             <form id="rent_form" action="" method="post" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
                                                         <!-- 바코드 스캔 시 자동으로 제출되는 것 방지-->
                 {% csrf_token %}
-                {{equipment_form.as_p}}
+                {{student_form.as_p}}
                 <input type="submit" value="등록"> 
             </form>
         </div>

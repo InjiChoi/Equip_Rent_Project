@@ -34,7 +34,7 @@
                             <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">학생 관리<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">학생 등록</a></li>
+                                <li><a href="{% url 'students:student_register' %}">학생 등록</a></li>
                                 <li><a href="#">학생 관리 목록</a></li>
                             </ul>
                             </li>
@@ -43,7 +43,7 @@
                             <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">기자재 관리<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">기자재 등록</a></li>
+                                <li><a href="{% url 'equipments:equipment_register' %}">기자재 등록</a></li>
                                 <li><a href="#">기자재 관리 목록</a></li>
                             </ul>
                             </li>
