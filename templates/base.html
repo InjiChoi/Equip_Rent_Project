@@ -8,6 +8,10 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{% static 'main.css' %}">
+        {% block custom_script %}
+        {% endblock %}
+        {% block custom_css %}
+        {% endblock %}
     </head>
     <body>
         <div data-spy="affix" data-offset-top="30" class = "header-affix affix-item">
