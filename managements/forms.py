@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import HiddenInput
 from managements.models import RentManage
 from students.models import Student
 from equipments.models import Equipment
@@ -17,7 +18,9 @@ from equipments.models import Equipment
 class RentForm(forms.ModelForm):
         class Meta:
                 model = RentManage
-                fields = ('equip_pic',)
+                exclude = ['student_id', 'name', 'phone_number', 'email','equip_id','equip_type','return_date']
+                
+
 
 class RentStudentForm(forms.ModelForm):
         class Meta:
