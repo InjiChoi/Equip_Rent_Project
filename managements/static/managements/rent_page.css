@@ -1,0 +1,32 @@
+.subtitle {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.rentform {
+    margin-top: 50px;
+    font-size:3rem;
+    text-align: center;
+}
+
+.rentform #id_equip_pic {
+    text-align: center;
+}
+
+.row {
+    text-align:center;
+}
+
+.rent_pledge {
+    margin-top: 100px;
+    margin-bottom:30px;
+}
+.check_list li {
+    text-align: left;
+    font-size: 2rem;
+}
+
+#red {
+    color:red;
+    font-weight: bold;
+}

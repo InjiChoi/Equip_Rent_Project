@@ -13,6 +13,6 @@ class RentManage(models.Model):
     equip_pic = models.ImageField(upload_to="equip_pic/%Y/%m/%d/")
 
     # rent_id = models.PositiveIntegerField(default=0)
-    return_date = models.DateTimeField(default=None)
+    return_date = models.DateTimeField(null=True, blank=True)
 
 

@@ -8,6 +8,10 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{% static 'main.css' %}">
+        {% block custom_script %}
+        {% endblock %}
+        {% block custom_css %}
+        {% endblock %}
     </head>
     <body>
         <div data-spy="affix" data-offset-top="30" class = "header-affix affix-item">
@@ -21,7 +25,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#">숙명여대 IT공학과 기자재 관리 페이지</a>
+                        <a class="navbar-brand" href="{% url 'managements:main_page' %}">숙명여대 IT공학과 기자재 관리 페이지</a>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -30,7 +34,7 @@
                             <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">학생 관리<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">학생 등록</a></li>
+                                <li><a href="{% url 'students:student_register' %}">학생 등록</a></li>
                                 <li><a href="#">학생 관리 목록</a></li>
                             </ul>
                             </li>
@@ -39,7 +43,7 @@
                             <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">기자재 관리<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">기자재 등록</a></li>
+                                <li><a href="{% url 'equipments:equipment_register' %}">기자재 등록</a></li>
                                 <li><a href="#">기자재 관리 목록</a></li>
                             </ul>
                             </li>
@@ -57,7 +61,7 @@
                             <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">대여 <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">대여</a></li>
+                                <li><a href="{% url 'managements:rent' %}">대여</a></li>
                                 <li><a href="#">대여현황</a></li>
                             </ul>
                             </li>

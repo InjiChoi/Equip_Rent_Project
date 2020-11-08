@@ -12,3 +12,4 @@ class Equipment(models.Model):
     equip_id = models.CharField(max_length=255)
     equip_type = models.CharField(max_length=20, choices = EQUIP_TYPE_CHOICES, null=True, blank=True)
     rent_status = models.BooleanField(default=False)
+    
