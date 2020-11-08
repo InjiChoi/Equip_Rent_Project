@@ -6,14 +6,6 @@ from equipments.models import Equipment
 # from django.db import transaction
 # Create your views here.
 
-# class rent(FromView):
-#         template_name = 'rent.html'
-#         form_class = RentForm
-#         success_url = '/'
-#         def from_valid(self, form):
-#                 with transaction.atomic():
-
-
 def rent(request):
         if request.method == 'POST':
                 rent_form = RentForm(request.POST, request.FILES)

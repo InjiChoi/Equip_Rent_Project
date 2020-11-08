@@ -25,7 +25,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#">숙명여대 IT공학과 기자재 관리 페이지</a>
+                        <a class="navbar-brand" href="{% url 'managements:main_page' %}">숙명여대 IT공학과 기자재 관리 페이지</a>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -61,7 +61,7 @@
                             <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">대여 <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">대여</a></li>
+                                <li><a href="{% url 'managements:rent' %}">대여</a></li>
                                 <li><a href="#">대여현황</a></li>
                             </ul>
                             </li>

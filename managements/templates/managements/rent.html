@@ -1,4 +1,4 @@
-div{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block custom_script %}
@@ -23,7 +23,6 @@ div{% extends 'base.html' %}
     <link rel="stylesheet" href="{% static 'managements/rent_page.css' %}">
 {% endblock custom_css %}
 
-
 {%block content%}
 <div class="container">
     <div class="row">
@@ -33,30 +32,34 @@ div{% extends 'base.html' %}
     </div>
     <div class="row">
         <div class="rentform ">
-        <form id="rent_form" action="" method="post" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
-                                                    <!-- 바코드 스캔 시 자동으로 제출되는 것 방지-->
-            {% csrf_token %}
-                {{rent_student_form.as_p}}
-                {{rent_equipment_form.as_p}}
-                {{rent_form.as_p}}
-                <input type="submit" value="대여"> 
-        </form>
+            <form id="rent_form" action="" method="post" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
+                                                        <!-- 바코드 스캔 시 자동으로 제출되는 것 방지-->
+                {% csrf_token %}
+                    {{rent_student_form.as_p}}
+                    {{rent_equipment_form.as_p}}
+                    {{rent_form.as_p}}
+                    <input type="submit" value="대여"> 
+            </form>
         </div>
     </div>
 </div>
+<div class="container">
+    <div class="row rent_pledge">
+        <h1>기기 대여 서약서</h1>
+        <p>상기 본인은 숙명여자대학교 IT공학과의 대여 서약서를 충분히 숙지, 이해하였으며 
+        다음의 사항을 준수할 것을 엄숙히 서약합니다.</p>
+    </div>
+    <div class="row">
+        <ol class='check_list'>
+            <li>해당 기기를 대여한 기간 내의 기기책임자는 학생 본인이므로 모든 책임은 본인에게 있음.</li>
+            <li>해당 기기 및 기타 액세서리의 분실, 파손, 도난, 고장 등에 대한 모든 변상은 학생 본인이 부담하며 원상복구하여 반납함.</li>
+            <li>해당 기기를 반납할 시 초기화하여 모든 구성 물품과 함께 반납함.</li>
+            <li>추후 휴학, 자퇴, 전과, 졸업할 경우 반납할 것을 동의함.</li>
+        </ol>
+    </div>
+    <div class="row">
+        <h4>숙명여자대학교 IT공학과의 대여 서약서를 충분히 숙지, 이해하였으며 다음의 사항을 준수할 것을 엄숙히 서약합니다.</h4>
+        <h4 id='red'>※ 위의 준수 사항을 어길 시, 발생하는 개인의 불이익은 IT공학과가 책임지지 않습니다.</h4>
+    </div>
+</div>
 {%endblock%}
-
-{% comment %} 학번: <input type="text" name="afterAmt" id="afterAmt" value="" />
-        <button type='button' name='cur_focus'>학생증 스캔</button>
-        <input  name="beforeAmt" id="beforeAmt" value="" onkeyup="eventKeyup(this.value)"/><br>
-        이름: <input type="text" name="" id="" placeholder="김눈송"><br>
-        연락처: <input type="text" name="" id="" placeholder="010-1234-1234"><br>
-        물품 번호: <input type="text" name="beforeAmt2" id="beforeAmt2" value="" onkeyup="eventKeyup(this.value)">
-        <button type='button' name='cur_focus2'>기자재 스캔</button> <br>
-        물품 종류: <select name="" id="">
-            <option value="notebook">노트북</option>
-            <option value="">태블릿</option>
-            <option value="">센서</option>
-        </select><br>
-        사진: <br>
-                <input type="submit" value="대여">  {% endcomment %}
