@@ -31,18 +31,13 @@ def rent(request):
                         rent_info = rent_form.save(commit=False)
                         rent_info.student_id = rent_student[0]
                         rent_info.equip_id = rent_equipment[0]
-                        # rent_info.name = rent_obj[1]
                         rent_info.save()
 
-                        print(1)
-                        
-                        print(2)
                 else:
                         print(10)
 
                 return render(request, 'managements/rent_list.html')
         else:
-                print(4)
                 rent_form = RentForm()
                 rent_student_form = RentStudentForm()
                 rent_equipment_form = RentEquipmentForm()

@@ -12,7 +12,11 @@ class RentManage(models.Model):
     # equip_type = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name='rent_equip_type',null=True)
     equip_pic = models.ImageField(upload_to="equip_pic/%Y/%m/%d/")
 
-    # rent_id = models.PositiveIntegerField(default=0)
-    return_date = models.DateTimeField(null=True, blank=True)
 
 
+
+class ReturnHistory(models.Model):
+    student_id = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
+    equip_id = models.ForeignKey(Equipment, on_delete=models.CASCADE, null=True)
+
+    return_date = models.DateTimeField(auto_now_add=True)
