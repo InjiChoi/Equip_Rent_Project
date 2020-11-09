@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'equipments/equip_list.css' %}">
+{% endblock custom_css %}
+{% block content %}
+    <h1>기자재 목록</h1>
+    <div class="container">
+        <table class='table table-striped'>
+            <thead>
+                <tr>
+                    <td><b>물품 번호</b></td>
+                    <td><b>물품 종류</b></td>
+                    <td><b>대여 상태</b></td>
+                    <td><b>대여자</b></td>
+                    <td><b>대여일</b></td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for equip in equipments reversed %}
+                <tr>
+                    <td>{{equip.equip_id}}</td>
+                    <td>{{equip.get_equip_type_display}}</td>
+                    {% if equip.rent_status == False %}
+                    <td id='rent_possible'>대여 가능</td>
+                    <td></td>
+                    <td></td>
+                    {% else %}
+                    <td id='rent_impossible'>대여중</td>
+                    <td></td>
+                    <td></td>
+                    {% endif %}
+                    
+                </tr>   
+            {% endfor %} 
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}
+    
