@@ -10,11 +10,12 @@ class Student(models.Model):
         ('자퇴', '자퇴'),
     )
 
-    student_id = models.CharField(max_length=7)
+    student_id = models.CharField(max_length=7, unique=True)
     name = models.CharField(max_length=20)
     phone_number = models.CharField(max_length=100)
     email = models.EmailField(max_length=254)
     status = models.CharField(max_length=5, choices=STATUS_CHOICES, default='재학')
 
-    def __str__(self):
-        return str(self.student_id)
+    
+
+    
