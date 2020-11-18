@@ -18,6 +18,7 @@
                 </tr>
             </thead>
             <tbody>
+            
             {% for equip in equipments reversed %}
                 <tr>
                     <td>{{equip.equip_id}}</td>
@@ -28,10 +29,9 @@
                     <td></td>
                     {% else %}
                     <td id='rent_impossible'>대여중</td>
-                    <td></td>
+                    <td>{{equip.student_id.student_id}}</td>
                     <td></td>
                     {% endif %}
-                    
                 </tr>   
             {% endfor %} 
             </tbody>

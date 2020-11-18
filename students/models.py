@@ -16,6 +16,7 @@ class Student(models.Model):
     email = models.EmailField(max_length=254)
     status = models.CharField(max_length=5, choices=STATUS_CHOICES, default='재학')
 
-    
+    # def __str__(self):
+    #     return self.student_id
 
     
