@@ -32,8 +32,8 @@ def rent(request):
                         # rent_student = rent_student_form.save()
                         # rent_equipment_form.save()
                         rent_info = rent_form.save(commit=False)
-                        rent_info.student_id = rent_student[0]
-                        rent_info.equip_id = rent_equipment[0]
+                        rent_info.student = rent_student[0]
+                        rent_info.equip = rent_equipment[0]
                         rent_info.save()
 
                 else:
