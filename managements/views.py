@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import RentManage
+from students.models import Student
+from equipments.models import Equipment
 from managements.forms import RentForm, RentStudentForm, RentEquipmentForm
 from students.models import Student
 from equipments.models import Equipment
-# from django.db import transaction
-# Create your views here.
+
+
 def main_page(request):
     return render(request, 'managements/main.html',{})
 
@@ -19,6 +21,7 @@ def rent(request):
                 rent_equipment = Equipment.objects.get_or_create(
                         equip_id=request.POST.get('equip_id'),
                         equip_type=request.POST.get('equip_type'),
+                        rent_status=True,
                 )
                 rent_form = RentForm(request.POST, request.FILES)
                 # rent_student_form = RentStudentForm(request.POST)
@@ -44,4 +47,13 @@ def rent(request):
                 return render(request, 'managements/rent.html', {'rent_form':rent_form, 'rent_student_form':rent_student_form, 'rent_equipment_form':rent_equipment_form})
 
 def rent_list(request):
-        return render(request, 'managements/rent_list.html')
+        rents = RentManage.objects.all()
+        students = Student.objects.all()
+        equipments = Equipment.objects.all()
+
+        ctx = {
+        'rents':rents,
+        'students':students,
+        'equipments':equipments
+        }
+        return render(request, 'managements/rent_list.html',ctx)
