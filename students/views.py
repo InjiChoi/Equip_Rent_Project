@@ -18,3 +18,11 @@ def student_register(request):
         student_form = StudentForm()
         return render(request, 'students/student_register.html', {'student_form':student_form})
 
+def student_list(request):
+    students = Student.objects.all()
+
+    ctx = {
+        'students':students,
+    }
+    return render(request, 'students/student_list.html', ctx)
+
