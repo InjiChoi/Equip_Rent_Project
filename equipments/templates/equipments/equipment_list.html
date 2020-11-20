@@ -13,7 +13,8 @@
                     <td><b>물품 번호</b></td>
                     <td><b>물품 종류</b></td>
                     <td><b>대여 상태</b></td>
-                    <td><b>대여자</b></td>
+                    <td><b>대여자 학번</b></td>
+                    <td><b>대여자 이름</b></td>
                     <td><b>대여일</b></td>
                 </tr>
             </thead>
@@ -27,10 +28,16 @@
                     <td id='rent_possible'>대여 가능</td>
                     <td></td>
                     <td></td>
+                    <td></td>
                     {% else %}
                     <td id='rent_impossible'>대여중</td>
-                    <td>{{equip.student_id.student_id}}</td>
-                    <td></td>
+                    {%for rent in rents%}
+                        {%if rent.equip.equip_id == equip.equip_id%}
+                        <td>{{rent.student.student_id}}</td>
+                        <td>{{rent.student.name}}</td>
+                        <td>{{rent.rent_date}}</td>
+                        {%endif%}
+                    {%endfor%}
                     {% endif %}
                 </tr>   
             {% endfor %} 

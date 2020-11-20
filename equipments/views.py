@@ -25,11 +25,11 @@ def equipment_register(request):
 
 def equipment_list(request):
     equipments = Equipment.objects.all()
-    rent_equip = RentManage.objects.all()
+    rents = RentManage.objects.all()
     # equip_ids = Equipment.objects.values('equip_id')
 
     ctx = {
         'equipments':equipments,
-        'rent_equip':rent_equip,
+        'rents':rents,
     }
     return render(request, 'equipments/equipment_list.html', ctx)
