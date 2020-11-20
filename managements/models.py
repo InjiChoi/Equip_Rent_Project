@@ -8,15 +8,19 @@ class RentManage(models.Model):
     # phone_number = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='rent_phone_number',null=True)
     # email = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='rentemail',null=True)
 
-    equip = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name='rent_equip_id',null=True)
+    equip = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name='rent_equip',null=True)
     # equip_type = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name='rent_equip_type',null=True)
     equip_pic = models.ImageField(upload_to="equip_pic/%Y/%m/%d/")
+    rent_date = models.DateTimeField(blank=True, null=True)
 
+    def publish(self):
+        self.rent_date = timezone.now()
+        self.save()
 
 
 
 class ReturnHistory(models.Model):
-    student_id = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
-    equip_id = models.ForeignKey(Equipment, on_delete=models.CASCADE, null=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
+    equip= models.ForeignKey(Equipment, on_delete=models.CASCADE, null=True)
 
     return_date = models.DateTimeField(auto_now_add=True)

@@ -5,6 +5,7 @@ from equipments.models import Equipment
 from managements.forms import RentForm, RentStudentForm, RentEquipmentForm
 from students.models import Student
 from equipments.models import Equipment
+from django.utils import timezone
 
 
 def main_page(request):
@@ -34,6 +35,7 @@ def rent(request):
                         rent_info = rent_form.save(commit=False)
                         rent_info.student = rent_student[0]
                         rent_info.equip = rent_equipment[0]
+                        rent_info.rent_date = timezone.now()
                         rent_info.save()
 
                 else:
@@ -48,12 +50,8 @@ def rent(request):
 
 def rent_list(request):
         rents = RentManage.objects.all()
-        students = Student.objects.all()
-        equipments = Equipment.objects.all()
-
+        
         ctx = {
-        'rents':rents,
-        'students':students,
-        'equipments':equipments
+        'rents':rents
         }
         return render(request, 'managements/rent_list.html',ctx)

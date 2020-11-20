@@ -22,8 +22,8 @@
                     <td>{{rent.student.name}}</td>
                     <td>{{rent.student.phone_number}}</td>
                     <td>{{rent.equip.equip_id}}</td>
-                    <td>{{rent.equip.equip_type}}</td>
-                    <td>대여일</td>
+                    <td>{{rent.equip.get_equip_type_display}}</td>
+                    <td>{{rent.rent_date}}</td>
                     <td>{{rent.student.status}}</td>
                 </tr>
             {% endfor %}
