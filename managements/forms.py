@@ -21,3 +21,9 @@ class RentEquipmentForm(forms.ModelForm):
         class Meta:
                 model = Equipment
                 fields = ('equip_id','equip_type',)
+
+
+class ReturnForm(forms.ModelForm):
+        class Meta:
+                model = RentManage
+                fields=['student', 'equip']

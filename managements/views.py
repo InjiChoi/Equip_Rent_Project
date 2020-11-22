@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import RentManage
+from .models import RentManage, ReturnHistory
 from students.models import Student
 from equipments.models import Equipment
-from managements.forms import RentForm, RentStudentForm, RentEquipmentForm
+from managements.forms import RentForm, RentStudentForm, RentEquipmentForm, ReturnForm
 from students.models import Student
 from equipments.models import Equipment
 
@@ -40,11 +40,16 @@ def rent(request):
                         print(10)
 
                 return render(request, 'managements/rent_list.html')
-        else:
+        else:   
                 rent_form = RentForm()
                 rent_student_form = RentStudentForm()
                 rent_equipment_form = RentEquipmentForm()
-                return render(request, 'managements/rent.html', {'rent_form':rent_form, 'rent_student_form':rent_student_form, 'rent_equipment_form':rent_equipment_form})
+                ctx = {
+                        'rent_form':rent_form,
+                        'rent_student_form':rent_student_form,
+                        'rent_equipment_form':rent_equipment_form
+                }
+                return render(request, 'managements/rent.html', ctx)
 
 def rent_list(request):
         rents = RentManage.objects.all()
@@ -52,8 +57,34 @@ def rent_list(request):
         equipments = Equipment.objects.all()
 
         ctx = {
-        'rents':rents,
-        'students':students,
-        'equipments':equipments
+                'rents':rents,
+                'students':students,
+                'equipments':equipments
         }
-        return render(request, 'managements/rent_list.html',ctx)
+        return render(request, 'managements/rent_list.html', ctx)
+# ----------------------------------------------------------------------- #
+
+# 반납 페이지
+def return_(request):
+        # if request.method == 'POST':
+        #         return_form = ReturnForm(request.POST)
+        #         if return_form.is_valid():
+        #                 return_info = return_form.save(commit=False)
+        #                 return_info.
+
+        # else:
+        #         return_form = ReturnForm()
+
+        return render(request, 'managements/return.html')
+
+def return_list(request):
+        # rents = RentManage.objects.all()
+        # students = Student.objects.all()
+        # equipments = Equipment.objects.all()
+
+        # ctx = {
+        #         'rents':rents,
+        #         'students':students,
+        #         'equipments':equipments
+        # }
+        return render(request, 'managements/return_list.html')
