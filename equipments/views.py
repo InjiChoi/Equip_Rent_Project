@@ -26,8 +26,6 @@ def equipment_register(request):
 def equipment_list(request):
     equipments = Equipment.objects.all()
     rents = RentManage.objects.all()
-    # equip_ids = Equipment.objects.values('equip_id')
-
     ctx = {
         'equipments':equipments,
         'rents':rents,
