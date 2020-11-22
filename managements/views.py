@@ -78,7 +78,7 @@ def return_(request):
         return render(request, 'managements/return.html')
 
 def return_list(request):
-        # rents = RentManage.objects.all()
+        # returns = ReturnHistory.objects.all()
         # students = Student.objects.all()
         # equipments = Equipment.objects.all()
 
