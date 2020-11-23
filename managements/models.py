@@ -16,8 +16,11 @@ class RentManage(models.Model):
     def publish(self):
         self.rent_date = timezone.now()
         self.save()
+    
+    def __str__(self):
+        return self.student.student_id
 
-
+print(student)
 
 class ReturnHistory(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
