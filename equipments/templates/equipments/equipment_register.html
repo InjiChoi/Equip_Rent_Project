@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block custom_script %}
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script type="text/javaScript">
         function eventKeyup(str){
             let str2 = str.slice(3, 10)
@@ -16,6 +16,38 @@
                 $("input[name=beforeAmt2]").focus();
             });
         });
+
+        function id_overlap_check() {
+            if ($('#id_equip_id').val() == '') {
+                alert('기자재 번호를 입력해주세요.');
+                return false;
+            }
+
+            id_overlap_input = document.querySelector('input[name="equip_id"]');
+            console.log(id_overlap_input)
+            $.ajax({
+                url: "{% url 'equipments:equipment_overlap_check' %}",
+                data: {
+                    'equip_id': id_overlap_input.value
+                },
+                datatype:'json',
+                success: function (data) {
+                    console.log(data['overlap']);
+                    if (data['overlap'] == 'fail') {
+                        alert("이미 등록되어 있는 기자재입니다.");
+                        id_overlap_input.focus();
+                        cancelFormSubmission();
+                        return false;
+                        document.querySelector('.submit_btn').setAttribute('disabled', true);
+                        
+                    } else {
+                        alert('기자재 등록이 완료되었습니다.');
+                        document.querySelector('.submit_btn').removeAttribute('disabled');
+                        return;
+                    }
+                }
+            })
+        }
     </script>
 {% endblock custom_script %}
 
@@ -36,7 +68,7 @@
                                                             <!-- 바코드 스캔 시 자동으로 제출되는 것 방지-->
                     {% csrf_token %}
                     {{equipment_form.as_p}}
-                    <input type="submit" value="등록"> 
+                    <input type="submit" value="등록" class='submit_btn' onclick='id_overlap_check()'> 
                 </form>
             </div>
         </div>
