@@ -6,4 +6,5 @@ app_name = 'equipments'
 urlpatterns = [
     path('', views.equipment_register, name="equipment_register"),
     path('list/', views.equipment_list, name='equipment_list'),
+    path('equip_check/', views.equipment_overlap_check, name="equipment_overlap_check"),
 ]

@@ -38,6 +38,7 @@ def rent(request):
                                 # rent_equipment_form.save()
                                 rent_info = rent_form.save(commit=False)
                                 rent_info.student = rent_student[0]
+                                # rent_info.student = Student.objects.get(id=rent_student[0]).student_id
                                 rent_info.equip = rent_equipment[0]
                                 rent_info.rent_date = timezone.now()
                                 rent_info.save()
@@ -45,7 +46,7 @@ def rent(request):
                         else:
                                 print(10)
 
-                        return render(request, 'managements/rent_list.html')
+                        return redirect('managements:rent_list')
 
                 except IntegrityError:
                         rent_form = RentForm()

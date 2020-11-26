@@ -16,6 +16,38 @@
                 $("input[name=beforeAmt2]").focus();
             });
         });
+
+        function id_overlap_check() {
+            if ($('#id_student_id').val() == '') {
+                alert('학생 번호를 입력해주세요.');
+                return false;
+            }
+
+            id_overlap_input = document.querySelector('input[name="student_id"]');
+            console.log(id_overlap_input)
+            $.ajax({
+                url: "{% url 'students:student_overlap_check' %}",
+                data: {
+                    'student_id': id_overlap_input.value
+                },
+                datatype:'json',
+                success: function (data) {
+                    console.log(data['overlap']);
+                    if (data['overlap'] == 'fail') {
+                        alert("이미 등록되어 있는 학생입니다.");
+                        id_overlap_input.focus();
+                        cancelFormSubmission();
+                        return false;
+                        document.querySelector('.submit_btn').setAttribute('disabled', true);
+                        
+                    } else {
+                        alert('학생 등록이 완료되었습니다.');
+                        document.querySelector('.submit_btn').removeAttribute('disabled');
+                        return;
+                    }
+                }
+            })
+        }
     </script>
 {% endblock custom_script %}
 
@@ -24,17 +56,7 @@
 {% endblock custom_css %}
 
 {%block content%}
-<div class="alert alert-{{ messages.tags }} alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-    {% if messages %}
-	{% for message in messages %}
-		{% comment %} {{ message.tags }} {% endcomment %}
-		{{ message.message }}
-	{% endfor %}
-    {% endif %}
-</div>
+
 <div class="container">
     <div class="row">
         <div class="subtitle">
@@ -47,7 +69,7 @@
                                                         <!-- 바코드 스캔 시 자동으로 제출되는 것 방지-->
                 {% csrf_token %}
                 {{student_form.as_p}}
-                <input type="submit" value="등록"> 
+                <input type="submit" value="등록" class='submit_btn' onclick='id_overlap_check()'> 
             </form>
         </div>
     </div>
