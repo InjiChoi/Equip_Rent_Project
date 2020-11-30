@@ -45,7 +45,7 @@ def rent(request):
                         else:
                                 print(10)
 
-                        return render(request, 'managements/rent_list.html')
+                        return redirect('managements:rent_list') #view-name이용
 
                 except IntegrityError:
                         rent_form = RentForm()
