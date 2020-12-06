@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{%block content%}
+    <h1>기자재 삭제 페이지</h1>
+    <form method="POST" class="equip-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submmit" class="save btn btn-primary">삭제</button>
+    </form>
+{%endblock content%}

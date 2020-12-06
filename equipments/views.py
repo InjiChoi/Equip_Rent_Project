@@ -72,3 +72,20 @@ def equipment_detail(request, pk):
     else:
         form = EquipForm(instance=equip)
     return render(request,'equipments/equipment_detail.html',{'form':form})
+
+# 기자개 정보 삭제 페이지
+def equipment_remove(request, pk):
+    equipments = Equipment.objects.all()
+    rents = RentManage.objects.all()
+    ctx = {
+        'equipments':equipments,
+        'rents':rents,
+    }
+    equip = get_object_or_404(Equipment, pk=pk)
+    if request.method == "POST":
+        equip.delete()
+        return render(request, 'equipments/equipment_list.html', ctx)
+    
+    else:
+        form = EquipForm(instance=equip)
+    return render(request,'equipments/equipment_remove.html',{'form':form})

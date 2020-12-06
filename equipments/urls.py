@@ -8,4 +8,5 @@ urlpatterns = [
     path('list/', views.equipment_list, name='equipment_list'),
     path('equip_check/', views.equipment_overlap_check, name="equipment_overlap_check"),
     path('detail/<int:pk>/',views.equipment_detail, name='equipment_detail'),
+    path('remove/<int:pk>/',views.equipment_remove, name='equipment_remove'),
 ]

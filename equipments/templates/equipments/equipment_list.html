@@ -18,14 +18,15 @@
                     <td><b>대여자 학번</b></td>
                     <td><b>대여자 이름</b></td>
                     <td><b>대여일</b></td>
+                    <td><b></b></td>
+                    <td><b></b></td>
                 </tr>
             </thead>
             <tbody>
             
             {% for equip in equipments reversed %}
                 <tr>
-                    <td><a href="{%url 'equipments:equipment_detail' pk=equip.pk %}">{{equip.equip_id}}</a></td>
-                    {% comment %} <td>{{equip.pk}}</td>                     {% endcomment %}
+                    <td>{{equip.equip_id}}</td>
                     <td>{{equip.get_equip_type_display}}</td>
                     {% if equip.rent_status == False %}
                     <td id='rent_possible'>대여 가능</td>
@@ -42,6 +43,8 @@
                         {%endif%}
                     {%endfor%}
                     {% endif %}
+                    <td><a href="{% url 'equipments:equipment_detail' pk=equip.pk %}"><img src ="/static/edit.png"></a></td>
+                    <td><a href="{% url 'equipments:equipment_remove' pk=equip.pk %}"><img src ="/static/rubbish.png"></a></td>
                 </tr>   
             {% endfor %} 
             </tbody>

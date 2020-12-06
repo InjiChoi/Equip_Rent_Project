@@ -71,3 +71,19 @@ def student_detail(request, pk):
     else:
         form = StudentForm(instance=student)
     return render(request,'students/student_detail.html',{'form':form})
+
+# 학생 정보 삭제 페이지
+def student_remove(request, pk):
+    students = Student.objects.all()
+    ctx = {
+        'students':students
+    }
+    student = get_object_or_404(Student, pk=pk)
+    if request.method == "POST":
+        student.delete()
+        return render(request, 'students/student_list.html', ctx)
+    
+    else:
+        form = StudentForm(instance=student)
+    return render(request,'students/student_remove.html',{'form':form})
+

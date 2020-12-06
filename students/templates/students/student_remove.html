@@ -2,9 +2,9 @@
 {% load static %}
 
 {%block content%}
-    <h1>학생 수정 페이지</h1>
+    <h1>학생 삭제 페이지</h1>
     <form method="POST" class="student-form">{% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="save btn btn-primary">수정</button>
+        <button type="submit" class="save btn btn-primary">삭제</button>
     </form>
 {%endblock content%}
