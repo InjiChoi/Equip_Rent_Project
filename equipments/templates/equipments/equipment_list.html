@@ -10,6 +10,7 @@
         <table class='table table-striped'>
             <thead>
                 <tr>
+                    <td></td>
                     <td><b>물품 번호</b></td>
                     <td><b>물품 종류</b></td>
                     <td><b>대여 상태</b></td>
@@ -22,7 +23,9 @@
             
             {% for equip in equipments reversed %}
                 <tr>
-                    <td>{{equip.equip_id}}</td>
+                    <td><input type="checkbox"/></td>
+                    <td><a href="{%url 'equipments:equipment_detail' pk=equip.pk %}">{{equip.equip_id}}</a></td>
+                    {% comment %} <td>{{equip.pk}}</td>                     {% endcomment %}
                     <td>{{equip.get_equip_type_display}}</td>
                     {% if equip.rent_status == False %}
                     <td id='rent_possible'>대여 가능</td>

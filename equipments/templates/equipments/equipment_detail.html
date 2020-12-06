@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{%block content%}
+    <h1>기자재 상세 페이지</h1>
+    <form method="POST" class="equip-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-primary">Save</button>
+    </form>
+{%endblock content%}

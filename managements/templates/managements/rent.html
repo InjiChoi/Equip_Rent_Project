@@ -16,6 +16,10 @@
                 $("input[name=equip_id]").focus();
             });
         });
+
+        $(function(){
+
+        });
     </script>
 {% endblock custom_script %}
 
@@ -37,7 +41,8 @@
                 {% csrf_token %}
                     <input style='opacity:0' name="beforeAmt" id="beforeAmt" value="" onkeyup="eventKeyup(this.value)"/>
                     <p>학번 : {{rent_student_form.student_id}} 
-                    <input type='button' name='cur_focus' value='학생증 스캔'></p>
+                    <input type='button' name='cur_focus' value='학생증 스캔'>
+                    <input type='button', name='inquiry' value='학생 조회'></p>
                     <p>이름 : {{rent_student_form.name}}</p>
                     <p>연락처 : {{rent_student_form.phone_number}}</p>
                     <p>이메일 : {{rent_student_form.email}}</p>
