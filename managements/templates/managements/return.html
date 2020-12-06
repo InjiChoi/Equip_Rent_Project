@@ -36,12 +36,19 @@
                                                         <!-- 바코드 스캔 시 자동으로 제출되는 것 방지-->
                 {% csrf_token %}
                     <input style='opacity:0' name="beforeAmt" id="beforeAmt" value="" onkeyup="eventKeyup(this.value)"/>
-                    <p>학번 : {{return_form.return_student}} 
-                    <input type='button' name='cur_focus' value='학생증 스캔'></p>
-                    <p>물품 번호 : {{return_form.return_equipment}}
-                    <input type="button" name='cur_focus2' value='기자재 스캔'></p>
-                    
-                    <input type="submit" value="조회"> 
+                    <table class='info_table'>
+                    <tr>
+                        <td>학번 : </td>
+                        <td>{{return_form.return_student}}</td>
+                        <td id="scan_td"><input type='button' name='cur_focus' value='학생증 스캔' class='scan_btn'></td>
+                    </tr>
+                    <tr>
+                        <td>물품 번호 : </td>
+                        <td>{{return_form.return_equipment}}</td>
+                        <td id="scan_td"><input type="button" name='cur_focus2' value='기자재 스캔' class='scan_btn'></td>
+                    </tr>
+                    </table>
+                    <input type="submit" value="조회" class='submit_btn'> 
             </form>
         </div>
     </div>

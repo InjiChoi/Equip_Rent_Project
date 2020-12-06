@@ -36,16 +36,37 @@
                                                         <!-- 바코드 스캔 시 자동으로 제출되는 것 방지-->
                 {% csrf_token %}
                     <input style='opacity:0' name="beforeAmt" id="beforeAmt" value="" onkeyup="eventKeyup(this.value)"/>
-                    <p>학번 : {{rent_student_form.student_id}} 
-                    <input type='button' name='cur_focus' value='학생증 스캔'></p>
-                    <p>이름 : {{rent_student_form.name}}</p>
-                    <p>연락처 : {{rent_student_form.phone_number}}</p>
-                    <p>이메일 : {{rent_student_form.email}}</p>
-                    <p>물품 번호 : {{rent_equipment_form.equip_id}}
-                    <input type="button" name='cur_focus2' value='기자재 스캔'></p>
-                    <p>물품 종류 : {{rent_equipment_form.equip_type}}</p>
-                    {{rent_form.as_p}}
-                    <input type="submit" value="대여"> 
+                    <table class="info_table">
+                        <tr>
+                            <td>학번 : </td>
+                            <td>{{rent_student_form.student_id}} </td>
+                            <td id='scan_td'><input type='button' name='cur_focus' value='학생증 스캔' class='scan_btn'></td>
+                        </tr>
+                        <tr>
+                            <td>이름 : </td>
+                            <td>{{rent_student_form.name}}</td>
+                        </tr>
+                        <tr>
+                            <td>연락처 : </td>
+                            <td>{{rent_student_form.phone_number}}</td>
+                        </tr>
+                        <tr>
+                            <td>이메일 : </td>
+                            <td>{{rent_student_form.email}}</td>
+                        </tr>
+                        <tr>
+                            <td>물품 번호 : </td>
+                            <td>{{rent_equipment_form.equip_id}}</td>
+                            <td id='scan_td'><input type="button" name='cur_focus2' value='기자재 스캔' class='scan_btn'></td>
+                        </tr>
+                        <tr>
+                            <td>물품 종류 : </td>
+                            <td>{{rent_equipment_form.equip_type}}</td>
+                        </tr>
+                            <td>물품 사진: </td>
+                            <td>{{rent_form.equip_pic}}</td>
+                    </table>
+                    <input type="submit" value="대여" class='submit_btn'> 
             </form>
         </div>
     </div>

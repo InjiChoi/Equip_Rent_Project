@@ -52,3 +52,68 @@ a.dropdown-toggle {
     text-align: center;
 }
 /* -------------------------------------------------------------- */
+.submit_btn {
+    font-size:2rem;
+    font-weight:bold;
+    margin-top: 30px;
+    background-color: white;
+    color: black;
+    border:2px solid rgb(6, 6, 150);
+    border-radius: 10px;
+    width: 100px;
+    height: 45px;
+}
+
+/* 스캔 버튼 */
+#scan_td {
+    text-align: left;
+}
+.scan_btn {
+    font-size:1.4rem;
+    font-weight:bold;
+    background-color: rgb(6, 6, 150);
+    color: white;
+    border:3px solid white;
+    border-radius: 10px;
+    width: 100px;
+    height: 45px;
+}
+
+/* **************************************** */
+/* TABLE CSS */
+.info_table {
+    border-collapse: separate;
+    border-spacing: 1px;
+    text-align: left;
+    line-height: 1.5;
+    border-top: 1px solid rgb(241, 235, 235);
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.info_table tr {
+    width: 200px;
+    padding: 10px;
+    /*font-weight: bold;*/
+    vertical-align: top;
+    border-bottom: 1px solid rgb(241, 235, 235);
+}
+
+.info_table td {
+    text-align: center;
+    font-weight: bold;
+    font-size:2rem;
+    width: 400px;
+    /*width: 500px;*/
+    padding: 10px;
+    vertical-align: top;
+    border-bottom: 1px solid rgb(241, 235, 235);
+}
+
+.info_table select {
+    width:250px;
+}
+
+.info_table select {
+    width:250px;
+}
