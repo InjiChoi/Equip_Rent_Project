@@ -31,3 +31,24 @@ def equipment_list(request):
         'rents':rents,
     }
     return render(request, 'equipments/equipment_list.html', ctx)
+
+def equipment_detail(request, pk):
+    equipments = Equipment.objects.all()
+    rents = RentManage.objects.all()
+    ctx = {
+        'equipments':equipments,
+        'rents':rents,
+    }
+    equip = get_object_or_404(Equipment, pk=pk)
+    if request.method == "POST":
+        form = EquipForm(request.POST, instance=equip)
+        if form.is_valid():
+            equip = form.save(commit=False)
+            equip.equip_id = request.POST.get('equip_id')
+            equip.equip_type = request.POST.get('equip_type')
+            equip.save()
+            return render(request, 'equipments/equipment_list.html', ctx)
+    
+    else:
+        form = EquipForm(instance=equip)
+    return render(request,'equipments/equipment_detail.html',{'form':form})
