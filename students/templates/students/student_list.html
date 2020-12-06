@@ -23,7 +23,7 @@
             
             {% for student in students reversed %}
                 <tr>
-                    <td>{{student.student_id}}</td>
+                    <td><a href="{% url 'students:student_detail' pk=student.pk %}">{{student.student_id}}</a></td>
                     <td>{{student.name}}</td>
                     <td>{{student.phone_number}}</td>
                     <td>{{student.email}}</td>

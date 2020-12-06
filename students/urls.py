@@ -7,4 +7,5 @@ urlpatterns = [
     path('', views.student_register, name='student_register'),
     path('list/', views.student_list, name='student_list'),
     path('student_check/', views.student_overlap_check, name='student_overlap_check'),
+    path('detail/<int:pk>/',views.student_detail, name='student_detail'),
 ]
