@@ -49,3 +49,25 @@ def student_list(request):
     }
     return render(request, 'students/student_list.html', ctx)
 
+# 학생 정보 수정 페이지
+def student_detail(request, pk):
+    students = Student.objects.all()
+    ctx = {
+        'students':students
+    }
+    student = get_object_or_404(Student, pk=pk)
+    if request.method == "POST":
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid():
+            student = form.save(commit=False)
+            student.student_id = request.POST.get('student_id')
+            student.name = request.POST.get('name')
+            student.phone_number = request.POST.get('phone_number')
+            student.email = request.POST.get('email')
+            student.status = request.POST.get('status')
+            student.save()
+            return render(request, 'students/student_list.html', ctx)
+    
+    else:
+        form = StudentForm(instance=student)
+    return render(request,'students/student_detail.html',{'form':form})
