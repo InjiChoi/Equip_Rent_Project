@@ -7,19 +7,8 @@
 
 {% block custom_script %}
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="{% static 'equipments/equip_register.js' %}"></script>
     <script type="text/javaScript">
-        function eventKeyup(str){
-            let str2 = str.slice(3, 10)
-            $("#afterAmt").val(str2);    // jQuery 이용
-        }
-        $(function(){
-            $("button[name=cur_focus]").click(function(){
-                $("input[name=beforeAmt]").focus();
-            });
-            $("button[name=cur_focus2]").click(function(){
-                $("input[name=beforeAmt2]").focus();
-            });
-        });
 
         function id_overlap_check() {
             if ($('#id_equip_id').val() == '') {
@@ -52,6 +41,11 @@
                 }
             })
         }
+        $(function(){
+            $("input[name=cur_focus2]").click(function(){
+                $("input[name=equip_id]").focus();
+            });
+        }); 
     </script>
 {% endblock custom_script %}
 
@@ -71,6 +65,7 @@
                     <tr>
                         <td>물품 번호 : </td>
                         <td>{{equipment_form.equip_id}}</td>
+                        <td id='scan_td'><input type="button" name='cur_focus2' value='기자재 스캔' class='scan_btn'></td>
                     </tr>
                     <tr>
                         <td>물품 종류 : </td>
