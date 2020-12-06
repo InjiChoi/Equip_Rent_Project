@@ -99,11 +99,12 @@ def return_(request):
                 student_id = request.POST.get('student_id')
                 student = get_object_or_404(Student, student_id=student_id)
                 equip = get_object_or_404(Equipment,equip_id=equip_id)
-                # rent = get_object_or_404(RentManage,student=student_id)
+                rent = get_object_or_404(RentManage, student=student.pk)
 
                 ctx = {
                         'student':student,
                         'equip':equip,
+                        'rent':rent
 
                 }
 
