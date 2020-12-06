@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'managements/manage_list.css' %}">
+{% endblock custom_css %}
+
+{%block content%}
+    <div class="subtitle" style="margin-top: 50px; text-align: center;">
+        <h1 style='font-weight:bold; '>조회된 반납 정보</h1>
+    </div>
+    <div class="container">
+        <table class='table table-striped rent_list_table'>
+            <thead>
+                <tr>
+                    <td><b>학번</b></td>
+                    <td><b>이름</b></td>
+                    <td><b>연락처</b></td>
+                    <td><b>물품번호</b></td>
+                    <td><b>물품종류</b></td>
+                    <td><b>대여일</b></td>
+                    <td><b>학적 상태</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{student.student_id}}</td>
+                    <td>{{student.name}}</td>
+                    <td>{{student.phone_number}}</td>
+                    <td>{{equip.equip_id}}</td>
+                    <td>{{equip.equip_type}}</td>
+                    <td>{{rent.rent_date}}</td>
+                    <td>{{student.status}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <img src="{{ rent.equip_pic.url }}">
+        </div>
+    </div>
+{%endblock content%}
