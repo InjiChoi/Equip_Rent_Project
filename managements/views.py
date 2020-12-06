@@ -9,8 +9,6 @@ from django.utils import timezone
 from django.db import IntegrityError
 from django.contrib import messages
 
-
-
 def main_page(request):
     return render(request, 'managements/main.html',{})
 
@@ -75,25 +73,42 @@ def rent_list(request):
 
 # 반납 페이지
 def return_(request):
-        # if request.method == 'POST':
-        #         return_form = ReturnForm(request.POST)
-        #         if return_form.is_valid():
-        #                 return_info = return_form.save(commit=False)
-        #                 return_info.
+        if request.method == 'POST':
+                return_form = ReturnForm(request.POST)
+                print(1)
+                if return_form.is_valid():
+                        print(2)
+                        return_info = ReturnHistory(**return_form.cleaned_data)
+                        # return_info = return_form.save(commit=False)
+                        # return_info.student = request.POST.get('return_student')
+                        # return_info.equip = request.POST.get('return_equip')
+                        # return_info.return_date = timezone.now()
+                        return_info.save
+                        print(return_info)
 
-        # else:
-        #         return_form = ReturnForm()
+                        # ctx = {
+                        #         'return_info':return_info,
+                        # }
+                        # return render(request, 'managements/return_result.html', ctx)
+        else:
+                return_form = ReturnForm()
+                ctx = {
+                        'return_form':return_form
+                }
 
-        return render(request, 'managements/return.html')
+                return render(request, 'managements/return.html', ctx)
+
+def return_result(request):
+        return render(request, 'managements/return_result.html')
 
 def return_list(request):
-        # returns = ReturnHistory.objects.all()
-        # students = Student.objects.all()
-        # equipments = Equipment.objects.all()
+        returns = ReturnHistory.objects.all()
+        students = Student.objects.all()
+        equipments = Equipment.objects.all()
 
-        # ctx = {
-        #         'rents':rents,
-        #         'students':students,
-        #         'equipments':equipments
-        # }
+        ctx = {
+                'returns':returns,
+                'students':students,
+                'equipments':equipments
+        }
         return render(request, 'managements/return_list.html')
