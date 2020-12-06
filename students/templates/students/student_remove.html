@@ -1,10 +1,49 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'students/student_register.css' %}">
+{% endblock custom_css %}
+    <link rel="stylesheet" href="{% static 'students/student_register.css' %}">
+
 {%block content%}
-    <h1>학생 삭제 페이지</h1>
-    <form method="POST" class="student-form">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-primary">삭제</button>
-    </form>
+<div class="container">
+    <div class="row">
+        <div class="subtitle" style="margin-top: 50px; text-align: center;">
+            <h1 style='font-weight:bold; '>학생 정보 삭제</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="rentform ">
+            <form id="rent_form" action="" method="post" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
+                                                        <!-- 바코드 스캔 시 자동으로 제출되는 것 방지-->
+                {% csrf_token %}
+                <input style='opacity:0' name="beforeAmt" id="beforeAmt" value="" onkeyup="eventKeyup(this.value)"/>
+                <table class="info_table">
+                    <tr>
+                        <td>학번 : </td>
+                        <td>{{form.student_id}}</td>
+                    </tr>
+                    <tr>
+                        <td>이름 : </td>
+                        <td>{{form.name}}</td>
+                    </tr>
+                    <tr>
+                        <td>핸드폰 번호 : </td>
+                        <td>{{form.phone_number}}</td>
+                    </tr>
+                    <tr>
+                        <td>이메일 : </td>
+                        <td>{{form.email}}</td>
+                    </tr>
+                    <tr>
+                        <td>학적 상태 : </td>
+                        <td>{{form.status}}</td>
+                    </tr>
+                </table>
+                    <div class='submit_btn_div'><input type="submit" value="삭제" class='submit_btn' onclick='id_overlap_check()'></div>
+            </form>
+        </div>
+    </div>
+</div>
 {%endblock content%}
