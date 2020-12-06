@@ -6,14 +6,14 @@
     <script type="text/javaScript">
         function eventKeyup(str){
             let str2 = str.slice(3, 10)
-            $("#id_student_id").val(str2);    // jQuery 이용
+            $("input[name=student_id]").val(str2);    // jQuery 이용
         }
         $(function(){
             $("input[name=cur_focus]").click(function(){
                 $("input[name=beforeAmt]").focus();
             });
             $("input[name=cur_focus2]").click(function(){
-                $("input[name=return_equipment]").focus();
+                $("input[name=equip_id]").focus();
             });
         });
     </script>
