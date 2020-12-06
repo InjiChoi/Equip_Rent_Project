@@ -40,12 +40,14 @@
                                                         <!-- 바코드 스캔 시 자동으로 제출되는 것 방지-->
                 {% csrf_token %}
                     <input style='opacity:0' name="beforeAmt" id="beforeAmt" value="" onkeyup="eventKeyup(this.value)"/>
-                    <input type='button', name='inquiry' value='학생 조회'></p>
                     <table class="info_table">
                         <tr>
                             <td>학번 : </td>
                             <td>{{rent_student_form.student_id}} </td>
-                            <td id='scan_td'><input type='button' name='cur_focus' value='학생증 스캔' class='scan_btn'></td>
+                            <td id='scan_td'>
+                                <input type='button' name='cur_focus' value='학생증 스캔' class='scan_btn'>
+                                <input type='button', name='inquiry' value='학생 조회' class='scan_btn'> 
+                            </td>
                         </tr>
                         <tr>
                             <td>이름 : </td>

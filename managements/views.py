@@ -47,11 +47,13 @@ def rent(request):
                         return redirect('managements:rent_list')
 
                 except IntegrityError:
+                        print('integrityerror')
                         rent_form = RentForm()
                         rent_student_form = RentStudentForm()
                         rent_equipment_form = RentEquipmentForm()
                         return render(request, 'managements/rent.html', {'rent_form':rent_form, 'rent_student_form':rent_student_form, 'rent_equipment_form':rent_equipment_form})
         else:
+                print('get')
                 rent_form = RentForm()
                 rent_student_form = RentStudentForm()
                 rent_equipment_form = RentEquipmentForm()
