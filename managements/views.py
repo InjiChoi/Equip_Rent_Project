@@ -93,12 +93,39 @@ def return_(request):
         #         #         # }
         #         #         # return render(request, 'managements/return_result.html', ctx)
         # # else:
-        return_form = ReturnForm()
-        ctx = {
-                'return_form':return_form
-        }
+        # print(return_form.return_equipment)
+        if request.method =='POST':
+                equip_id = request.POST.get('equip_id')
+                student_id = request.POST.get('student_id')
+                student = get_object_or_404(Student, student_id=student_id)
+                equip = get_object_or_404(Equipment,equip_id=equip_id)
+                # rent = get_object_or_404(RentManage,student=student_id)
 
-        return render(request, 'managements/return.html', ctx)
+                ctx = {
+                        'student':student,
+                        'equip':equip,
+
+                }
+
+                return render(request,'managements/return_info.html',ctx)
+
+        else : 
+                return_form = ReturnForm()
+                ctx = {
+                        'return_form':return_form
+                }
+
+                return render(request, 'managements/return.html', ctx)
+
+def return_info(request):
+        rents = RentManage.objects.all()
+        
+        ctx = {
+        'rents':rents
+        }
+        return render(request, 'managements/rent_list.html', ctx)
+                
+
 
 def return_result(request):
         return render(request, 'managements/return_result.html')
