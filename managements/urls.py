@@ -9,5 +9,5 @@ urlpatterns = [
     path('rent/rent_list', views.rent_list, name="rent_list"),
     path('return/', views.return_, name="return_"),
     path('return/return_result/', views.return_result, name='return_result'),
-    path('return/return_list', views.return_list, name="return_list"),
+    path('return/return_list/', views.return_list, name="return_list"),
 ]

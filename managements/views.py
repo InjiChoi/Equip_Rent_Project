@@ -73,30 +73,30 @@ def rent_list(request):
 
 # 반납 페이지
 def return_(request):
-        if request.method == 'POST':
-                return_form = ReturnForm(request.POST)
-                print(1)
-                if return_form.is_valid():
-                        print(2)
-                        return_info = ReturnHistory(**return_form.cleaned_data)
-                        # return_info = return_form.save(commit=False)
-                        # return_info.student = request.POST.get('return_student')
-                        # return_info.equip = request.POST.get('return_equip')
-                        # return_info.return_date = timezone.now()
-                        return_info.save
-                        print(return_info)
+        # if request.method == 'POST':
+        #         # return_form = ReturnForm(request.POST)
+        #         # print(1)
+        #         # if return_form.is_valid():
+        #         #         print(2)
+        #         #         return_info = ReturnHistory(**return_form.cleaned_data)
+        #         #         # return_info = return_form.save(commit=False)
+        #         #         # return_info.student = request.POST.get('return_student')
+        #         #         # return_info.equip = request.POST.get('return_equip')
+        #         #         # return_info.return_date = timezone.now()
+        #         #         return_info.save
+        #         #         print(return_info)
 
-                        # ctx = {
-                        #         'return_info':return_info,
-                        # }
-                        # return render(request, 'managements/return_result.html', ctx)
-        else:
-                return_form = ReturnForm()
-                ctx = {
-                        'return_form':return_form
-                }
+        #         #         # ctx = {
+        #         #         #         'return_info':return_info,
+        #         #         # }
+        #         #         # return render(request, 'managements/return_result.html', ctx)
+        # # else:
+        return_form = ReturnForm()
+        ctx = {
+                'return_form':return_form
+        }
 
-                return render(request, 'managements/return.html', ctx)
+        return render(request, 'managements/return.html', ctx)
 
 def return_result(request):
         return render(request, 'managements/return_result.html')
