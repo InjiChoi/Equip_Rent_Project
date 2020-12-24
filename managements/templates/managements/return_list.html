@@ -19,7 +19,6 @@
                     <td><b>물품번호</b></td>
                     <td><b>물품종류</b></td>
                     <td><b>반납일</b></td>
-                    <td><b>학적 상태</b></td>
                 </tr>
             </thead>
             <tbody>
@@ -29,9 +28,8 @@
                     <td>{{return.student.name}}</td>
                     <td>{{return.student.phone_number}}</td>
                     <td>{{return.equip.equip_id}}</td>
-                    <td>{{return.equip.equip_type}}</td>
-                    <td>대여일</td>
-                    <td>{{return.student.status}}</td>
+                    <td>{{return.equip.get_equip_type_display}}</td>
+                    <td>{{return.return_date}}</td>
                 </tr>
             {% endfor %}
             </tbody>

@@ -23,4 +23,4 @@ class ReturnHistory(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
     equip= models.ForeignKey(Equipment, on_delete=models.CASCADE, null=True)
 
-    return_date = models.DateTimeField(auto_now_add=True)
+    return_date = models.DateTimeField(blank=True, null=True)

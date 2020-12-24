@@ -7,4 +7,4 @@ class RentManageAdmin(admin.ModelAdmin):
 
 @admin.register(ReturnHistory)
 class ReturnHistoryAdmin(admin.ModelAdmin):
-    list_display=('student_id', 'equip_id', 'return_date',)
+    list_display=('student', 'equip', 'return_date',)
