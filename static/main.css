@@ -78,6 +78,16 @@ a.dropdown-toggle {
     width: 100px;
     height: 45px;
 }
+.lookup_btn {
+    font-size:1.4rem;
+    font-weight:bold;
+    background-color: rgb(6, 6, 150);
+    color: white;
+    border:3px solid white;
+    border-radius: 10px;
+    width: 100px;
+    height: 45px;
+}
 
 /* **************************************** */
 /* TABLE CSS */

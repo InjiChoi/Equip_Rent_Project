@@ -10,9 +10,11 @@
         }
         $(function(){
             $("input[name=cur_focus]").click(function(){
+                alert('학생증 QR코드를 스캔해주세요.')
                 $("input[name=beforeAmt]").focus();
             });
             $("input[name=cur_focus2]").click(function(){
+                alert('기자재 바코드를 스캔해주세요.')
                 $("input[name=equip_id]").focus();
             });
         });
