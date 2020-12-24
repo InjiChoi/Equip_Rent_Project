@@ -7,5 +7,17 @@
     text-align:center;
 }
 
+a.submit_btn {
+    padding:10px 20px 10px 20px;
+}
 
+a:hover {
+    text-decoration: none;
+    color:white;
+    background-color:rgb(6, 6, 150);
+}
 
+.rent_equip_img {
+    max-width:300px;
+    height: auto;
+}

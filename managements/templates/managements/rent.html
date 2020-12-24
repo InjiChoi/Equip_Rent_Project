@@ -20,11 +20,18 @@
             });
             $("input[name=lookup]").click(function(){
                 alert('학생 정보를 조회합니다.')
-                
+                $.ajax({
+                    url: {% url 'managements:rent_search_ajax' %},
+                    type: 'post',
+                    data: {'csrfmiddelwaretoken': '{{csrf_token}}'},
+                    dataType: 'json',
+                    success : function(data){
+                        alert(data.test)
+                    }
+                });
             });
         });
     </script>
-
 
 {% endblock custom_script %}
 
@@ -55,35 +62,24 @@
                                 <input type='button' name='lookup' value='학생 조회' class='lookup_btn' id='lookup_btn'> 
                             </td>
                         </tr>
-                        {% comment %} <tr>
-                            <td>이름 : </td>
-                            <td>{{rent_student_form.name}}</td>
-                        </tr>
-                        <tr>
-                            <td>연락처 : </td>
-                            <td>{{rent_student_form.phone_number}}</td>
-                        </tr>
-                        <tr>
-                            <td>이메일 : </td>
-                            <td>{{rent_student_form.email}}</td>
-                        </tr> {% endcomment %}
                         <tr>
                             <td>물품 번호 : </td>
                             {% comment %} <td>{{rent_equipment_form.equip_id}}</td> {% endcomment %}
                             <td><input type="text" id='id_equip_id' name='equip_id'></td>
                             <td id='scan_td'><input type="button" name='cur_focus2' value='기자재 스캔' class='scan_btn'></td>
                         </tr>
-                        {% comment %} <tr>
-                            <td>물품 종류 : </td>
-                            <td>{{rent_equipment_form.equip_type}}</td>
-                        </tr> {% endcomment %}
+                        <tr>
                             <td>물품 사진: </td>
                             <td>{{rent_form.equip_pic}}</td>
+                        </tr>
                     </table>
                     <input type="submit" value="대여" class='submit_btn' id='submit_btn' name='submit'> 
             </form>
         </div>
     </div>
+</div>
+<div class="container">
+
 </div>
 <div class="container">
     <div class="row rent_pledge">
