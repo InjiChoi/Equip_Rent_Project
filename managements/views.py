@@ -18,10 +18,10 @@ def rent(request):
         if request.method == 'POST':
                 rent_student_id = request.POST.get('student_id')
                 rent_equipment_id = request.POST.get('equip_id')
-
+                print(rent_student_id)
                 # rent_student = Student.objects.get(student_id=rent_student_id)
-                rent_student = get_object_or_404(Student, pk=rent_student_id)
-                rent_equip = get_object_or_404(Equipment, pk=rent_equipment_id)
+                rent_student = get_object_or_404(Student, student_id=rent_student_id)
+                rent_equip = get_object_or_404(Equipment, equip_id=rent_equipment_id)
 
                 rent_form = RentForm(request.POST, request.FILES)
                 if rent_form.is_valid() :
@@ -29,6 +29,8 @@ def rent(request):
                         rent_info.student = rent_student
                         rent_info.equip = rent_equip
                         rent_info.rent_date = timezone.now()
+                        rent_equip.rent_status = True
+                        rent_equip.save()
                         rent_info.save()
                 return redirect('managements:rent_list')
         else:
@@ -41,6 +43,12 @@ def rent(request):
                         'rent_equipment_form':rent_equipment_form
                 }
                 return render(request, 'managements/rent.html', ctx)
+
+# 학생 정보 조회
+def rent_search_ajax(request):
+        print(1)
+        dict={'test':'json_sample'}
+        return HttpResponse(json.dumps(dict), content_type='application/json')
 
 
 def rent_list(request):

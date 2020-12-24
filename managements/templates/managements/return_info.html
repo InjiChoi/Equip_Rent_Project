@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
+
+
 {% block custom_css %}
     <link rel="stylesheet" href="{% static 'managements/manage_list.css' %}">
+    <link rel="stylesheet" href="{% static 'managements/return_page.css' %}">
 {% endblock custom_css %}
 
 {%block content%}
@@ -28,18 +31,17 @@
                     <td>{{student.name}}</td>
                     <td>{{student.phone_number}}</td>
                     <td>{{equip.equip_id}}</td>
-                    <td>{{equip.equip_type}}</td>
+                    <td>{{equip.get_equip_type_display}}</td>
                     <td>{{rent.rent_date}}</td>
                     <td>{{student.status}}</td>
                 </tr>
             </tbody>
         </table>
         <div style='text-align:center;'>
-            <img src="{{ rent.equip_pic.url }}" width="500px">
+            <img src="{{ rent.equip_pic.url }}" class='rent_equip_img'>
         </div>
-        <div style='text-align:center;'>
-            <input type="submit" value="반납" class='submit_btn'>
-            <a href="{% url 'managements:return_result' equip.pk %}" class='submit_btn'>반납</a>
+        <div style='text-align:center; margin-top:30px'>
+            <a href="{% url 'managements:return_result' equip.pk %}" class='submit_btn' onClick="alert('반납이 완료되었습니다.')">반납</a>
         </div>
     </div>
 {%endblock content%}
