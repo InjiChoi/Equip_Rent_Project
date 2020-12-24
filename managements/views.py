@@ -12,48 +12,26 @@ from django.contrib import messages
 def main_page(request):
     return render(request, 'managements/main.html',{})
 
+
 # 대여 페이지
 def rent(request):
         if request.method == 'POST':
-                try : 
-                        rent_student = Student.objects.get_or_create(
-                                student_id=request.POST.get('student_id'), 
-                                name=request.POST.get('name'),
-                                phone_number=request.POST.get('phone_number'),
-                                email=request.POST.get('email'))
-                        rent_equipment = Equipment.objects.get_or_create(
-                                equip_id=request.POST.get('equip_id'),
-                                equip_type=request.POST.get('equip_type'),
-                                rent_status=True,
-                        )
-                        rent_form = RentForm(request.POST, request.FILES)
-                        # rent_student_form = RentStudentForm(request.POST)
-                        # rent_equipment_form = RentEquipmentForm(request.POST)
-                        print(0)
-                        if rent_form.is_valid() :
-                                print(55)
-                                # rent_student = rent_student_form.save()
-                                # rent_equipment_form.save()
-                                rent_info = rent_form.save(commit=False)
-                                rent_info.student = rent_student[0]
-                                # rent_info.student = Student.objects.get(id=rent_student[0]).student_id
-                                rent_info.equip = rent_equipment[0]
-                                rent_info.rent_date = timezone.now()
-                                rent_info.save()
+                rent_student_id = request.POST.get('student_id')
+                rent_equipment_id = request.POST.get('equip_id')
 
-                        else:
-                                print(10)
+                # rent_student = Student.objects.get(student_id=rent_student_id)
+                rent_student = get_object_or_404(Student, pk=rent_student_id)
+                rent_equip = get_object_or_404(Equipment, pk=rent_equipment_id)
 
-                        return redirect('managements:rent_list')
-
-                except IntegrityError:
-                        print('integrityerror')
-                        rent_form = RentForm()
-                        rent_student_form = RentStudentForm()
-                        rent_equipment_form = RentEquipmentForm()
-                        return render(request, 'managements/rent.html', {'rent_form':rent_form, 'rent_student_form':rent_student_form, 'rent_equipment_form':rent_equipment_form})
+                rent_form = RentForm(request.POST, request.FILES)
+                if rent_form.is_valid() :
+                        rent_info = rent_form.save(commit=False)
+                        rent_info.student = rent_student
+                        rent_info.equip = rent_equip
+                        rent_info.rent_date = timezone.now()
+                        rent_info.save()
+                return redirect('managements:rent_list')
         else:
-                print('get')
                 rent_form = RentForm()
                 rent_student_form = RentStudentForm()
                 rent_equipment_form = RentEquipmentForm()
@@ -63,6 +41,7 @@ def rent(request):
                         'rent_equipment_form':rent_equipment_form
                 }
                 return render(request, 'managements/rent.html', ctx)
+
 
 def rent_list(request):
         rents = RentManage.objects.all()
@@ -97,7 +76,7 @@ def return_(request):
                 }
 
                 return render(request, 'managements/return.html', ctx)
-
+                
 
 
 def return_result(request, pk):
@@ -109,6 +88,7 @@ def return_result(request, pk):
         return_instance = ReturnHistory.objects.create(student=rent_student, equip=rent_equip, return_date=timezone.now())
         rent.delete()
         return redirect('managements:return_list')
+
 
 def return_list(request):
         returns = ReturnHistory.objects.all()
