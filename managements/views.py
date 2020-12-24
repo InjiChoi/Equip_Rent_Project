@@ -75,37 +75,17 @@ def rent_list(request):
 
 # 반납 페이지
 def return_(request):
-        # if request.method == 'POST':
-        #         # return_form = ReturnForm(request.POST)
-        #         # print(1)
-        #         # if return_form.is_valid():
-        #         #         print(2)
-        #         #         return_info = ReturnHistory(**return_form.cleaned_data)
-        #         #         # return_info = return_form.save(commit=False)
-        #         #         # return_info.student = request.POST.get('return_student')
-        #         #         # return_info.equip = request.POST.get('return_equip')
-        #         #         # return_info.return_date = timezone.now()
-        #         #         return_info.save
-        #         #         print(return_info)
-
-        #         #         # ctx = {
-        #         #         #         'return_info':return_info,
-        #         #         # }
-        #         #         # return render(request, 'managements/return_result.html', ctx)
-        # # else:
-        # print(return_form.return_equipment)
         if request.method =='POST':
                 equip_id = request.POST.get('equip_id')
                 student_id = request.POST.get('student_id')
                 student = get_object_or_404(Student, student_id=student_id)
                 equip = get_object_or_404(Equipment,equip_id=equip_id)
-                rent = get_object_or_404(RentManage, student=student.pk)
+                rent = get_object_or_404(RentManage, equip=equip.pk)
 
                 ctx = {
                         'student':student,
                         'equip':equip,
                         'rent':rent
-
                 }
 
                 return render(request,'managements/return_info.html',ctx)
@@ -118,27 +98,24 @@ def return_(request):
 
                 return render(request, 'managements/return.html', ctx)
 
-def return_info(request):
-        rents = RentManage.objects.all()
-        
-        ctx = {
-        'rents':rents
-        }
-        return render(request, 'managements/rent_list.html', ctx)
-                
 
 
-def return_result(request):
-        return render(request, 'managements/return_result.html')
+def return_result(request, pk):
+        rent_equip = Equipment.objects.get(pk=pk)
+        rent_equip.rent_status = False
+        rent_equip.save()
+        rent = RentManage.objects.get(equip = rent_equip)
+        rent_student = Student.objects.get(student_id=rent.student.student_id)
+        return_instance = ReturnHistory.objects.create(student=rent_student, equip=rent_equip, return_date=timezone.now())
+        rent.delete()
+        return redirect('managements:return_list')
 
 def return_list(request):
         returns = ReturnHistory.objects.all()
-        students = Student.objects.all()
-        equipments = Equipment.objects.all()
 
         ctx = {
-                'returns':returns,
-                'students':students,
-                'equipments':equipments
+                'returns':returns
         }
-        return render(request, 'managements/return_list.html')
+        return render(request, 'managements/return_list.html',ctx)
+
+

@@ -37,8 +37,7 @@
         <div style='text-align:center;'>
             <img src="{{ rent.equip_pic.url }}" width="500px">
         </div>
-        <div style='text-align:center;'>
-            <input type="submit" value="반납" class='submit_btn'>
-        </div>
+        <div class='submit_btn_div'><input type="submit" value="반납" class='submit_btn' onclick='id_overlap_check()'></div>
+        <a href="{% url 'managements:return_result' equip.pk %}" class='submit_btn'>반납</a>
     </div>
 {%endblock content%}
