@@ -20,8 +20,8 @@ def rent(request):
                 rent_equipment_id = request.POST.get('equip_id')
 
                 # rent_student = Student.objects.get(student_id=rent_student_id)
-                rent_student = get_object_or_404(Student, pk=rent_student_id)
-                rent_equip = get_object_or_404(Equipment, pk=rent_equipment_id)
+                rent_student = get_object_or_404(Student, student_id=rent_student_id)
+                rent_equip = get_object_or_404(Equipment, equip_id=rent_equipment_id)
 
                 rent_form = RentForm(request.POST, request.FILES)
                 if rent_form.is_valid() :
