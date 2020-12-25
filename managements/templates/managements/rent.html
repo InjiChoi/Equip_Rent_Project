@@ -31,16 +31,16 @@
             if ($('#id_student_id').val() == '') {
                 alert('학생 번호를 입력해주세요.');
                 event.preventDefault()
-                //document.querySelector('.submit_btn').removeAttribute('disabled');
-                return;
+                return false;
             }
             else if ($('#id_equip_id').val() == '') {
                 alert('기자재 번호를 입력해주세요.');
+                event.preventDefault()
                 return false;
             }
             
             id_overlap_input = document.querySelector('input[name="equip_id"]');
-            console.log(id_overlap_input);
+
             $.ajax({
                 url: "{% url 'managements:rent_overlap_check' %}",
                 data: {
@@ -54,7 +54,7 @@
                         alert('이미 대여중인 기자재입니다.');
                     } else {
                         alert('대여가 완료되었습니다.');
-                        $('#rent_form').submit();
+                        $('form').submit()
                     }
                 }
             })
@@ -83,7 +83,6 @@
                     <table class="info_table">
                         <tr>
                             <td>학번 : </td>
-                            {% comment %} <td>{{rent_student_form.student_id}} </td> {% endcomment %}
                             <td><input type="text" id='id_student_id' name='student_id'></td>
                             <td id='scan_td'>
                                 <input type='button' name='cur_focus' value='학생증 스캔' class='scan_btn' id='scan_btn'>
@@ -92,8 +91,7 @@
                         </tr>
                         <tr>
                             <td>물품 번호 : </td>
-                            {% comment %} <td>{{rent_equipment_form.equip_id}}</td> {% endcomment %}
-                            <td><input type="text" id='id_equip_id' name='equip_id'></td>
+                            <td><input type="text" name='equip_id' id='id_equip_id' ></td>
                             <td id='scan_td'><input type="button" name='cur_focus2' value='기자재 스캔' class='scan_btn'></td>
                         </tr>
                         <tr>
@@ -102,7 +100,7 @@
                             <td></td>
                         </tr>
                     </table>
-                    <input type="submit" value="대여" class='submit_btn' id='submit_btn' name='submit' onclick='id_overlap_check() return false;'> 
+                    <input type="button" value="대여" class='submit_btn' onclick='id_overlap_check()'> 
             </form>
         </div>
     </div>
