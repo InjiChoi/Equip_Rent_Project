@@ -22,7 +22,6 @@
             });
             $("input[name=lookup]").click(function(){
                 alert('학생 정보를 조회합니다.')
-                
             });
         });
 
@@ -56,8 +55,10 @@
                         alert('대여가 완료되었습니다.');
                         $('form').submit()
                     }
+                    return rtn;
                 }
             })
+            return rtn;
         }
     </script>
 
