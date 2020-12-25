@@ -13,24 +13,57 @@
             $("input[name=cur_focus]").click(function(){
                 alert('학생증 QR 코드를 스캔해주세요.');
                 $("input[name=beforeAmt]").focus();
+                $('input[id=id_student_id]').css('background-color', 'rgba(0, 100, 214, 0.25)');
             });
             $("input[name=cur_focus2]").click(function(){
                 alert('기자재 바코드를 스캔해주세요.')
                 $("input[name=equip_id]").focus();
+                $('input[id=id_equip_id]').css('background-color', 'rgba(0, 100, 214, 0.25)');
             });
             $("input[name=lookup]").click(function(){
                 alert('학생 정보를 조회합니다.')
-                $.ajax({
-                    url: {% url 'managements:rent_search_ajax' %},
-                    type: 'post',
-                    data: {'csrfmiddelwaretoken': '{{csrf_token}}'},
-                    dataType: 'json',
-                    success : function(data){
-                        alert(data.test)
-                    }
-                });
+                
             });
         });
+
+        // 대여 중복 검사
+        function id_overlap_check() {
+            if ($('#id_student_id').val() == '') {
+                alert('학생 번호를 입력해주세요.');
+                //document.querySelector('.submit_btn').removeAttribute('disabled');
+                return;
+            }
+            else if ($('#id_equip_id').val() == '') {
+                alert('기자재 번호를 입력해주세요.');
+                return false;
+            }
+            
+            id_overlap_input = document.querySelector('input[name="equip_id"]');
+            console.log(id_overlap_input);
+            $.ajax({
+                url: "{% url 'managements:rent_overlap_check' %}",
+                data: {
+                    'equip_id': id_overlap_input.value
+                },
+                datatype: 'json',
+                success: function (data) {
+                    console.log(data['overlap']);
+                    if (data['overlap']=='fail') {
+                        alert('이미 대여중인 기자재입니다.');
+                        id_overlap_input.focus();
+                        cancelFormSubmission();
+                        return false;
+                        document.querySelector('.submit_btn').setAttribute('disabled', true);
+                        
+                    } else {
+                        alert('대여가 완료되었습니다.');
+                        document.querySelector('.submit_btn').removeAttribute('disabled');
+                        return;
+                    }
+                }
+            })
+
+        }
     </script>
 
 {% endblock custom_script %}
@@ -71,19 +104,18 @@
                         <tr>
                             <td>물품 사진: </td>
                             <td>{{rent_form.equip_pic}}</td>
+                            <td></td>
                         </tr>
                     </table>
-                    <input type="submit" value="대여" class='submit_btn' id='submit_btn' name='submit'> 
+                    <input type="submit" value="대여" class='submit_btn' id='submit_btn' name='submit' onclick='id_overlap_check()'> 
             </form>
         </div>
     </div>
 </div>
-<div class="container">
-
-</div>
+<hr>
 <div class="container">
     <div class="row rent_pledge">
-        <h1>기기 대여 서약서</h1>
+        <h2>기기 대여 서약서</h2>
         <p>상기 본인은 숙명여자대학교 IT공학과의 대여 서약서를 충분히 숙지, 이해하였으며 
         다음의 사항을 준수할 것을 엄숙히 서약합니다.</p>
     </div>
