@@ -52,11 +52,9 @@ def rent_search_ajax(request):
 # 대여 중복 검사
 def rent_overlap_check(request):
         equip_id = request.GET.get('equip_id')
-        print(equip_id) # equip_id = 물품번호 (pk X)
         rent_equip = Equipment.objects.get(equip_id=equip_id)
         try:
-                # equip object 왜 안 가져와지는지 모르겠음
-                equip = RentManage.object.get(equip=rent_equip.pk)
+                equip = RentManage.objects.get(equip=rent_equip)
         except:
                 equip = None
         if equip is None:
