@@ -4,10 +4,11 @@ from students.models import Student
 from equipments.models import Equipment
 from managements.forms import RentForm, RentStudentForm, RentEquipmentForm, ReturnForm
 from students.models import Student
-from equipments.models import Equipment
 from django.utils import timezone
 from django.db import IntegrityError
 from django.contrib import messages
+from django.http import JsonResponse, HttpResponse
+
 
 def main_page(request):
     return render(request, 'managements/main.html',{})
@@ -18,8 +19,7 @@ def rent(request):
         if request.method == 'POST':
                 rent_student_id = request.POST.get('student_id')
                 rent_equipment_id = request.POST.get('equip_id')
-                print(rent_student_id)
-                # rent_student = Student.objects.get(student_id=rent_student_id)
+
                 rent_student = get_object_or_404(Student, student_id=rent_student_id)
                 rent_equip = get_object_or_404(Equipment, equip_id=rent_equipment_id)
 
@@ -40,15 +40,30 @@ def rent(request):
                 ctx = {
                         'rent_form':rent_form,
                         'rent_student_form':rent_student_form,
-                        'rent_equipment_form':rent_equipment_form
+                        'rent_equipment_form':rent_equipment_form,
                 }
                 return render(request, 'managements/rent.html', ctx)
 
 # 학생 정보 조회
 def rent_search_ajax(request):
-        print(1)
         dict={'test':'json_sample'}
         return HttpResponse(json.dumps(dict), content_type='application/json')
+
+# 대여 중복 검사
+def rent_overlap_check(request):
+        equip_id = request.GET.get('equip_id')
+        rent_equip = Equipment.objects.get(equip_id=equip_id)
+        try:
+                equip = RentManage.objects.get(equip=rent_equip)
+        except:
+                equip = None
+        if equip is None:
+                overlap = "pass"
+        else:
+                overlap = "fail"
+        ctx = {'overlap':overlap}
+
+        return JsonResponse(ctx)
 
 
 def rent_list(request):
@@ -58,6 +73,7 @@ def rent_list(request):
         'rents':rents
         }
         return render(request, 'managements/rent_list.html', ctx)
+
 # ----------------------------------------------------------------------- #
 
 # 반납 페이지
