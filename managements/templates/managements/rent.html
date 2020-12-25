@@ -48,7 +48,7 @@
                 datatype: 'json',
                 success: function (data) {
                     console.log(data['overlap']);
-                    if (data['overlap']=='fail') {
+                    if (data['overlap'] == 'fail') {
                         alert('이미 대여중인 기자재입니다.');
                         id_overlap_input.focus();
                         cancelFormSubmission();

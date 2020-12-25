@@ -100,8 +100,10 @@ def return_(request):
                 }
 
                 return render(request, 'managements/return.html', ctx)
-                
 
+# 반납하려는 기자재가 대여 리스트에 있는지 확인                
+# def return_overlap_check(request):
+        
 
 def return_result(request, pk):
         rent_equip = Equipment.objects.get(pk=pk)
