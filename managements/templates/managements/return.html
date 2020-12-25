@@ -34,6 +34,7 @@
             }
 
             id_overlap_input = document.querySelector('input[name="equip_id"]');
+            //var flag=0;
             $.ajax({
                 url: "{% url 'managements:rent_overlap_check' %}",
                 data: {
@@ -42,18 +43,11 @@
                 datatype: 'json',
                 success: function (data) {
                     console.log(data['overlap']);
-                    if (data['overlap'] == 'fail') {
-                        alert('대여 정보를 조회합니다.');
-                        id_overlap_input.focus();
-                        //document.querySelector('.submit_btn').setAttribute('disabled', true);
-                        return;
-                    } else {
+                    if (data['overlap'] == 'pass') {
                         alert('대여리스트에 없는 정보입니다.');
-                        $("submit_btn").click(function(e){
-                            e.preventDefault();
-                            return false;
-                        });
-                        return;
+                    } else {
+                        alert('대여 정보를 조회합니다.');
+                        $('form').submit()
                     }
                 }
             })
@@ -90,7 +84,7 @@
                         <td id="scan_td"><input type="button" name='cur_focus2' value='기자재 스캔' class='scan_btn'></td>
                     </tr>
                     </table>
-                    <input type="submit" value="조회" class='submit_btn' onclick='id_overlap_check()'> 
+                    <input type="button" value="조회" class='submit_btn' onclick='id_overlap_check()'>
             </form>
         </div>
     </div>
