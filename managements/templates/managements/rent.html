@@ -22,7 +22,6 @@
             });
             $("input[name=lookup]").click(function(){
                 alert('학생 정보를 조회합니다.')
-                
             });
         });
 
@@ -49,22 +48,25 @@
                     'equip_id': id_overlap_input.value
                 },
                 datatype: 'json',
+                async:false,
                 success: function (data) {
                     console.log(data['overlap']);
                     if (data['overlap'] == 'fail') {
                         alert('이미 대여중인 기자재입니다.');
                         id_overlap_input.focus();
                         cancelFormSubmission();
-                        return false;
+                        rtn = false;
                         document.querySelector('.submit_btn').setAttribute('disabled', true);
                         
                     } else {
                         alert('대여가 완료되었습니다.');
                         document.querySelector('.submit_btn').removeAttribute('disabled');
-                        return;
+                        rtn = true;
                     }
+                    return rtn;
                 }
             })
+            return rtn;
         }
     </script>
 
