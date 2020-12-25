@@ -19,14 +19,17 @@
             });
         });
 
-        function id_overlap_check() {
+        function id_overlap_check(e) {
             if ($('#id_student_id').val() == '') {
                 alert('학생 번호를 입력해주세요.');
-                //document.querySelector('.submit_btn').removeAttribute('disabled');
-                return;
+                event.preventDefault()
+                //$("form").submit(function () { return false; });
+                //document.querySelector('.submit_btn').removeAttribute('disabled', true);
+                return false;
             }
             else if ($('#id_equip_id').val() == '') {
                 alert('기자재 번호를 입력해주세요.');
+                event.preventDefault()
                 return false;
             }
 
@@ -40,18 +43,20 @@
                 success: function (data) {
                     console.log(data['overlap']);
                     if (data['overlap'] == 'fail') {
-                        alert('이미 대여중인 기자재입니다.');
+                        alert('대여 정보를 조회합니다.');
                         id_overlap_input.focus();
-                        cancelFormSubmission();
-                        return false;
-                        document.querySelector('.submit_btn').setAttribute('disabled', true);
-                        
+                        //document.querySelector('.submit_btn').setAttribute('disabled', true);
+                        return;
                     } else {
-                        alert('대여가 완료되었습니다.');
-                        document.querySelector('.submit_btn').removeAttribute('disabled');
+                        alert('대여리스트에 없는 정보입니다.');
+                        $("submit_btn").click(function(e){
+                            e.preventDefault();
+                            return false;
+                        });
                         return;
                     }
                 }
+            })
         }
     </script>
 {% endblock custom_script %}
@@ -76,12 +81,12 @@
                     <table class='info_table'>
                     <tr>
                         <td>학번 : </td>
-                        <td><input type="text" name="student_id"></td>
+                        <td><input type="text" name="student_id" id='id_student_id'></td>
                         <td id="scan_td"><input type='button' name='cur_focus' value='학생증 스캔' class='scan_btn'></td>
                     </tr>
                     <tr>
                         <td>물품 번호 : </td>
-                        <td><input type="text" name="equip_id"></td>
+                        <td><input type="text" name="equip_id" id='id_equip_id'></td>
                         <td id="scan_td"><input type="button" name='cur_focus2' value='기자재 스캔' class='scan_btn'></td>
                     </tr>
                     </table>

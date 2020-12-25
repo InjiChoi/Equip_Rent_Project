@@ -19,7 +19,11 @@
         function id_overlap_check() {
             if ($('#id_student_id').val() == '') {
                 alert('학생 번호를 입력해주세요.');
+                $("#rent_form").submit(function(){
                 return false;
+                });
+                return false;
+                
             }
 
             id_overlap_input = document.querySelector('input[name="student_id"]');
