@@ -37,6 +37,12 @@
                 event.preventDefault()
                 return false;
             }
+            else if ($("#id_equip_pic").val() == '') {
+                alert('기자재 상태 확인을 위한 사진을 등록해주세요.');
+                event.preventDefault();
+                return false;
+            }
+
             
             id_overlap_input = document.querySelector('input[name="equip_id"]');
 
@@ -55,10 +61,8 @@
                         alert('대여가 완료되었습니다.');
                         $('form').submit()
                     }
-                    return rtn;
                 }
             })
-            return rtn;
         }
     </script>
 
