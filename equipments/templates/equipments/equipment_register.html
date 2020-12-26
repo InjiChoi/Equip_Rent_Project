@@ -13,6 +13,12 @@
         function id_overlap_check() {
             if ($('#id_equip_id').val() == '') {
                 alert('기자재 번호를 입력해주세요.');
+                event.preventDefault();
+                return false;
+            }
+            else if ($('#id_equip_type').val() == '') {
+                alert('물품 종류를 선택해주세요.');
+                event.preventDefault();
                 return false;
             }
 
