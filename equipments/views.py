@@ -42,7 +42,7 @@ def equipment_overlap_check(request):
 
     return JsonResponse(ctx)
 
-
+# 기자재 리스트 페이지
 def equipment_list(request):
     equipments = Equipment.objects.all()
     rents = RentManage.objects.all()
@@ -51,6 +51,7 @@ def equipment_list(request):
         'rents':rents,
     }
     return render(request, 'equipments/equipment_list.html', ctx)
+
 
 def equipment_detail(request, pk):
     equipments = Equipment.objects.all()
@@ -89,3 +90,12 @@ def equipment_remove(request, pk):
     else:
         form = EquipForm(instance=equip)
     return render(request,'equipments/equipment_remove.html',{'form':form})
+
+# 기자재 검색
+def search_equip(request):
+    if request.method == 'POST':
+        selected_equip_id = request.POST.get('selected_equip_id')
+        selected_equip_type = request.POST.get('selected_equip_type')
+        if selected_equip_id == '' and selected_equip_type== '기자재 종류':
+            return redirect('equipments:equipment_list')
+        
