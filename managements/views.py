@@ -52,16 +52,56 @@ def rent_search_ajax(request):
 # 대여 중복 검사
 def rent_overlap_check(request):
         equip_id = request.GET.get('equip_id')
-        rent_equip = Equipment.objects.get(equip_id=equip_id)
+        student_id = request.GET.get('student_id')
+
         try:
-                equip = RentManage.objects.get(equip=rent_equip)
+                equipment = Equipment.objects.get(equip_id=equip_id)
+                print(equipment)
+
         except:
-                equip = None
-        if equip is None:
-                overlap = "pass"
-        else:
-                overlap = "fail"
-        ctx = {'overlap':overlap}
+                print(2)
+                equipment = None
+                print(equipment)
+
+        try:
+                student = Student.objects.get(student_id=student_id)
+        except:
+                print(1)
+                student = None    
+
+
+        try:
+                rent_equip = Equipment.objects.get(equip_id=equip_id)
+                r_equip = RentManage.objects.get(equip=rent_equip)
+        except:
+                print(3)
+                r_equip = None
+
+        if equipment is None:
+                e_exist = "pass"
+                overlap = 'none'
+        elif equipment is not None:
+                e_exist = "fail"
+                if r_equip is None:
+                        overlap = "pass"
+                elif r_equip is not None:
+                        overlap = "fail"
+
+
+        if student is None:
+                s_exist = "pass"
+        elif student is not None:
+                s_exist = "fail"
+
+        
+        
+
+        
+        ctx = {
+                'overlap': overlap, 
+                'e_exist': e_exist,
+                's_exist':s_exist,
+        }
 
         return JsonResponse(ctx)
 
@@ -101,10 +141,7 @@ def return_(request):
 
                 return render(request, 'managements/return.html', ctx)
 
-# 반납하려는 기자재가 대여 리스트에 있는지 확인                
-# def return_overlap_check(request):
         
-
 def return_result(request, pk):
         rent_equip = Equipment.objects.get(pk=pk)
         rent_equip.rent_status = False
