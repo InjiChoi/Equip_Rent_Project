@@ -21,7 +21,17 @@
                 $('input[id=id_equip_id]').css('background-color', 'rgba(0, 100, 214, 0.25)');
             });
             $("input[name=lookup]").click(function(){
-                alert('학생 정보를 조회합니다.')
+                alert('학생 정보를 조회합니다.');
+                var input_student = $('#id_student_id').val();
+                // alert(input_student);
+                $.ajax({
+                    url:'search/',
+                    data:{'input_student':input_student},
+                    success:function(data){
+                        $('#lookup').html(data)
+                    }
+                })
+
             });
         });
 
@@ -109,6 +119,8 @@
             </form>
         </div>
     </div>
+
+    <div id = "lookup" style="margin:auto; text-align:center; font-size:20px;color:red"></div>
 </div>
 <hr>
 <div class="container">
