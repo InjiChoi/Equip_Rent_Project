@@ -124,4 +124,26 @@ def return_list(request):
         }
         return render(request, 'managements/return_list.html',ctx)
 
+#대여시 학생 조회 
+def lookup_student(request):
+        input_student = request.GET.get('input_student')
+        try : 
+                student = Student.objects.get(student_id=input_student)
+                name = student.name
+                phone_number = student.phone_number
+                email = student.email
+
+                print(name)
+                ctx = {
+                        'name':name,
+                        'phone_number':phone_number,
+                        'email':email
+                }
+                return render(request,'managements/lookup.html',ctx)
+        
+        except :
+                
+                return render(request, 'managements/lookup_fail.html')
+                
+
 
