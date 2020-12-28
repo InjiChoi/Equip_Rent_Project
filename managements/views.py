@@ -52,16 +52,44 @@ def rent_search_ajax(request):
 # 대여 중복 검사
 def rent_overlap_check(request):
         equip_id = request.GET.get('equip_id')
-        rent_equip = Equipment.objects.get(equip_id=equip_id)
-        try:
-                equip = RentManage.objects.get(equip=rent_equip)
+        student_id = request.GET.get('student_id')
+
+        try: # 기자재 존재 여부 확인
+                equipment = Equipment.objects.get(equip_id=equip_id)
         except:
-                equip = None
-        if equip is None:
-                overlap = "pass"
-        else:
-                overlap = "fail"
-        ctx = {'overlap':overlap}
+                equipment = None
+
+        try: # 학생 존재 여부 확인
+                student = Student.objects.get(student_id=student_id)
+        except:
+                student = None    
+
+        try: # 대여 리스트 중복 여부 확인
+                rent_equip = Equipment.objects.get(equip_id=equip_id)
+                r_equip = RentManage.objects.get(equip=rent_equip)
+        except:
+                r_equip = None
+
+        if equipment is None: # 기자재 존재하지 않을 시
+                e_exist = "pass"
+                overlap = 'none'
+        elif equipment is not None: # 기자재 존재 시
+                e_exist = "fail"
+                if r_equip is None: # 대여 가능한 기자재
+                        overlap = "pass"
+                elif r_equip is not None: # 이미 대여중인 기자재
+                        overlap = "fail"
+
+        if student is None: # 학생 존재하지 않을 시
+                s_exist = "pass"
+        elif student is not None: # 학생 존재 시
+                s_exist = "fail"
+        
+        ctx = {
+                'overlap': overlap, 
+                'e_exist': e_exist,
+                's_exist':s_exist,
+        }
 
         return JsonResponse(ctx)
 
@@ -101,10 +129,7 @@ def return_(request):
 
                 return render(request, 'managements/return.html', ctx)
 
-# 반납하려는 기자재가 대여 리스트에 있는지 확인                
-# def return_overlap_check(request):
         
-
 def return_result(request, pk):
         rent_equip = Equipment.objects.get(pk=pk)
         rent_equip.rent_status = False

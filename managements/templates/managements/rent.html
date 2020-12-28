@@ -53,21 +53,29 @@
                 return false;
             }
 
-            
             id_overlap_input = document.querySelector('input[name="equip_id"]');
-
+            id_overlap_input_st = document.querySelector('input[name="student_id"]');
+        
             $.ajax({
                 url: "{% url 'managements:rent_overlap_check' %}",
                 data: {
-                    'equip_id': id_overlap_input.value
+                    'equip_id': id_overlap_input.value,
+                    'student_id': id_overlap_input_st.value
                 },
                 datatype: 'json',
-                //async: false,
                 success: function (data) {
-                    console.log(data['overlap']);
+                    console.log(id_overlap_input.value)
+                    console.log(id_overlap_input_st.value)
+                    if (data['s_exist'] == 'pass') {
+                        alert('등록되지 않은 학생입니다.')
+                    } 
+                    if (data['e_exist'] == 'pass') {
+                        alert('등록되지 않은 기자재입니다.')
+                    }
+
                     if (data['overlap'] == 'fail') {
                         alert('이미 대여중인 기자재입니다.');
-                    } else {
+                    } else if (data['overlap']== 'pass') {
                         alert('대여가 완료되었습니다.');
                         $('form').submit()
                     }
@@ -98,7 +106,7 @@
                     <table class="info_table">
                         <tr>
                             <td>학번 : </td>
-                            <td><input type="text" id='id_student_id' name='student_id'></td>
+                            <td><input type="text" name='student_id' id='id_student_id' ></td>
                             <td id='scan_td'>
                                 <input type='button' name='cur_focus' value='학생증 스캔' class='scan_btn' id='scan_btn'>
                                 <input type='button' name='lookup' value='학생 조회' class='lookup_btn' id='lookup_btn'> 
@@ -115,7 +123,7 @@
                             <td></td>
                         </tr>
                     </table>
-                    <input type="button" value="대여" class='submit_btn' onclick='id_overlap_check()'> 
+                    <input type="button" value="대여" class='submit_btn' onclick='id_overlap_check()' /> 
             </form>
         </div>
     </div>
