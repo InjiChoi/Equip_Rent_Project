@@ -9,6 +9,29 @@
         <h1 style='font-weight:bold; '>기자재 목록</h1>
     </div>
     <div class="container">
+        <form action="{% url 'equipments:search_equip' %}">
+            {% csrf_token %}
+            <input type="text" placeholder='기자재 번호를 입력하세요' name='selected_equip_id'> 
+            <select name="selected_equip_type">
+                <option selected>기자재 종류</option>
+                <option>노트북</option>
+                <option>태블릿</option>
+                <option>센서</option>
+            </select>
+            <button
+                    type="submit"
+                    class="search_icon"
+                    style="border: none; background-color: transparent;"
+            >
+            <img
+                    src="/static/search_icon.png"
+                    alt="search_icon.png"
+                    style="height: 35px; width: 35px; background-size: 10px;"
+            />
+            </button>
+        </form>
+    </div>
+    <div class="container">
         <table class='table table-striped'>
             <thead>
                 <tr>
@@ -49,6 +72,25 @@
             {% endfor %} 
             </tbody>
         </table>
+    </div>
+    <div class="container" id='paginator'>
+        <div id="page_div">
+            {% if page != 1 %}
+                <a href = '?page={{page|add:-1}}'><img id="next", src="{% static 'prev.svg' %}"></a>
+                {% else %}
+                <a href="?page=1"><img id="next", src="{% static 'prev.svg' %}"></a>
+            {% endif %}
+        </div>
+        <div id="page_div">
+            <h3>{{page}}&nbsp;/&nbsp;{{page_total}}</h3>
+        </div>
+        <div id="page_div">
+            {% if page != page_total %}
+            <a href = '?page={{page|add:1}}'><img id="next", src="{% static 'next.svg' %}"></a>
+            {% else %}
+            <a href="?page={{page_total}}"><img id="next", src="{% static 'next.svg' %}"></a>
+            {% endif %}
+        </div>
     </div>
 {% endblock content %}
     
