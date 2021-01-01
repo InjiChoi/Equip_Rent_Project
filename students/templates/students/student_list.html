@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block custom_css %}
-    <link rel="stylesheet" href="{% static 'equipments/equip_list.css' %}">
+    <link rel="stylesheet" href="{% static 'students/student_list.css' %}">
 {% endblock custom_css %}
 {% block content %}
     <div class="subtitle" style="margin-top: 50px; text-align: center;">
@@ -36,6 +36,25 @@
             {% endfor %} 
             </tbody>
         </table>
+    </div>
+    <div class="container" id='paginator'>
+        <div id="page_div">
+            {% if page != 1 %}
+                <a href = '?page={{page|add:-1}}'><img id="next", src="{% static 'prev.svg' %}"></a>
+                {% else %}
+                <a href="?page=1"><img id="next", src="{% static 'prev.svg' %}"></a>
+            {% endif %}
+        </div>
+        <div id="page_div">
+            <h3>{{page}}&nbsp;/&nbsp;{{page_total}}</h3>
+        </div>
+        <div id="page_div">
+            {% if page != page_total %}
+            <a href = '?page={{page|add:1}}'><img id="next", src="{% static 'next.svg' %}"></a>
+            {% else %}
+            <a href="?page={{page_total}}"><img id="next", src="{% static 'next.svg' %}"></a>
+            {% endif %}
+        </div>
     </div>
 {% endblock content %}
     
