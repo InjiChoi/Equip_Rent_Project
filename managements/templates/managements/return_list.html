@@ -1,6 +1,27 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block custom_script %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javaScript">    
+        $(function(){
+            $("input[name=search_button]").click(function(){
+                alert('입력한 정보를 조회합니다.');
+                var search_key = $('#search_key').val();
+                $.ajax({
+                    url:'list_search/',
+                    data:{'search_key':search_key},
+                    success:function(data){
+                        $('#search_return_list').html(data)
+                    }
+                })
+
+            });
+        });
+    </script>
+{% endblock custom_script %}
+
 {% block custom_css %}
     <link rel="stylesheet" href="{% static 'managements/manage_list.css' %}">
 {% endblock custom_css %}
@@ -9,32 +30,47 @@
     <div class="subtitle" style="margin-top: 50px; text-align: center;">
             <h1 style='font-weight:bold; '>반납 목록 페이지</h1>
     </div>
+
     <div class="container">
-        <input type='text' name='lookup_student' id='lookup_text'/>
-        <input type='button' name='lookup' value='학생 조회' class='lookup_btn' id='lookup_btn'> 
-        <table class='table table-striped return_list_table'>
-            <thead>
-                <tr>
-                    <td><b>학번</b></td>
-                    <td><b>이름</b></td>
-                    <td><b>연락처</b></td>
-                    <td><b>물품번호</b></td>
-                    <td><b>물품종류</b></td>
-                    <td><b>반납일</b></td>
-                </tr>
-            </thead>
-            <tbody>
-            {% for return in returns reversed %}
-                <tr>
-                    <td>{{return.student}}</td>
-                    <td>{{return.student.name}}</td>
-                    <td>{{return.student.phone_number}}</td>
-                    <td>{{return.equip.equip_id}}</td>
-                    <td>{{return.equip.get_equip_type_display}}</td>
-                    <td>{{return.return_date}}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+        <form action="" method="post">
+        {% csrf_token %}
+            <div class="row" style="margin:auto;margin-top:20px; text-align:center;">
+                <div class="col-lg-5">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="search_key"
+                            placeholder="검색할 사항을 입력하시오." id="search_key">
+                        <span class="input-group-btn">
+                            <input class="btn btn-default" type="button" value="조회" name="search_button">
+                        </span>
+                    </div><!-- /input-group -->
+                </div><!-- /.col-lg-6 -->
+            </div><!-- /.row -->
+        </form>
+        <div id="search_return_list">
+            <table class='table table-striped return_list_table'>
+                <thead>
+                    <tr>
+                        <td><b>학번</b></td>
+                        <td><b>이름</b></td>
+                        <td><b>연락처</b></td>
+                        <td><b>물품번호</b></td>
+                        <td><b>물품종류</b></td>
+                        <td><b>반납일</b></td>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for return in returns reversed %}
+                    <tr>
+                        <td>{{return.student}}</td>
+                        <td>{{return.student.name}}</td>
+                        <td>{{return.student.phone_number}}</td>
+                        <td>{{return.equip.equip_id}}</td>
+                        <td>{{return.equip.get_equip_type_display}}</td>
+                        <td>{{return.return_date}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 {% endblock content %}

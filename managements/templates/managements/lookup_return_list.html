@@ -1,0 +1,26 @@
+        <div id="search_return_list">
+            <table class='table table-striped return_list_table'>
+                <thead>
+                    <tr>
+                        <td><b>학번</b></td>
+                        <td><b>이름</b></td>
+                        <td><b>연락처</b></td>
+                        <td><b>물품번호</b></td>
+                        <td><b>물품종류</b></td>
+                        <td><b>반납일</b></td>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for return in search_list reversed %}
+                    <tr>
+                        <td>{{return.student}}</td>
+                        <td>{{return.student.name}}</td>
+                        <td>{{return.student.phone_number}}</td>
+                        <td>{{return.equip.equip_id}}</td>
+                        <td>{{return.equip.get_equip_type_display}}</td>
+                        <td>{{return.return_date}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>

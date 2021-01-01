@@ -4,6 +4,7 @@ from .forms import StudentForm
 from django.contrib import messages
 import json
 from django.http import JsonResponse, HttpResponse
+from django.db.models import Q
 
 # Create your views here.
 def student_register(request):
@@ -87,3 +88,16 @@ def student_remove(request, pk):
         form = StudentForm(instance=student)
     return render(request,'students/student_remove.html',{'form':form})
 
+#학생 목록에서 조회하는 뷰
+def list_search(request):
+    search_key = request.GET.get('search_key') # 검색어 가져오기
+    search_list = Student.objects.all()
+
+    if search_key: # 만약 검색어가 존재하면
+        search_list = search_list.filter(Q(name__contains=search_key)|Q(student_id__contains=search_key)|Q(phone_number__contains=search_key)) 
+
+        ctx = {
+                'search_list': search_list
+        }
+        
+        return render(request, 'students/lookup_student_list.html', ctx)

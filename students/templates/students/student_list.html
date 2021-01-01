@@ -1,6 +1,27 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block custom_script %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javaScript">    
+        $(function(){
+            $("input[name=search_button]").click(function(){
+                alert('입력한 정보를 조회합니다.');
+                var search_key = $('#search_key').val();
+                $.ajax({
+                    url:'list_search/',
+                    data:{'search_key':search_key},
+                    success:function(data){
+                        $('#search_student_list').html(data)
+                    }
+                })
+
+            });
+        });
+    </script>
+{% endblock custom_script %}
+
 {% block custom_css %}
     <link rel="stylesheet" href="{% static 'equipments/equip_list.css' %}">
 {% endblock custom_css %}
@@ -9,6 +30,20 @@
         <h1 style='font-weight:bold; '>학생 목록</h1>
     </div>
     <div class="container">
+        <form action="" method="post">
+            <div class="row" style="margin:auto;margin-top:20px; text-align:center;">
+                <div class="col-lg-5">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="search_key"
+                            placeholder="검색할 사항을 입력하시오." id="search_key">
+                        <span class="input-group-btn">
+                            <input class="btn btn-default" type="button" value="조회" name="search_button">
+                        </span>
+                    </div><!-- /input-group -->
+                </div><!-- /.col-lg-6 -->
+            </div><!-- /.row -->
+        </form>
+        <div id="search_student_list">
         <table class='table table-striped'>
             <thead>
                 <tr>
@@ -36,6 +71,7 @@
             {% endfor %} 
             </tbody>
         </table>
+        </div>
     </div>
 {% endblock content %}
     
