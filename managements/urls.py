@@ -13,5 +13,6 @@ urlpatterns = [
     path('return/', views.return_, name="return_"),
     path('return/return_result/<int:pk>', views.return_result, name='return_result'),
     path('return/return_list/', views.return_list, name="return_list"),
+    path('return/return_list/list_search/', views.list_search, name="list_search"),
     path('return/return_info/', views.return_, name="return_info"),
 ]

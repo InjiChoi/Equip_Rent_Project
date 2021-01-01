@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.db import IntegrityError
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
-from math import ceil
+from django.db.models import Q
 
 
 def main_page(request):
@@ -189,8 +189,21 @@ def lookup_student(request):
                 
                 return render(request, 'managements/lookup_fail.html')
 
+#반납 목록에서 조회하는 뷰
+def list_search(request):
+    search_key = request.GET.get('search_key') # 검색어 가져오기
+    search_list = ReturnHistory.objects.all()
 
+    if search_key: # 만약 검색어가 존재하면
+        search_list = search_list.filter(Q(student__name__contains=search_key)|Q(student__student_id__contains=search_key)|Q(student__phone_number__contains=search_key)) 
 
+        ctx = {
+                'search_list': search_list
+        }
+        
+        return render(request, 'managements/lookup_return_list.html', ctx)
+
+        
                 
 
 

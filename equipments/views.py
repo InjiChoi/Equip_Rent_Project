@@ -101,11 +101,27 @@ def equipment_remove(request, pk):
         form = EquipForm(instance=equip)
     return render(request,'equipments/equipment_remove.html',{'form':form})
 
-# 기자재 검색
-def search_equip(request):
-    if request.method == 'POST':
-        selected_equip_id = request.POST.get('selected_equip_id')
-        selected_equip_type = request.POST.get('selected_equip_type')
-        if selected_equip_id == '' and selected_equip_type== '기자재 종류':
-            return redirect('equipments:equipment_list')
+# # 기자재 검색
+# def search_equip(request):
+#     if request.method == 'POST':
+#         selected_equip_id = request.POST.get('selected_equip_id')
+#         selected_equip_type = request.POST.get('selected_equip_type')
+#         if selected_equip_id == '' and selected_equip_type== '기자재 종류':
+#             return redirect('equipments:equipment_list')
+
+
+#기자재 목록에서 조회하는 뷰
+def list_search(request):
+    search_key = request.GET.get('search_key') # 검색어 가져오기
+    search_list = Equipment.objects.all()
+
+    if search_key: # 만약 검색어가 존재하면
+        search_list = search_list.filter(equip_id__contains=search_key)
+        rents = RentManage.objects.all()
+
+        ctx = {
+                'search_list': search_list,
+                'rents':rents
+        }
         
+        return render(request, 'equipments/lookup_equip_list.html', ctx)
