@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.db import IntegrityError
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
+from math import ceil
 
 
 def main_page(request):
@@ -95,10 +96,19 @@ def rent_overlap_check(request):
 
 
 def rent_list(request):
-        rents = RentManage.objects.all()
+        page = int(request.GET.get('page', 1))
+        page_size = 10
+        limit = page_size * page
+        offset = limit - page_size
+        rents_count = RentManage.objects.all().count()
+        rents = RentManage.objects.all()[offset:limit]
+        page_total = ceil(rents_count/page_size)
         
         ctx = {
-        'rents':rents
+                'rents':rents,
+                'page':page,
+                'page_total':page_total,
+                'page_range':range(1, page_total),
         }
         return render(request, 'managements/rent_list.html', ctx)
 
@@ -142,12 +152,21 @@ def return_result(request, pk):
 
 
 def return_list(request):
-        returns = ReturnHistory.objects.all()
+        page = int(request.GET.get('page', 1))
+        page_size = 10
+        limit = page_size * page
+        offset = limit - page_size
+        returns_count = ReturnHistory.objects.all().count()
+        returns = ReturnHistory.objects.all()[offset:limit]
+        page_total = ceil(returns_count/page_size)
 
         ctx = {
-                'returns':returns
+                'page':page,
+                'page_total':page_total,
+                'page_range':range(1, page_total),
+                'returns':returns,
         }
-        return render(request, 'managements/return_list.html',ctx)
+        return render(request, 'managements/return_list.html', ctx)
 
 #대여시 학생 조회 
 def lookup_student(request):
@@ -170,13 +189,6 @@ def lookup_student(request):
                 
                 return render(request, 'managements/lookup_fail.html')
 
-#반납 목록 학생 조회
-def return_list(request):
-        return_list = ReturnHistory.objects.all()
-
-        search_key = request.GET.get('search_key')
-        if search_key:
-                return_list = return_list.filter(student)
 
 
                 
