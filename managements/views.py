@@ -169,6 +169,16 @@ def lookup_student(request):
         except :
                 
                 return render(request, 'managements/lookup_fail.html')
+
+#반납 목록 학생 조회
+def return_list(request):
+        return_list = ReturnHistory.objects.all()
+
+        search_key = request.GET.get('search_key')
+        if search_key:
+                return_list = return_list.filter(student)
+
+
                 
 
 
