@@ -4,6 +4,7 @@ from .forms import StudentForm
 from django.contrib import messages
 import json
 from django.http import JsonResponse, HttpResponse
+from math import ceil
 
 # Create your views here.
 def student_register(request):
@@ -42,9 +43,18 @@ def student_overlap_check(request):
 
 
 def student_list(request):
-    students = Student.objects.all()
+    page = int(request.GET.get('page', 1))
+    page_size = 10
+    limit = page_size * page
+    offset = limit - page_size
+    students_count = Student.objects.all().count()
+    students = Student.objects.all()[offset:limit]
+    page_total = ceil(students_count/page_size)
 
     ctx = {
+        'page':page,
+        'page_total':page_total,
+        'page_range':range(1, page_total),
         'students':students,
     }
     return render(request, 'students/student_list.html', ctx)
