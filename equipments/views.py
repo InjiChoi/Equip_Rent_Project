@@ -7,7 +7,7 @@ from .forms import EquipForm
 from django.contrib import messages
 import json
 from django.http import JsonResponse, HttpResponse
-
+from math import ceil
 # Create your views here.
 def equipment_register(request):
     if request.method == 'POST':
@@ -44,10 +44,20 @@ def equipment_overlap_check(request):
 
 # 기자재 리스트 페이지
 def equipment_list(request):
-    equipments = Equipment.objects.all()
+    page = int(request.GET.get('page', 1))
+    page_size =10
+    limit = page_size * page
+    offset = limit - page_size
+    equipments_count = Equipment.objects.all().count()
+    equipments = Equipment.objects.all()[offset:limit]
+    page_total = ceil(equipments_count/page_size)
     rents = RentManage.objects.all()
+
     ctx = {
-        'equipments':equipments,
+        "page": page,
+        "page_total": page_total,
+        "page_range": range(1, page_total),
+        'equipments': equipments,
         'rents':rents,
     }
     return render(request, 'equipments/equipment_list.html', ctx)
