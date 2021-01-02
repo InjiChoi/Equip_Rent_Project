@@ -52,7 +52,7 @@ def rent(request):
 def rent_overlap_check(request):
         equip_id = request.GET.get('equip_id')
         student_id = request.GET.get('student_id')
-
+        overlap = "init"
         try: # 기자재 존재 여부 확인
                 equipment = Equipment.objects.get(equip_id=equip_id)
         except:
@@ -74,10 +74,12 @@ def rent_overlap_check(request):
                 overlap = 'none'
         elif equipment is not None: # 기자재 존재 시
                 e_exist = "fail"
-                if r_equip is None: # 대여 가능한 기자재
+                if r_equip is None and student is not None: # 대여 가능한 기자재
                         overlap = "pass"
                 elif r_equip is not None: # 이미 대여중인 기자재
-                        overlap = "fail"
+                        overlap = "e_fail"
+                elif r_equip is None and student is None:
+                        overlap = "s_fail"
 
         if student is None: # 학생 존재하지 않을 시
                 s_exist = "pass"

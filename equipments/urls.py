@@ -7,8 +7,8 @@ urlpatterns = [
     path('', views.equipment_register, name="equipment_register"),
     path('list/', views.equipment_list, name='equipment_list'),
     path('list/list_search/', views.list_search, name='list_search'),
-    # path('list/equip_search/', views.search_equip, name='search_equip'),
     path('equip_check/', views.equipment_overlap_check, name="equipment_overlap_check"),
     path('detail/<int:pk>/',views.equipment_detail, name='equipment_detail'),
     path('remove/<int:pk>/',views.equipment_remove, name='equipment_remove'),
+    path('remove/check/', views.equip_remove_check, name='equip_remove_check'),
 ]

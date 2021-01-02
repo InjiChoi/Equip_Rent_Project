@@ -4,6 +4,36 @@
 {% block custom_css %}
     <link rel="stylesheet" href="{% static 'equipments/equip_register.css' %}">
 {% endblock custom_css %}
+{% block custom_script %}
+    <script>
+        function id_overlap_check() {
+            id_overlap_input = document.querySelector('input[id="id_equip_id"]');
+            console.log(id_overlap_input)
+            $.ajax({
+                url: "{% url 'equipments:equip_remove_check' %}",
+                data: {
+                    'equip_id': id_overlap_input.value
+                },
+                datatype:'json',
+                success: function (data) {
+                    console.log(data['remove']);
+                    if (data['remove'] == 'fail') {
+                        alert("대여중인 기자재이므로 삭제할 수 없습니다.");
+                        id_overlap_input.focus();
+                        cancelFormSubmission();
+                        return false;
+                        document.querySelector('.submit_btn').setAttribute('disabled', true);
+                        
+                    } else {
+                        alert('기자재 삭제가 완료되었습니다.');
+                        document.querySelector('.submit_btn').removeAttribute('disabled');
+                        return;
+                    }
+                }
+            })
+        }
+    </script>
+{% endblock custom_script %}
 
 {%block content%}
 <div class="container">

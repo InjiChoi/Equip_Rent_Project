@@ -96,12 +96,27 @@ def equipment_remove(request, pk):
     }
     equip = get_object_or_404(Equipment, pk=pk)
     if request.method == "POST":
-        equip.delete()
-        return redirect('equipments:equipment_list')
+        if equip.rent_status:
+            return redirect('equipments:equipment_list')
+        else:
+            equip.delete()
+            return redirect('equipments:equipment_list')
     
     else:
         form = EquipForm(instance=equip)
     return render(request,'equipments/equipment_remove.html',{'form':form})
+
+def equip_remove_check(request):
+    equip_id = request.GET.get('equip_id')
+    equip = Equipment.objects.get(equip_id=equip_id)
+    print(equip)
+    print(equip.rent_status)
+    if equip.rent_status:
+        remove="fail"
+    else:
+        remove="pass"
+    ctx = {'remove':remove}
+    return JsonResponse(ctx)
 
 # # 기자재 검색
 # def search_equip(request):

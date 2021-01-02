@@ -73,8 +73,10 @@
                         alert('등록되지 않은 기자재입니다.')
                     }
 
-                    if (data['overlap'] == 'fail') {
+                    if (data['overlap'] == 'e_fail') {
                         alert('이미 대여중인 기자재입니다.');
+                    } else if (data['overlap']== 's_fail') {
+                        
                     } else if (data['overlap']== 'pass') {
                         alert('대여가 완료되었습니다.');
                         $('form').submit()
