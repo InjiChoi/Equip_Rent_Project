@@ -37,19 +37,27 @@
             <h1 style='font-weight:bold; '>반납 목록 페이지</h1>
     </div>
 
-    <div class="container">
+    <div class="container search-nav">
         <form action="">
         {% csrf_token %}
-            <input type="text" name='search_input' id='search_input'/>
-            <select name="search_select" id="search_select">
+        <div class="col-item input-item">
+            <input type="text" class="form-control" name='search_input' id='search_input'/>
+        </div>
+        <div class="col-item">
+            <select class='form-select' name="search_select" id="search_select">
                 <option value="">기자재 선택</option>
                 <option value="laptop">노트북</option>
                 <option value="tablet">태블릿</option>
                 <option value="sensor">센서</option>
             </select>
-            <input class="btn btn-default" type="button" value="조회" name="search_button">
+        </div>
+        <div class="col-item">
+            <input class="search_btn" type="button" value="조회" name="search_button">
+        </div>
         </form>
+    </div>
         <div id="search_return_list">
+        <div class="container">
             <table class='table table-striped return_list_table'>
                 <thead>
                     <tr>
@@ -75,6 +83,7 @@
                 </tbody>
             </table>
         </div>
+    </div>
     </div>
     <div class="container" id="paginator">
         <div id="page_div">
