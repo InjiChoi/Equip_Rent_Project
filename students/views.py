@@ -106,7 +106,7 @@ def list_search(request):
     search_list = Student.objects.all()
 
     if search_key: # 만약 검색어가 존재하면
-        search_list = search_list.filter(Q(name__contains=search_key)|Q(student_id__contains=search_key)|Q(phone_number__contains=search_key)) 
+        search_list = search_list.filter(Q(name__contains=search_key)|Q(student_id__contains=search_key)|Q(phone_number__contains=search_key)|Q(email__contains=search_key)) 
 
         ctx = {
                 'search_list': search_list
