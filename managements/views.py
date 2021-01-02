@@ -46,16 +46,13 @@ def rent(request):
                 }
                 return render(request, 'managements/rent.html', ctx)
 
-# 학생 정보 조회
-def rent_search_ajax(request):
-        dict={'test':'json_sample'}
-        return HttpResponse(json.dumps(dict), content_type='application/json')
+
 
 # 대여 중복 검사
 def rent_overlap_check(request):
         equip_id = request.GET.get('equip_id')
         student_id = request.GET.get('student_id')
-
+        overlap = "init"
         try: # 기자재 존재 여부 확인
                 equipment = Equipment.objects.get(equip_id=equip_id)
         except:
@@ -77,10 +74,12 @@ def rent_overlap_check(request):
                 overlap = 'none'
         elif equipment is not None: # 기자재 존재 시
                 e_exist = "fail"
-                if r_equip is None: # 대여 가능한 기자재
+                if r_equip is None and student is not None: # 대여 가능한 기자재
                         overlap = "pass"
                 elif r_equip is not None: # 이미 대여중인 기자재
-                        overlap = "fail"
+                        overlap = "e_fail"
+                elif r_equip is None and student is None:
+                        overlap = "s_fail"
 
         if student is None: # 학생 존재하지 않을 시
                 s_exist = "pass"
@@ -104,7 +103,9 @@ def rent_list(request):
         rents_count = RentManage.objects.all().count()
         rents = RentManage.objects.all()[offset:limit]
         page_total = ceil(rents_count/page_size)
-        
+        print(page_total)
+        if page_total == 0:
+                page_total += 1
         ctx = {
                 'rents':rents,
                 'page':page,
@@ -160,7 +161,8 @@ def return_list(request):
         returns_count = ReturnHistory.objects.all().count()
         returns = ReturnHistory.objects.all()[offset:limit]
         page_total = ceil(returns_count/page_size)
-
+        if page_total == 0:
+                page_total += 1
         ctx = {
                 'page':page,
                 'page_total':page_total,
