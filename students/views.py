@@ -5,6 +5,7 @@ from django.contrib import messages
 import json
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Q
+from math import ceil
 
 # Create your views here.
 def student_register(request):
