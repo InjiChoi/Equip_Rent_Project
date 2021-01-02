@@ -1,28 +1,30 @@
-<div id="search_return_list">
-    <table class='table table-striped'>
-        <thead>
-                <tr>
-                    <td><b>학번</b></td>
-                    <td><b>이름</b></td>
-                    <td><b>핸드폰 번호</b></td>
-                    <td><b>이메일</b></td>
-                    <td><b>학적</b></td>
-                    <td><b></b></td>
-                    <td><b></b></td>
-                </tr>
-        </thead>
-        <tbody>   
-            {% for student in search_list reversed %}
-                <tr>
-                    <td>{{student.student_id}}</td>
-                    <td>{{student.name}}</td>
-                    <td>{{student.phone_number}}</td>
-                    <td>{{student.email}}</td>
-                    <td>{{student.status}}</td>
-                    <td><a href="{% url 'students:student_detail' pk=student.pk %}"><img src ="/static/edit.png"></a></td>
-                    <td><a href="{% url 'students:student_remove' pk=student.pk %}"><img src ="/static/rubbish.png"></a></td>
-                </tr>   
-            {% endfor %} 
-        </tbody>
-    </table>
+<div id="search_student_list">
+    <div class="container">
+        <table class='table table-striped'>
+            <thead>
+                    <tr>
+                        <td><b>학번</b></td>
+                        <td><b>이름</b></td>
+                        <td><b>핸드폰 번호</b></td>
+                        <td><b>이메일</b></td>
+                        <td><b>학적</b></td>
+                        <td><b></b></td>
+                        <td><b></b></td>
+                    </tr>
+            </thead>
+            <tbody>   
+                {% for student in search_list reversed %}
+                    <tr>
+                        <td>{{student.student_id}}</td>
+                        <td>{{student.name}}</td>
+                        <td>{{student.phone_number}}</td>
+                        <td>{{student.email}}</td>
+                        <td>{{student.status}}</td>
+                        <td><a href="{% url 'students:student_detail' pk=student.pk %}"><img src ="/static/edit.png"></a></td>
+                        <td><a href="{% url 'students:student_remove' pk=student.pk %}"><img src ="/static/rubbish.png"></a></td>
+                    </tr>   
+                {% endfor %} 
+            </tbody>
+        </table>
+    </div>
 </div>

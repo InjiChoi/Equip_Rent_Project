@@ -63,6 +63,11 @@ a.dropdown-toggle {
     width: 100px;
     height: 45px;
 }
+.submit_btn:hover {
+    transition-duration: 0.5s;
+    color:white;
+    background-color:rgb(6, 6, 150);
+}
 
 /* 스캔 버튼 */
 #scan_td {
@@ -87,6 +92,22 @@ a.dropdown-toggle {
     border-radius: 10px;
     width: 100px;
     height: 45px;
+}
+
+.search_btn {
+    font-size:1.5rem;
+    font-weight:bold;
+    background-color: white;
+    color: rgb(6, 6, 150);
+    border: 2px solid rgb(6, 6, 150);
+    border-radius: 7px;
+    width: 60px;
+    height: 34px;
+}
+.search_btn:hover {
+    transition-duration: 0.5s;
+    color:white;
+    background-color:rgb(6, 6, 150);
 }
 
 /* **************************************** */
@@ -121,7 +142,9 @@ a.dropdown-toggle {
 }
 
 .info_table select {
-    width:250px;
+    width:270px;
+    height:36px;
+    font-size:15px;
 }
 
 .subtitle {
