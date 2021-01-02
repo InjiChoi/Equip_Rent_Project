@@ -9,6 +9,7 @@ from django.db import IntegrityError
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Q
+from math import ceil
 
 
 def main_page(request):
