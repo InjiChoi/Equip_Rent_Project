@@ -78,7 +78,7 @@ def equipment_detail(request, pk):
             equip.equip_id = request.POST.get('equip_id')
             equip.equip_type = request.POST.get('equip_type')
             equip.save()
-            return render(request, 'equipments/equipment_list.html', ctx)
+            return redirect('equipments:equipment_list')
     
     else:
         form = EquipForm(instance=equip)
@@ -94,8 +94,11 @@ def equipment_remove(request, pk):
     }
     equip = get_object_or_404(Equipment, pk=pk)
     if request.method == "POST":
-        equip.delete()
-        return render(request, 'equipments/equipment_list.html', ctx)
+        if equip.rent_status:
+            return redirect('equipments:equipment_list')
+        else:
+            equip.delete()
+            return redirect('equipments:equipment_list')
     
     else:
         form = EquipForm(instance=equip)

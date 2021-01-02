@@ -77,7 +77,7 @@ def student_detail(request, pk):
             student.email = request.POST.get('email')
             student.status = request.POST.get('status')
             student.save()
-            return render(request, 'students/student_list.html', ctx)
+            return redirect('students:student_list')
     
     else:
         form = StudentForm(instance=student)
@@ -92,7 +92,7 @@ def student_remove(request, pk):
     student = get_object_or_404(Student, pk=pk)
     if request.method == "POST":
         student.delete()
-        return render(request, 'students/student_list.html', ctx)
+        return redirect('students:student_list')
     
     else:
         form = StudentForm(instance=student)
