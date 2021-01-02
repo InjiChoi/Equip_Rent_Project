@@ -170,3 +170,8 @@ select {
 .row {
     margin-bottom: 30px;
 }
+
+/* 리스트 수정, 삭제 버튼 나열 */
+td > a > img {
+    margin-left: 7px;
+}
