@@ -5,20 +5,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javaScript">    
-        //$(function(){
-        //    $("input[name=search_button]").click(function(){
-        //        alert('입력한 정보를 조회합니다.');
-        //        var search_key = $('#search_key').val();
-        //        $.ajax({
-        //            url:'list_search/',
-        //            data:{'search_key':search_key},
-        //            success:function(data){
-        //                $('#search_equip_list').html(data)
-        //            }
-        //        })
-//
-        //    });
-        //});
         $(function(){
             $("input[name=search_button]").click(function(){
                 alert('입력한 정보를 조회합니다.');
@@ -36,7 +22,6 @@
                         $('#search_equip_list').html(data)
                     }
                 })
-
             });
         });
     </script>
@@ -50,31 +35,23 @@
     <div class="subtitle" style="margin-top: 50px; text-align: center;">
         <h1 style='font-weight:bold; '>기자재 목록</h1>
     </div>
-    <div class="container">
-        {% comment %} <form action="" method="post">
-        {% csrf_token %}
-            <div class="row" style="margin:auto;margin-top:20px; text-align:center;">
-                <div class="col-lg-5">
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="search_key"
-                            placeholder="검색할 사항을 입력하시오." id="search_key">
-                        <span class="input-group-btn">
-                            <input class="btn btn-default" type="button" value="조회" name="search_button">
-                        </span>
-                    </div><!-- /input-group -->
-                </div><!-- /.col-lg-6 -->
-            </div><!-- /.row -->
-        </form> {% endcomment %}
+    <div class="container search-nav">
         <form action="">
         {% csrf_token %}
-            <input type="text" name='search_input' id='search_input'/>
-            <select name="search_select" id="search_select">
-                <option value="">기자재 종류</option>
+        <div class="col-item input-item">
+            <input type="text" class="form-control" name='search_input' id='search_input' placeholder="검색할 사항을 입력하세요"/>
+        </div>
+        <div class="col-item">    
+            <select class='form-select' name="search_select" id="search_select">
+                <option selected value="">기자재 종류</option>
                 <option value="laptop">노트북</option>
                 <option value="tablet">태블릿</option>
                 <option value="sensor">센서</option>
             </select>
-            <input class="btn btn-default" type="button" value="조회" name="search_button">
+        </div>
+        <div class="col-item">
+            <input class="search_btn" type="button" value="조회" name="search_button">
+        </div>
         </form>
     </div>
     <div id="search_equip_list">
@@ -88,8 +65,8 @@
                         <td><b>대여자 학번</b></td>
                         <td><b>대여자 이름</b></td>
                         <td><b>대여일</b></td>
-                        <td><b></b></td>
-                        <td><b></b></td>
+                        <td><b>수정</b></td>
+                        <td><b>삭제</b></td>
                     </tr>
                 </thead>
                 <tbody>
