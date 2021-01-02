@@ -192,21 +192,72 @@ def lookup_student(request):
                 
                 return render(request, 'managements/lookup_fail.html')
 
-#반납 목록에서 조회하는 뷰
-def list_search(request):
-    search_key = request.GET.get('search_key') # 검색어 가져오기
-    search_list = ReturnHistory.objects.all()
+#반납 리스트에서 검색하는 뷰
+def search_return_list(request):
+    search_input = request.GET.get('search_input')
+    selected_equip_type = request.GET.get('search_select')
+    
+    print(selected_equip_type)
+    if selected_equip_type == "":
+        selected_equip_type = False
 
-    if search_key: # 만약 검색어가 존재하면
-        search_list = search_list.filter(Q(student__name__contains=search_key)|Q(student__student_id__contains=search_key)|Q(student__phone_number__contains=search_key)) 
+    
+    if search_input and selected_equip_type:
+        print(1)
+        search_list = ReturnHistory.objects.all().filter(((Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))|Q(equip__equip_id__contains=search_input)), equip__equip_type__contains=selected_equip_type)
+        print(search_list)
 
-        ctx = {
-                'search_list': search_list
-        }
-        
-        return render(request, 'managements/lookup_return_list.html', ctx)
+    elif search_input:
+        print(2)
+        search_list = ReturnHistory.objects.all().filter(Q(equip__equip_id__contains=search_input)|Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))
+        print(search_list)
 
-        
+    elif selected_equip_type:
+        print(3)
+        search_list = ReturnHistory.objects.all().filter(equip__equip_type__contains=selected_equip_type)
+
+    else:
+        search_list = ReturnHistory.objects.all()
+
+    ctx = {
+        'search_list':search_list
+    }
+
+    return render(request, 'managements/lookup_return_list.html', ctx)   
+
+
+#대여 리스트에서 검색하는 뷰
+def search_rent_list(request):
+    search_input = request.GET.get('search_input')
+    selected_equip_type = request.GET.get('search_select')
+    
+    print(selected_equip_type)
+    if selected_equip_type == "":
+        selected_equip_type = False
+
+    
+    if search_input and selected_equip_type:
+        print(1)
+        search_list = RentManage.objects.all().filter(((Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))|Q(equip__equip_id__contains=search_input)), equip__equip_type__contains=selected_equip_type)
+        print(search_list)
+
+    elif search_input:
+        print(2)
+        search_list = RentManage.objects.all().filter(Q(equip__equip_id__contains=search_input)|Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))
+        print(search_list)
+
+    elif selected_equip_type:
+        print(3)
+        search_list = RentManage.objects.all().filter(equip__equip_type__contains=selected_equip_type)
+
+    else:
+        search_list = RentManage.objects.all()
+
+    ctx = {
+        'search_list':search_list
+    }
+
+    return render(request, 'managements/lookup_rent_list.html', ctx)   
                 
 
 
