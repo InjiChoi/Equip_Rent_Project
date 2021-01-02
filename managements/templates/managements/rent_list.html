@@ -12,6 +12,7 @@
                 var search_select = $('#search_select').val();
                 console.log(search_input);
                 console.log(search_select);
+                event.preventDefault()
                 $.ajax({
                     url:'search_rent_list/',
                     data:{
@@ -51,7 +52,7 @@
             </select>
         </div>
         <div class="col-item">
-            <input class="search_btn" type="button" value="조회" name="search_button">
+            <input class="search_btn" type="submit" value="조회" name="search_button">
         </div>
         </form>
     </div>
