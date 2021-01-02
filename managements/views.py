@@ -46,10 +46,7 @@ def rent(request):
                 }
                 return render(request, 'managements/rent.html', ctx)
 
-# 학생 정보 조회
-def rent_search_ajax(request):
-        dict={'test':'json_sample'}
-        return HttpResponse(json.dumps(dict), content_type='application/json')
+
 
 # 대여 중복 검사
 def rent_overlap_check(request):
@@ -104,7 +101,9 @@ def rent_list(request):
         rents_count = RentManage.objects.all().count()
         rents = RentManage.objects.all()[offset:limit]
         page_total = ceil(rents_count/page_size)
-        
+        print(page_total)
+        if page_total == 0:
+                page_total += 1
         ctx = {
                 'rents':rents,
                 'page':page,
@@ -160,7 +159,8 @@ def return_list(request):
         returns_count = ReturnHistory.objects.all().count()
         returns = ReturnHistory.objects.all()[offset:limit]
         page_total = ceil(returns_count/page_size)
-
+        if page_total == 0:
+                page_total += 1
         ctx = {
                 'page':page,
                 'page_total':page_total,
