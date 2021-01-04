@@ -11,6 +11,15 @@ from django.http import JsonResponse, HttpResponse
 from django.db.models import Q
 from math import ceil
 
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.core.mail import EmailMessage
+from .tokens import account_activation_token
+from django.utils.encoding import force_bytes, force_text
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+
 
 def main_page(request):
     return render(request, 'managements/main.html',{})
@@ -34,6 +43,16 @@ def rent(request):
                         rent_equip.rent_status = True
                         rent_equip.save()
                         rent_info.save()
+                        
+                        current_site = get_current_site(request) 
+                        message = render_to_string('managements/user_activate_email.html', {
+                                'rent_info': rent_info,
+                                'domain': current_site.domain,
+                                # 'token': PasswordResetTokenGenerator().make_token(rent_info),
+                        })
+                        mail_title = "이메일 인증을 완료해주세요"
+                        email = EmailMessage(mail_title, message, to=[rent_student.email])
+                        email.send()
                 return redirect('managements:rent_list')
         else:
                 rent_form = RentForm()
@@ -46,6 +65,16 @@ def rent(request):
                 }
                 return render(request, 'managements/rent.html', ctx)
 
+def activate(request, pk):
+        rentmanage = RentManage.objects.get(pk=pk)
+        # equip = Equipment.objects.get(equip_id=rentmanage.equip.equip_id)
+        print(equip.rent_status)
+        # equip.rent_status = True
+        print(equip)
+        rentmanage.active = True
+        rentmanage.save()
+        # equip.save()
+        return redirect('managements:rent_list')
 
 
 # 대여 중복 검사
@@ -102,6 +131,9 @@ def rent_list(request):
         offset = limit - page_size
         rents_count = RentManage.objects.all().count()
         rents = RentManage.objects.all()[offset:limit]
+        # rents_count = RentManage.objects.filter(active=True).count()
+        # rents = RentManage.objects.filter(active=True)[offset:limit]
+
         page_total = ceil(rents_count/page_size)
         print(page_total)
         if page_total == 0:
