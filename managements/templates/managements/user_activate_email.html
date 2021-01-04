@@ -1,8 +1,9 @@
-<h1>안녕하세요</h1>
+{% autoescape off %}
+<p>안녕하세요</p>
 
-    <p>아래 링크를 클릭하면 대여가 완료됩니다.</p>
+<p>아래 링크를 클릭하면 대여가 완료됩니다.</p>
 
-    <p>인증 링크 : http://{{ domain }}{% url 'managements:activate' pk=rent_info.pk %}</p>
+    <h2>인증 링크 : http://{{ domain }}{% url 'managements:activate' pk=rent_info.pk %}</h2>
 
 <div class="container">
     <div class="row rent_pledge">
@@ -23,3 +24,4 @@
         <h4 id='red'>※ 위의 준수 사항을 어길 시, 발생하는 개인의 불이익은 IT공학과가 책임지지 않습니다.</h4>
     </div>
 </div>
+{% endautoescape %}

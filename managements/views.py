@@ -16,7 +16,7 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.core.mail import EmailMessage
-# from .tokens import account_activation_token
+from .tokens import account_activation_token
 from django.utils.encoding import force_bytes, force_text
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
@@ -48,7 +48,7 @@ def rent(request):
                         message = render_to_string('managements/user_activate_email.html', {
                                 'rent_info': rent_info,
                                 'domain': current_site.domain,
-                        #         'token': PasswordResetTokenGenerator().make_token(rent_info),
+                                # 'token': PasswordResetTokenGenerator().make_token(rent_info),
                         })
                         mail_title = "이메일 인증을 완료해주세요"
                         email = EmailMessage(mail_title, message, to=[rent_student.email])
@@ -67,8 +67,13 @@ def rent(request):
 
 def activate(request, pk):
         rentmanage = RentManage.objects.get(pk=pk)
+        # equip = Equipment.objects.get(equip_id=rentmanage.equip.equip_id)
+        print(equip.rent_status)
+        # equip.rent_status = True
+        print(equip)
         rentmanage.active = True
         rentmanage.save()
+        # equip.save()
         return redirect('managements:rent_list')
 
 
@@ -124,10 +129,10 @@ def rent_list(request):
         page_size = 10
         limit = page_size * page
         offset = limit - page_size
-        # rents_count = RentManage.objects.all().count()
-        # rents = RentManage.objects.all()[offset:limit]
-        rents_count = RentManage.objects.filter(active=True).count()
-        rents = RentManage.objects.filter(active=True)[offset:limit]
+        rents_count = RentManage.objects.all().count()
+        rents = RentManage.objects.all()[offset:limit]
+        # rents_count = RentManage.objects.filter(active=True).count()
+        # rents = RentManage.objects.filter(active=True)[offset:limit]
 
         page_total = ceil(rents_count/page_size)
         print(page_total)
