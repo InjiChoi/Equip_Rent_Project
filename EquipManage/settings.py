@@ -153,15 +153,22 @@ STATICFILES_FINDERS = (
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-EMAIL_HOST = 'smtp.gmail.com'
-# 메일을 호스트하는 서버
-EMAIL_PORT = '587'
-# gmail과의 통신하는 포트
-EMAIL_HOST_USER = 'vnavna16@sookmyung.ac.kr'
-# 발신할 이메일
-EMAIL_HOST_PASSWORD = 'pirogramming14'
-# 발신할 메일의 비밀번호
-EMAIL_USE_TLS = True
-# TLS 보안 방법
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-# 사이트와 관련한 자동응답을 받을 이메일 주소,'webmaster@localhost'
+SITE_ID = 1
+
+
+EMAIL = {
+    'EMAIL_BACKEND' : 'django.core.mail.backends.smtp.EmailBackend',
+    'EMAIL_USE_TLS' : True,
+    'EMAIL_PORT' : 587,
+    'EMAIL_HOST' : 'smtp.gmail.com',   
+    'EMAIL_HOST_USER' : 'vnavna16@sookmyung.ac.kr',                    
+    'EMAIL_HOST_PASSWORD' : 'pirogramming14',
+    'REDIRECT_PAGE' : 'http://10.58.5.40:3000/signin'
+}
+
+EMAIL_BACKEND = EMAIL['EMAIL_BACKEND']
+EMAIL_USE_TLS = EMAIL['EMAIL_USE_TLS']
+EMAIL_PORT = EMAIL['EMAIL_PORT']
+EMAIL_HOST = EMAIL['EMAIL_HOST']
+EMAIL_HOST_USER = EMAIL['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = EMAIL['EMAIL_HOST_PASSWORD']

@@ -15,4 +15,7 @@ urlpatterns = [
     path('return/return_list/', views.return_list, name="return_list"),
     path('return/return_list/search_return_list/', views.search_return_list, name="search_return_list"),
     path('return/return_info/', views.return_, name="return_info"),
+    path('rent/activate/<int:pk>/', views.activate, name="activate"),
+
+    # path('rent/<str:uidb64>/<str:token>/', views.UserActivate.as_view(), name='activate'),
 ]
