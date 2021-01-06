@@ -10,6 +10,7 @@
                 <td><b>물품종류</b></td>
                 <td><b>대여일</b></td>
                 <td><b>학적 상태</b></td>
+                <td><b>서약서</b></td>
             </tr>
         </thead>
         <tbody>
@@ -22,6 +23,13 @@
                 <td>{{rent.equip.get_equip_type_display}}</td>
                 <td>{{rent.rent_date}}</td>
                 <td>{{rent.student.status}}</td>
+                <td>
+                    {% if rent.active %}
+                        <p style="color:green; text-align:center">O</p>
+                    {% else %}
+                        <p style="color:red; text-align:center">X</p>
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
         </tbody>
