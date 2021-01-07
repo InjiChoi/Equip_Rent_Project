@@ -19,6 +19,7 @@ from django.core.mail import EmailMessage
 from .tokens import account_activation_token
 from django.utils.encoding import force_bytes, force_text
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.core.mail import EmailMultiAlternatives
 
 
 def main_page(request):
@@ -45,13 +46,14 @@ def rent(request):
                         rent_info.save()
                         
                         current_site = get_current_site(request) 
-                        message = render_to_string('managements/user_activate_email.html', {
+                        html_message = render_to_string('managements/user_activate_email.html', {
                                 'rent_info': rent_info,
                                 'domain': current_site.domain,
                                 # 'token': PasswordResetTokenGenerator().make_token(rent_info),
                         })
                         mail_title = "이메일 인증을 완료해주세요"
-                        email = EmailMessage(mail_title, message, to=[rent_student.email])
+                        email = EmailMultiAlternatives(subject = mail_title, body=html_message, to=[rent_student.email])
+                        email.content_subtype = 'html'
                         email.send()
                 return redirect('managements:rent_list')
         else:
@@ -68,13 +70,13 @@ def rent(request):
 def activate(request, pk):
         rentmanage = RentManage.objects.get(pk=pk)
         # equip = Equipment.objects.get(equip_id=rentmanage.equip.equip_id)
-        print(equip.rent_status)
+        # print(equip.rent_status)
         # equip.rent_status = True
-        print(equip)
+        # print(equip)
         rentmanage.active = True
         rentmanage.save()
         # equip.save()
-        return redirect('managements:rent_list')
+        return redirect("https://google.com/")
 
 
 # 대여 중복 검사
@@ -207,17 +209,26 @@ def return_(request):
         if request.method =='POST':
                 equip_id = request.POST.get('equip_id')
                 student_id = request.POST.get('student_id')
-                student = get_object_or_404(Student, student_id=student_id)
-                equip = get_object_or_404(Equipment,equip_id=equip_id)
-                rent = get_object_or_404(RentManage, equip=equip.pk)
 
-                ctx = {
-                        'student':student,
-                        'equip':equip,
-                        'rent':rent
-                }
+                try :   
+                        student = get_object_or_404(Student, student_id=student_id)
+                        equip = get_object_or_404(Equipment,equip_id=equip_id)
+                        rent = get_object_or_404(RentManage, equip=equip.pk)
 
-                return render(request,'managements/return_info.html',ctx)
+                        ctx = {
+                                'student':student,
+                                'equip':equip,
+                                'rent':rent
+                        }
+
+                        return render(request,'managements/return_info.html',ctx)
+                except :
+                        return_form = ReturnForm()
+                        ctx = {
+                                'return_form':return_form
+                        }
+
+                        return render(request, 'managements/return.html', ctx)
 
         else : 
                 return_form = ReturnForm()
