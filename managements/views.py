@@ -123,6 +123,60 @@ def rent_overlap_check(request):
 
         return JsonResponse(ctx)
 
+# 반납 존재 여부 검사
+def return_exist_check(request):
+        equip_id = request.GET.get('equip_id')
+        student_id = request.GET.get('student_id')
+
+        try: # 기자재 존재 여부 확인
+                equipment = Equipment.objects.get(equip_id=equip_id)
+        except:
+                equipment = None
+
+        try: # 학생 존재 여부 확인
+                student = Student.objects.get(student_id=student_id)
+        except:
+                student = None    
+
+        try: # 대여 리스트 중복 여부 확인
+                rent_equip = Equipment.objects.get(equip_id=equip_id)
+                rent_student = Student.objects.get(student_id=student_id)
+                rent = RentManage.objects.get(equip=rent_equip, student=rent_student)
+                print(rent)
+        except:
+                rent = None
+
+        if equipment is None: # 기자재 존재하지 않을 시
+                e_exist = "fail"
+        elif equipment is not None:
+                e_exist = "pass"
+
+        if student is None: # 학생 존재하지 않을 시
+                s_exist = "fail"
+        elif student is not None: # 학생 존재 시
+                s_exist = "pass"
+
+        if student is not None and equipment is not None:
+                if rent is None:
+                        r_exist = "fail"
+                elif rent is not None:
+                        r_exist = "pass" 
+        else :
+                r_exist = "none"
+
+        print('대여', r_exist)
+        print('기자재 존재', e_exist)
+        print('학생 존재', s_exist)
+        
+        ctx = {
+                'r_exist': r_exist, 
+                'e_exist': e_exist,
+                's_exist':s_exist,
+        }
+
+        return JsonResponse(ctx)
+
+
 
 def rent_list(request):
         page = int(request.GET.get('page', 1))

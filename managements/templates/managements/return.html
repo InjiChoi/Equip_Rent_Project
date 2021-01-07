@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block custom_script %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javaScript">
         function eventKeyup(str){
@@ -23,8 +24,6 @@
             if ($('#id_student_id').val() == '') {
                 alert('학생 번호를 입력해주세요.');
                 event.preventDefault()
-                //$("form").submit(function () { return false; });
-                //document.querySelector('.submit_btn').removeAttribute('disabled', true);
                 return false;
             }
             else if ($('#id_equip_id').val() == '') {
@@ -34,21 +33,30 @@
             }
 
             id_overlap_input = document.querySelector('input[name="equip_id"]');
-            //var flag=0;
+            id_overlap_input_st = document.querySelector('input[name="student_id"]');
+
             $.ajax({
-                url: "{% url 'managements:rent_overlap_check' %}",
+                url: "{% url 'managements:return_exist_check' %}",
                 data: {
-                    'equip_id': id_overlap_input.value
+                    'equip_id': id_overlap_input.value,
+                    'student_id': id_overlap_input_st.value
                 },
                 datatype: 'json',
                 success: function (data) {
-                    console.log(data['overlap']);
-                    if (data['overlap'] == 'pass') {
+                    //console.log(data['overlap']);
+                    if (data['s_exist'] == 'fail') {
+                        alert('등록되지 않은 학생입니다.')
+                    } 
+                    if (data['e_exist'] == 'fail') {
+                        alert('등록되지 않은 기자재입니다.')
+                    }
+
+                    if (data['r_exist']== 'fail') {
                         alert('대여리스트에 없는 정보입니다.');
-                    } else {
+                    } else if (data['r_exist'] == 'pass' ) {
                         alert('대여 정보를 조회합니다.');
                         $('form').submit()
-                    }
+                    } 
                 }
             })
         }
