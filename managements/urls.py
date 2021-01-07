@@ -11,6 +11,7 @@ urlpatterns = [
     path('rent/rent_list/', views.rent_list, name="rent_list"),
     path('rent/rent_list/search_rent_list/', views.search_rent_list, name="search_rent_list"),
     path('return/', views.return_, name="return_"),
+    path('return/return_exist_check/', views.return_exist_check, name='return_exist_check'),# 반납 시 대여 리스트에 있는지 검사
     path('return/return_result/<int:pk>/', views.return_result, name='return_result'),
     path('return/return_list/', views.return_list, name="return_list"),
     path('return/return_list/search_return_list/', views.search_return_list, name="search_return_list"),
