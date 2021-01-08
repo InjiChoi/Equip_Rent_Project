@@ -51,6 +51,7 @@ CUSTOM_APPS = [
     'equipments',
     'students',
     'managements',
+    'users',
     # 'six',
 ]
 
