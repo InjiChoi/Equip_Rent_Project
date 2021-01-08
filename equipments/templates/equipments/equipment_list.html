@@ -10,8 +10,6 @@
                 alert('입력한 정보를 조회합니다.');
                 var search_input = $('#search_input').val();
                 var search_select = $('#search_select').val();
-                console.log(search_input);
-                console.log(search_select);
                 event.preventDefault()
                 $.ajax({
                     url:'list_search/',

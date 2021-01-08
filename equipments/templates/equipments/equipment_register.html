@@ -23,7 +23,6 @@
             }
 
             id_overlap_input = document.querySelector('input[name="equip_id"]');
-            console.log(id_overlap_input)
             $.ajax({
                 url: "{% url 'equipments:equipment_overlap_check' %}",
                 data: {
@@ -31,7 +30,6 @@
                 },
                 datatype:'json',
                 success: function (data) {
-                    console.log(data['overlap']);
                     if (data['overlap'] == 'fail') {
                         alert("이미 등록되어 있는 기자재입니다.");
                         id_overlap_input.focus();

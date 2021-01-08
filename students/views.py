@@ -17,7 +17,6 @@ def student_register(request):
             return redirect('students:student_list')
         else :
             return redirect('students:student_register')
-        #     messages.info(request,"중복된 사항으로 학생 등록에 실패했습니다.")
 
         return render(request, 'students/student_register.html')
     else:
@@ -104,7 +103,6 @@ def student_remove(request, pk):
 def list_search(request):
     search_key = request.GET.get('search_key') # 검색어 가져오기
     search_list = Student.objects.all()
-    print(search_key)
     if search_key: # 만약 검색어가 존재하면
         search_list = search_list.filter(Q(name__contains=search_key)|Q(student_id__contains=search_key)|Q(phone_number__contains=search_key)|Q(email__contains=search_key)) 
 

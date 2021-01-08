@@ -8,7 +8,6 @@
     <script>
         function id_overlap_check() {
             id_overlap_input = document.querySelector('input[id="id_equip_id"]');
-            console.log(id_overlap_input)
             $.ajax({
                 url: "{% url 'equipments:equip_remove_check' %}",
                 data: {
@@ -16,7 +15,6 @@
                 },
                 datatype:'json',
                 success: function (data) {
-                    console.log(data['remove']);
                     if (data['remove'] == 'fail') {
                         alert("대여중인 기자재이므로 삭제할 수 없습니다.");
                         id_overlap_input.focus();
@@ -46,7 +44,6 @@
             <tr>
                 <td>물품 번호 : </td>
                 <td>{{form.equip_id}}</td>
-                {% comment %} <td id='scan_td'><input type="button" name='cur_focus2' value='기자재 스캔' class='scan_btn'></td> {% endcomment %}
             </tr>
             <tr>
                 <td>물품 종류 : </td>

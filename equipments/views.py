@@ -8,7 +8,7 @@ from django.contrib import messages
 import json
 from django.http import JsonResponse, HttpResponse
 from math import ceil
-# Create your views here.
+
 def equipment_register(request):
     if request.method == 'POST':
         equipment_form = EquipForm(request.POST)
@@ -16,10 +16,8 @@ def equipment_register(request):
             equip_info = equipment_form.save(commit=False)
             equip_info.save()
             return redirect('equipments:equipment_list')
-            # messages.success(request, "기자재 등록에 성공하였습니다!")
         else :
             return redirect('equipments:equipment_register')
-        #     messages.error(request,"중복된 사항으로 기자재 등록에 실패했습니다.")
         
     else:
         equipment_form = EquipForm()
@@ -109,8 +107,6 @@ def equipment_remove(request, pk):
 def equip_remove_check(request):
     equip_id = request.GET.get('equip_id')
     equip = Equipment.objects.get(equip_id=equip_id)
-    print(equip)
-    print(equip.rent_status)
     if equip.rent_status:
         remove="fail"
     else:
@@ -118,51 +114,21 @@ def equip_remove_check(request):
     ctx = {'remove':remove}
     return JsonResponse(ctx)
 
-# # 기자재 검색
-# def search_equip(request):
-#     if request.method == 'POST':
-#         selected_equip_id = request.POST.get('selected_equip_id')
-#         selected_equip_type = request.POST.get('selected_equip_type')
-#         if selected_equip_id == '' and selected_equip_type== '기자재 종류':
-#             return redirect('equipments:equipment_list')
-
-
-#기자재 목록에서 조회하는 뷰
-# def list_search(request):
-#     search_key = request.GET.get('search_key') # 검색어 가져오기
-#     search_list = Equipment.objects.all()
-
-#     if search_key: # 만약 검색어가 존재하면
-#         search_list = search_list.filter(equip_id__contains=search_key)
-#         rents = RentManage.objects.all()
-
-#         ctx = {
-#                 'search_list': search_list,
-#                 'rents':rents
-#         }
-        
-#         return render(request, 'equipments/lookup_equip_list.html', ctx)
 
 def list_search(request):
     selected_equip_id = request.GET.get('search_input')
     selected_equip_type = request.GET.get('search_select')
     rents = RentManage.objects.all()
-    print(selected_equip_type)
     if selected_equip_type == "":
         selected_equip_type = False
-    print(selected_equip_id)
     
     if selected_equip_id and selected_equip_type:
-        print(1)
         search_list = Equipment.objects.all().filter(equip_id__contains=selected_equip_id, equip_type__contains=selected_equip_type)
 
     elif selected_equip_id:
-        print(2)
         search_list = Equipment.objects.all().filter(equip_id__contains=selected_equip_id)
-        print(search_list)
 
     elif selected_equip_type:
-        print(3)
         search_list = Equipment.objects.all().filter(equip_type__contains=selected_equip_type)
 
     else:

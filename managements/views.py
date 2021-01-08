@@ -49,7 +49,6 @@ def rent(request):
                         html_message = render_to_string('managements/user_activate_email.html', {
                                 'rent_info': rent_info,
                                 'domain': current_site.domain,
-                                # 'token': PasswordResetTokenGenerator().make_token(rent_info),
                         })
                         mail_title = "이메일 인증을 완료해주세요"
                         email = EmailMultiAlternatives(subject = mail_title, body=html_message, to=[rent_student.email])
@@ -69,13 +68,8 @@ def rent(request):
 
 def activate(request, pk):
         rentmanage = RentManage.objects.get(pk=pk)
-        # equip = Equipment.objects.get(equip_id=rentmanage.equip.equip_id)
-        # print(equip.rent_status)
-        # equip.rent_status = True
-        # print(equip)
         rentmanage.active = True
         rentmanage.save()
-        # equip.save()
         return redirect("https://google.com/")
 
 
@@ -101,10 +95,10 @@ def rent_overlap_check(request):
                 r_equip = None
 
         if equipment is None: # 기자재 존재하지 않을 시
-                e_exist = "pass"
+                e_exist = "fail"
                 overlap = 'none'
         elif equipment is not None: # 기자재 존재 시
-                e_exist = "fail"
+                e_exist = "pass"
                 if r_equip is None and student is not None: # 대여 가능한 기자재
                         overlap = "pass"
                 elif r_equip is not None: # 이미 대여중인 기자재
@@ -113,9 +107,9 @@ def rent_overlap_check(request):
                         overlap = "s_fail"
 
         if student is None: # 학생 존재하지 않을 시
-                s_exist = "pass"
-        elif student is not None: # 학생 존재 시
                 s_exist = "fail"
+        elif student is not None: # 학생 존재 시
+                s_exist = "pass"
         
         ctx = {
                 'overlap': overlap, 
@@ -144,7 +138,6 @@ def return_exist_check(request):
                 rent_equip = Equipment.objects.get(equip_id=equip_id)
                 rent_student = Student.objects.get(student_id=student_id)
                 rent = RentManage.objects.get(equip=rent_equip, student=rent_student)
-                print(rent)
         except:
                 rent = None
 
@@ -166,9 +159,6 @@ def return_exist_check(request):
         else :
                 r_exist = "none"
 
-        print('대여', r_exist)
-        print('기자재 존재', e_exist)
-        print('학생 존재', s_exist)
         
         ctx = {
                 'r_exist': r_exist, 
@@ -187,11 +177,8 @@ def rent_list(request):
         offset = limit - page_size
         rents_count = RentManage.objects.all().count()
         rents = RentManage.objects.all()[offset:limit]
-        # rents_count = RentManage.objects.filter(active=True).count()
-        # rents = RentManage.objects.filter(active=True)[offset:limit]
 
         page_total = ceil(rents_count/page_size)
-        print(page_total)
         if page_total == 0:
                 page_total += 1
         ctx = {
@@ -277,7 +264,6 @@ def lookup_student(request):
                 phone_number = student.phone_number
                 email = student.email
 
-                print(name)  
                 ctx = {
                         'name':name,
                         'phone_number':phone_number,
@@ -294,23 +280,17 @@ def search_return_list(request):
     search_input = request.GET.get('search_input')
     selected_equip_type = request.GET.get('search_select')
     
-    print(selected_equip_type)
     if selected_equip_type == "":
         selected_equip_type = False
 
     
     if search_input and selected_equip_type:
-        print(1)
         search_list = ReturnHistory.objects.all().filter(((Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))|Q(equip__equip_id__contains=search_input)), equip__equip_type__contains=selected_equip_type)
-        print(search_list)
 
     elif search_input:
-        print(2)
         search_list = ReturnHistory.objects.all().filter(Q(equip__equip_id__contains=search_input)|Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))
-        print(search_list)
 
     elif selected_equip_type:
-        print(3)
         search_list = ReturnHistory.objects.all().filter(equip__equip_type__contains=selected_equip_type)
 
     else:
@@ -328,23 +308,17 @@ def search_rent_list(request):
     search_input = request.GET.get('search_input')
     selected_equip_type = request.GET.get('search_select')
     
-    print(selected_equip_type)
     if selected_equip_type == "":
         selected_equip_type = False
 
     
     if search_input and selected_equip_type:
-        print(1)
         search_list = RentManage.objects.all().filter(((Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))|Q(equip__equip_id__contains=search_input)), equip__equip_type__contains=selected_equip_type)
-        print(search_list)
 
     elif search_input:
-        print(2)
         search_list = RentManage.objects.all().filter(Q(equip__equip_id__contains=search_input)|Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))
-        print(search_list)
 
     elif selected_equip_type:
-        print(3)
         search_list = RentManage.objects.all().filter(equip__equip_type__contains=selected_equip_type)
 
     else:
