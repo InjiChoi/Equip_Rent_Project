@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import RentManage, ReturnHistory
 from students.models import Student
 from equipments.models import Equipment
-from managements.forms import RentForm, RentStudentForm, RentEquipmentForm, ReturnForm
+from managements.forms import RentForm, ReturnForm, EquipPictureForm
 from students.models import Student
 from django.utils import timezone
 from django.db import IntegrityError
@@ -57,12 +57,8 @@ def rent(request):
                 return redirect('managements:rent_list')
         else:
                 rent_form = RentForm()
-                rent_student_form = RentStudentForm()
-                rent_equipment_form = RentEquipmentForm()
                 ctx = {
                         'rent_form':rent_form,
-                        'rent_student_form':rent_student_form,
-                        'rent_equipment_form':rent_equipment_form,
                 }
                 return render(request, 'managements/rent.html', ctx)
 
