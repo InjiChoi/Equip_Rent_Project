@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import RentManage, ReturnHistory
+from .models import RentManage, ReturnHistory, Equip_Picture
 from students.models import Student
 from equipments.models import Equipment
 from managements.forms import RentForm, ReturnForm, EquipPictureForm
@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Q
 from math import ceil
+from django.forms import modelformset_factory
 
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
@@ -28,6 +29,8 @@ def main_page(request):
 
 # 대여 페이지
 def rent(request):
+        ImageFormSet = modelformset_factory(Equip_Picture, form=EquipPictureForm, max_num=3, extra=2, labels=None)
+
         if request.method == 'POST':
                 rent_student_id = request.POST.get('student_id')
                 rent_equipment_id = request.POST.get('equip_id')
@@ -36,7 +39,9 @@ def rent(request):
                 rent_equip = get_object_or_404(Equipment, equip_id=rent_equipment_id)
 
                 rent_form = RentForm(request.POST, request.FILES)
-                if rent_form.is_valid() :
+                image_form = ImageFormSet(request.POST, request.FILES, queryset=Equip_Picture.objects.none())
+
+                if rent_form.is_valid() and image_form.is_valid() :
                         rent_info = rent_form.save(commit=False)
                         rent_info.student = rent_student
                         rent_info.equip = rent_equip
@@ -44,6 +49,11 @@ def rent(request):
                         rent_equip.rent_status = True
                         rent_equip.save()
                         rent_info.save()
+                        for form in image_form.cleaned_data:
+                                equip_pic = form['equip_pic']
+                                rent_equip_pic = Equip_Picture(equip_pic=equip_pic, rent=rent_info)
+                                rent_equip_pic.save()
+
                         
                         current_site = get_current_site(request) 
                         html_message = render_to_string('managements/user_activate_email.html', {
@@ -57,8 +67,10 @@ def rent(request):
                 return redirect('managements:rent_list')
         else:
                 rent_form = RentForm()
+                image_form = ImageFormSet(queryset=Equip_Picture.objects.none())
                 ctx = {
                         'rent_form':rent_form,
+                        'image_form':image_form,
                 }
                 return render(request, 'managements/rent.html', ctx)
 
@@ -197,11 +209,13 @@ def return_(request):
                         student = get_object_or_404(Student, student_id=student_id)
                         equip = get_object_or_404(Equipment,equip_id=equip_id)
                         rent = get_object_or_404(RentManage, equip=equip.pk)
+                        rent_images = Equip_Picture.objects.all().filter(rent=rent.pk)
 
                         ctx = {
                                 'student':student,
                                 'equip':equip,
-                                'rent':rent
+                                'rent':rent,
+                                'rent_images':rent_images,
                         }
 
                         return render(request,'managements/return_info.html',ctx)
