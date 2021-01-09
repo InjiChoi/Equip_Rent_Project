@@ -6,8 +6,9 @@ import json
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Q
 from math import ceil
+from django.contrib.auth.decorators import login_required
 
-# Create your views here.
+@login_required(login_url='/users/')
 def student_register(request):
     if request.method == 'POST':
         student_form = StudentForm(request.POST)
@@ -25,6 +26,7 @@ def student_register(request):
 
 
 # 학생 번호 중복 확인
+@login_required(login_url='/users/')
 def student_overlap_check(request):
     student_id = request.GET.get('student_id')
     try:
@@ -41,7 +43,7 @@ def student_overlap_check(request):
 
     return JsonResponse(ctx)
 
-
+@login_required(login_url='/users/')
 def student_list(request):
     page = int(request.GET.get('page', 1))
     page_size = 10
@@ -62,6 +64,7 @@ def student_list(request):
     return render(request, 'students/student_list.html', ctx)
 
 # 학생 정보 수정 페이지
+@login_required(login_url='/users/')
 def student_detail(request, pk):
     students = Student.objects.all()
     ctx = {
@@ -85,6 +88,7 @@ def student_detail(request, pk):
     return render(request,'students/student_detail.html',{'form':form})
 
 # 학생 정보 삭제 페이지
+@login_required(login_url='/users/')
 def student_remove(request, pk):
     students = Student.objects.all()
     ctx = {
@@ -100,6 +104,7 @@ def student_remove(request, pk):
     return render(request,'students/student_remove.html',{'form':form})
 
 #학생 목록에서 조회하는 뷰
+@login_required(login_url='/users/')
 def list_search(request):
     search_key = request.GET.get('search_key') # 검색어 가져오기
     search_list = Student.objects.all()

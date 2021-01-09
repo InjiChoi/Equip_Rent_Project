@@ -8,7 +8,9 @@ from django.contrib import messages
 import json
 from django.http import JsonResponse, HttpResponse
 from math import ceil
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='/users/')
 def equipment_register(request):
     if request.method == 'POST':
         equipment_form = EquipForm(request.POST)
@@ -24,6 +26,7 @@ def equipment_register(request):
         return render(request, 'equipments/equipment_register.html', {'equipment_form':equipment_form})
 
 # 기자재 물품 번호 중복 확인
+@login_required(login_url='/users/')
 def equipment_overlap_check(request):
     equip_id = request.GET.get('equip_id')
     try:
@@ -41,6 +44,7 @@ def equipment_overlap_check(request):
     return JsonResponse(ctx)
 
 # 기자재 리스트 페이지
+@login_required(login_url='/users/')
 def equipment_list(request):
     page = int(request.GET.get('page', 1))
     page_size =10
@@ -62,7 +66,7 @@ def equipment_list(request):
     }
     return render(request, 'equipments/equipment_list.html', ctx)
 
-
+@login_required(login_url='/users/')
 def equipment_detail(request, pk):
     equipments = Equipment.objects.all()
     rents = RentManage.objects.all()
@@ -85,6 +89,7 @@ def equipment_detail(request, pk):
     return render(request,'equipments/equipment_detail.html',{'form':form})
 
 # 기자개 정보 삭제 페이지
+@login_required(login_url='/users/')
 def equipment_remove(request, pk):
     equipments = Equipment.objects.all()
     rents = RentManage.objects.all()
@@ -104,6 +109,7 @@ def equipment_remove(request, pk):
         form = EquipForm(instance=equip)
     return render(request,'equipments/equipment_remove.html',{'form':form})
 
+@login_required(login_url='/users/')
 def equip_remove_check(request):
     equip_id = request.GET.get('equip_id')
     equip = Equipment.objects.get(equip_id=equip_id)
@@ -114,7 +120,7 @@ def equip_remove_check(request):
     ctx = {'remove':remove}
     return JsonResponse(ctx)
 
-
+@login_required(login_url='/users/')
 def list_search(request):
     selected_equip_id = request.GET.get('search_input')
     selected_equip_type = request.GET.get('search_select')
