@@ -15,7 +15,7 @@ class RentManage(models.Model):
 
 
 class Equip_Picture(models.Model):
-    equip_pic = models.ImageField(upload_to="equip_pic/%Y/%m/%d/")
+    equip_pic = models.ImageField(upload_to="equip_pic/%Y/%m/%d/", default=None)
     rent = models.ForeignKey(RentManage, on_delete=models.CASCADE)
 
 

@@ -1,24 +1,20 @@
 from django import forms
 from django.forms import HiddenInput
-from managements.models import RentManage, ReturnHistory
-from students.models import Student
-from equipments.models import Equipment
+from managements.models import RentManage, ReturnHistory, Equip_Picture
+
 
 # 대여 폼
 class RentForm(forms.ModelForm):
         class Meta:
                 model = RentManage
                 exclude = ['student', 'equip', 'rent_date',]
-                
-class RentStudentForm(forms.ModelForm):
-        class Meta:
-                model = Student
-                fields = ('student_id', 'name', 'phone_number', 'email',)
 
-class RentEquipmentForm(forms.ModelForm):
+class EquipPictureForm(forms.ModelForm):
         class Meta:
-                model = Equipment
-                fields = ('equip_id','equip_type',)
+                model = Equip_Picture
+                fields = ('equip_pic',)
+                
+
 
 
 # 반납 폼

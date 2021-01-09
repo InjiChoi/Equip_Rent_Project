@@ -38,7 +38,9 @@
             </tbody>
         </table>
         <div style='text-align:center;'>
-            <img src="{{ rent.equip_pic.url }}" class='rent_equip_img'>
+            {% for image in rent_images %}
+                <img src="{{ image.equip_pic.url }}" class='rent_equip_img' style="max-width:200px; height:auto; margin:10px ">
+            {% endfor %}
         </div>
         <div style='text-align:center; margin-top:30px'>
             <a href="{% url 'managements:return_result' equip.pk %}" class='submit_btn' onClick="alert('반납이 완료되었습니다.')">반납</a>
