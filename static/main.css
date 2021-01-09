@@ -32,6 +32,11 @@ a.dropdown-toggle {
     padding-bottom:15px;
     /* padding:30px; */
 }
+
+#navbar {
+    position:sticky;
+    top:0;
+}
 /* ----------------------------------------------------- */
 
 /* main noonsong image css */
