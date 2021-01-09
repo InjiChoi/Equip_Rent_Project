@@ -21,13 +21,16 @@ from .tokens import account_activation_token
 from django.utils.encoding import force_bytes, force_text
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.mail import EmailMultiAlternatives
+from django.contrib.auth.decorators import login_required
 
 
+@login_required(login_url='/users/')
 def main_page(request):
     return render(request, 'managements/main.html',{})
 
 
 # 대여 페이지
+@login_required(login_url='/users/')
 def rent(request):
         ImageFormSet = modelformset_factory(Equip_Picture, form=EquipPictureForm, max_num=3, extra=2, labels=None)
 
@@ -74,6 +77,7 @@ def rent(request):
                 }
                 return render(request, 'managements/rent.html', ctx)
 
+@login_required(login_url='/users/')
 def activate(request, pk):
         rentmanage = RentManage.objects.get(pk=pk)
         rentmanage.active = True
@@ -82,6 +86,7 @@ def activate(request, pk):
 
 
 # 대여 중복 검사
+@login_required(login_url='/users/')
 def rent_overlap_check(request):
         equip_id = request.GET.get('equip_id')
         student_id = request.GET.get('student_id')
@@ -128,6 +133,7 @@ def rent_overlap_check(request):
         return JsonResponse(ctx)
 
 # 반납 존재 여부 검사
+@login_required(login_url='/users/')
 def return_exist_check(request):
         equip_id = request.GET.get('equip_id')
         student_id = request.GET.get('student_id')
@@ -177,7 +183,7 @@ def return_exist_check(request):
         return JsonResponse(ctx)
 
 
-
+@login_required(login_url='/users/')
 def rent_list(request):
         page = int(request.GET.get('page', 1))
         page_size = 10
@@ -200,6 +206,7 @@ def rent_list(request):
 # ----------------------------------------------------------------------- #
 
 # 반납 페이지
+@login_required(login_url='/users/')
 def return_(request):
         if request.method =='POST':
                 equip_id = request.POST.get('equip_id')
@@ -235,7 +242,7 @@ def return_(request):
 
                 return render(request, 'managements/return.html', ctx)
 
-        
+@login_required(login_url='/users/')       
 def return_result(request, pk):
         rent_equip = Equipment.objects.get(pk=pk)
         rent_equip.rent_status = False
@@ -246,7 +253,7 @@ def return_result(request, pk):
         rent.delete()
         return redirect('managements:return_list')
 
-
+@login_required(login_url='/users/')
 def return_list(request):
         page = int(request.GET.get('page', 1))
         page_size = 10
@@ -265,7 +272,8 @@ def return_list(request):
         }
         return render(request, 'managements/return_list.html', ctx)
 
-#대여시 학생 조회 
+#대여시 학생 조회
+@login_required(login_url='/users/')
 def lookup_student(request):
         input_student = request.GET.get('input_student')
         try : 
@@ -286,6 +294,7 @@ def lookup_student(request):
                 return render(request, 'managements/lookup_fail.html')
 
 #반납 리스트에서 검색하는 뷰
+@login_required(login_url='/users/')
 def search_return_list(request):
     search_input = request.GET.get('search_input')
     selected_equip_type = request.GET.get('search_select')
@@ -314,6 +323,7 @@ def search_return_list(request):
 
 
 #대여 리스트에서 검색하는 뷰
+@login_required(login_url='/users/')
 def search_rent_list(request):
     search_input = request.GET.get('search_input')
     selected_equip_type = request.GET.get('search_select')
