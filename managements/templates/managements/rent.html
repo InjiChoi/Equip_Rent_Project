@@ -121,10 +121,12 @@
                         <tr>
                             <td>물품 사진: </td>
                             <td>
-                                {{image_form.management_form}}
+                                {% comment %} {{image_form}} {% endcomment %}
+                                {% comment %} {{image_form.management_form}}
                                 {% for form in image_form %}
                                     {{form}}
-                                {% endfor %}
+                                {% endfor %} {% endcomment %}
+                                <input type="file" name="file" id="file" multiple="multiple">
                             </td>
                             <td></td>
                         </tr>
