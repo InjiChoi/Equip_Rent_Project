@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 import json
 from django.core.exceptions import ImproperlyConfigured
-
+from . import my_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -41,7 +41,7 @@ SECRET_KEY = get_secrete("SECRET_KEY")
         
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -101,24 +101,18 @@ WSGI_APPLICATION = 'EquipManage.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Equip_Rent_Project',
-        'USER': 'root',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"'
-        }}}
+        'ENGINE': my_settings.DATABASES['ENGINE'],
+        'NAME': my_settings.DATABASES['NAME'],
+        'USER': my_settings.DATABASES['USER'],
+        'PASSWORD': my_settings.DATABASES['PASSWORD'],
+        'HOST': my_settings.DATABASES['HOST'],
+        'PORT': my_settings.DATABASES['PORT'],
+        'OPTIONS': my_settings.DATABASES['OPTIONS']
+        }
+    }
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -176,19 +170,9 @@ MEDIA_URL = '/media/'
 SITE_ID = 1
 
 
-EMAIL = {
-    'EMAIL_BACKEND' : 'django.core.mail.backends.smtp.EmailBackend',
-    'EMAIL_USE_TLS' : True,
-    'EMAIL_PORT' : 587,
-    'EMAIL_HOST' : 'smtp.gmail.com',   
-    'EMAIL_HOST_USER' : 'vnavna16@sookmyung.ac.kr',                    
-    'EMAIL_HOST_PASSWORD' : 'pirogramming14',
-    'REDIRECT_PAGE' : 'http://10.58.5.40:3000/signin'
-}
-
-EMAIL_BACKEND = EMAIL['EMAIL_BACKEND']
-EMAIL_USE_TLS = EMAIL['EMAIL_USE_TLS']
-EMAIL_PORT = EMAIL['EMAIL_PORT']
-EMAIL_HOST = EMAIL['EMAIL_HOST']
-EMAIL_HOST_USER = EMAIL['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = EMAIL['EMAIL_HOST_PASSWORD']
+EMAIL_BACKEND = my_settings.EMAIL['EMAIL_BACKEND']
+EMAIL_USE_TLS = my_settings.EMAIL['EMAIL_USE_TLS']
+EMAIL_PORT = my_settings.EMAIL['EMAIL_PORT']
+EMAIL_HOST = my_settings.EMAIL['EMAIL_HOST']
+EMAIL_HOST_USER = my_settings.EMAIL['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = my_settings.EMAIL['EMAIL_HOST_PASSWORD']

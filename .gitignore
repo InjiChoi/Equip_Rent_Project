@@ -4,6 +4,7 @@
 
 ### CUSTOM ###
 secrets.json
+**/my_settings.py
 
 
 ### Django ###
