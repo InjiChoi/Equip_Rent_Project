@@ -41,7 +41,7 @@ SECRET_KEY = get_secrete("SECRET_KEY")
         
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -101,24 +101,18 @@ WSGI_APPLICATION = 'EquipManage.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Equip_Rent_Project',
-        'USER': 'root',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"'
-        }}}
+        'ENGINE': my_settings.DATABASES['ENGINE'],
+        'NAME': my_settings.DATABASES['NAME'],
+        'USER': my_settings.DATABASES['USER'],
+        'PASSWORD': my_settings.DATABASES['PASSWORD'],
+        'HOST': my_settings.DATABASES['HOST'],
+        'PORT': my_settings.DATABASES['PORT'],
+        'OPTIONS': my_settings.DATABASES['OPTIONS']
+        }
+    }
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
