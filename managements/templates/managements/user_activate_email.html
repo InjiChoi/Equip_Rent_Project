@@ -1,9 +1,7 @@
 {% autoescape off %}
-<p>안녕하세요</p>
+<p>안녕하세요. 숙명여자대학교 IT공학과 입니다.</p>
 
-<p>아래 링크를 클릭하면 대여가 완료됩니다.</p>
-
-    <h2>인증 링크 : <a href = http://{{ domain }}{% url 'managements:activate' pk=rent_info.pk %}>클릭</h2>
+<p>하단의 링크를 클릭하면 대여가 완료됩니다.</p>
 
 <div class="container">
     <div class="row rent_pledge">
@@ -23,5 +21,6 @@
         <h4>숙명여자대학교 IT공학과의 대여 서약서를 충분히 숙지, 이해하였으며 다음의 사항을 준수할 것을 엄숙히 서약합니다.</h4>
         <h4 id='red'>※ 위의 준수 사항을 어길 시, 발생하는 개인의 불이익은 IT공학과가 책임지지 않습니다.</h4>
     </div>
+    <h3>서약서 내용 동의 시에 해당 링크를 클릭하세요 > <a href = http://{{ domain }}{% url 'managements:activate' pk=rent_info.pk %}>동의</h3>
 </div>
 {% endautoescape %}

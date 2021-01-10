@@ -10,14 +10,28 @@
                 alert('입력한 정보를 조회합니다.');
                 var search_input = $('#search_input').val();
                 var search_select = $('#search_select').val();
-                console.log(search_input);
-                console.log(search_select);
                 event.preventDefault()
                 $.ajax({
                     url:'search_rent_list/',
                     data:{
                         'search_input':search_input, 
                         'search_select':search_select
+                    },
+                    success:function(data){
+                        $('#search_rent_list').html(data)
+                    }
+                })
+
+            });
+            $("input[name=search_button2]").click(function(){
+                alert('서약서 여부를 조회합니다.');
+                var search_pledge= $('#search_pledge').val();
+
+                event.preventDefault()
+                $.ajax({
+                    url:'search_rent_pledge/',
+                    data:{
+                        'search_pledge':search_pledge 
                     },
                     success:function(data){
                         $('#search_rent_list').html(data)
@@ -53,6 +67,16 @@
         </div>
         <div class="col-item">
             <input class="search_btn" type="submit" value="조회" name="search_button">
+        </div>
+        <div class="col-item"> 
+            <select class='form-select' name="search_pledge" id="search_pledge">
+                <option value="">서약서 여부</option>
+                <option value=True>동의 완료</option>
+                <option value=False>미완료</option>
+            </select>
+        </div>
+        <div class="col-item">
+            <input class="search_btn" type="submit" value="조회" name="search_button2">
         </div>
         </form>
     </div>

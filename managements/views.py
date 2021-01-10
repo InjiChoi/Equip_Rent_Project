@@ -59,7 +59,7 @@ def rent(request):
                                 'rent_info': rent_info,
                                 'domain': current_site.domain,
                         })
-                        mail_title = "이메일 인증을 완료해주세요"
+                        mail_title = "숙명여자대학교 IT공학과 기자재 대여 서약서"
                         email = EmailMultiAlternatives(subject = mail_title, body=html_message, to=[rent_student.email])
                         email.content_subtype = 'html'
                         email.send()
@@ -71,7 +71,6 @@ def rent(request):
                 }
                 return render(request, 'managements/rent.html', ctx)
 
-@login_required(login_url='/users/')
 def activate(request, pk):
         rentmanage = RentManage.objects.get(pk=pk)
         rentmanage.active = True
@@ -343,6 +342,25 @@ def search_rent_list(request):
     }
 
     return render(request, 'managements/lookup_rent_list.html', ctx)   
+
+#대여 리스트에서 서약서 여부를 검색하는 뷰
+@login_required(login_url='/users/')
+def search_rent_pledge(request):
+        search_pledge = request.GET.get('search_pledge')
+        
+        if search_pledge =="":
+                search_pledge = None
+        
+        if search_pledge is not None:
+                search_list = RentManage.objects.all().filter(active=search_pledge)
+        else:
+                search_list = RentManage.objects.all()
+        
+        ctx = {
+                "search_list":search_list
+        }
+
+        return render(request,'managements/lookup_rent_list.html',ctx)
                 
 
 
