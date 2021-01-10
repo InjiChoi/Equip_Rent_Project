@@ -35,9 +35,8 @@
 
 {% block content %}
     <div class="subtitle" style="margin-top: 50px; text-align: center;">
-            <h1 style='font-weight:bold; '>반납 목록 페이지</h1>
+        <h1 style='font-weight:bold; '>반납 목록 페이지</h1>
     </div>
-
     <div class="container search-nav">
         <form action="">
         {% csrf_token %}
@@ -57,7 +56,7 @@
         </div>
         </form>
     </div>
-        <div id="search_return_list">
+    <div id="search_return_list">
         <div class="container">
             <table class='table table-striped return_list_table'>
                 <thead>
@@ -84,7 +83,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
     </div>
     <div class="container" id="paginator">
         <div id="page_div">
