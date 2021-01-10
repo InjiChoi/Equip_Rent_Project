@@ -14,75 +14,77 @@
         {% endblock %}
     </head>
     <body>
-        <div id="navbar">
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="{% url 'managements:main_page' %}">숙명여대 IT공학과 기자재 관리 페이지</a>
-                    </div>
+        <div class="main">
+            <div id="navbar">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="{% url 'managements:main_page' %}">숙명여대 IT공학과 기자재 관리 페이지</a>
+                        </div>
 
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                         <ul class="nav navbar-nav navbar-right">
-                            <li>
-	                        {% if user.is_authenticated %}
-                            <a href="{% url 'users:staff_logout' %}" class="dropdown-toggle" aria-expanded="false">로그아웃</span></a>
-                            {%else%}
-                            <a href="{% url 'users:staff_login' %}" class="dropdown-toggle" aria-expanded="false">관리자 로그인</a>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li>
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'users:staff_logout' %}" class="dropdown-toggle" aria-expanded="false">로그아웃</span></a>
+                                {%else%}
+                                <a href="{% url 'users:staff_login' %}" class="dropdown-toggle" aria-expanded="false">관리자 로그인</a>
+                                {%endif%}
+                                </li>
+                            </ul>
+                            {% if user.is_authenticated %}
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">학생 관리<span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{% url 'students:student_register' %}">학생 등록</a></li>
+                                    <li><a href="{% url 'students:student_list' %}">학생 관리 목록</a></li>
+                                </ul>
+                                </li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">기자재 관리<span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{% url 'equipments:equipment_register' %}">기자재 등록</a></li>
+                                    <li><a href="{% url 'equipments:equipment_list' %}">기자재 관리 목록</a></li>
+                                </ul>
+                                </li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">반납<span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{% url 'managements:return_' %}">반납</a></li>
+                                    <li><a href="{% url 'managements:return_list' %}">반납목록</a></li>
+                                </ul>
+                                </li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">대여 <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{% url 'managements:rent' %}">대여</a></li>
+                                    <li><a href="{% url 'managements:rent_list' %}">대여현황</a></li>
+                                </ul>
+                                </li>
+                            </ul>
                             {%endif%}
-                            </li>
-                        </ul>
-                        {% if user.is_authenticated %}
-                         <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">학생 관리<span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{% url 'students:student_register' %}">학생 등록</a></li>
-                                <li><a href="{% url 'students:student_list' %}">학생 관리 목록</a></li>
-                            </ul>
-                            </li>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">기자재 관리<span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{% url 'equipments:equipment_register' %}">기자재 등록</a></li>
-                                <li><a href="{% url 'equipments:equipment_list' %}">기자재 관리 목록</a></li>
-                            </ul>
-                            </li>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">반납<span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{% url 'managements:return_' %}">반납</a></li>
-                                <li><a href="{% url 'managements:return_list' %}">반납목록</a></li>
-                            </ul>
-                            </li>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">대여 <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{% url 'managements:rent' %}">대여</a></li>
-                                <li><a href="{% url 'managements:rent_list' %}">대여현황</a></li>
-                            </ul>
-                            </li>
-                        </ul>
-                        {%endif%}
-                    </div><!-- /.navbar-collapse -->
-                </div><!-- /.container-fluid -->
-            </nav>
-        </div>     
-            {% block content %}
-            {% endblock %}
+                        </div><!-- /.navbar-collapse -->
+                    </div><!-- /.container-fluid -->
+                </nav>
+            </div>     
+                {% block content %}
+                {% endblock %}
+        </div>
         <div class="footer_wrap">
             <div class="footer">
                 <p>&copy; 2021 졸업 프로젝트 - 포어스(For Us)</p>
