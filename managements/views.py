@@ -71,13 +71,14 @@ def rent(request):
                 }
                 return render(request, 'managements/rent.html', ctx)
 
-@login_required(login_url='/users/')
 def activate(request, pk):
         rentmanage = RentManage.objects.get(pk=pk)
         rentmanage.active = True
         rentmanage.save()
-        return redirect("https://google.com/")
+        return redirect("managements:email_success")
 
+def email_success(request):
+        return render(request, 'managements/email_success.html')
 
 # 대여 중복 검사
 @login_required(login_url='/users/')

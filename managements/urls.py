@@ -17,4 +17,5 @@ urlpatterns = [
     path('return/return_list/search_return_list/', views.search_return_list, name="search_return_list"),
     path('return/return_info/', views.return_, name="return_info"),
     path('rent/activate/<int:pk>/', views.activate, name="activate"),
+    path('rent/email_success/', views.email_success, name="email_success"),
 ]
