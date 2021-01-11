@@ -3,9 +3,9 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=django
 
 ### CUSTOM ###
-secrets.json
-*/my_settings.py
-
+# secrets.json
+# */my_settings.py
+staticfiles/
 
 ### Django ###
 *.log
