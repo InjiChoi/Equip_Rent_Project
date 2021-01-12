@@ -1,0 +1,17 @@
+.row {
+    text-align:center;
+}
+
+.rent_pledge {
+    /* margin-top: 30px; */
+    margin-bottom:30px;
+}
+.check_list li {
+    text-align: left;
+    font-size: 2rem;
+}
+
+#red {
+    color:red;
+    font-weight: bold;
+}
