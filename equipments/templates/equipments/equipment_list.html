@@ -85,7 +85,7 @@
                             {%if rent.equip.equip_id == equip.equip_id%}
                             <td>{{rent.student.student_id}}</td>
                             <td>{{rent.student.name}}</td>
-                            <td>{{rent.rent_date}}</td>
+			    <td>{{rent.rent_date | date:'Y-m-d'}} &nbsp; &nbsp; {{rent.rent_date | date:'h:i A'}}</td>
                             {%endif%}
                         {%endfor%}
                         {% endif %}
