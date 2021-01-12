@@ -7,7 +7,7 @@ For more information on this file, see
 https://docs.djangoproject.com/en/3.1/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/3.1/ref/settings/
+ihttps://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
@@ -41,9 +41,9 @@ SECRET_KEY = get_secrete("SECRET_KEY")
         
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['3.36.23.133', '.equiprent.site', '.ap-northeast-2.compute.amazonaws.com']
 
 
 # Application definition
