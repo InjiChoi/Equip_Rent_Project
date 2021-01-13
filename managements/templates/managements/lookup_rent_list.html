@@ -21,7 +21,7 @@
                 <td>{{rent.student.phone_number}}</td>
                 <td>{{rent.equip.equip_id}}</td>
                 <td>{{rent.equip.get_equip_type_display}}</td>
-                <td>{{rent.rent_date}}</td>
+		<td>{{rent.rent_date | date:'Y-m-d'}} &nbsp; &nbsp; {{rent.rent_date | date:'h:i A'}}</td>
                 <td>{{rent.student.status}}</td>
                 <td>
                     {% if rent.active %}

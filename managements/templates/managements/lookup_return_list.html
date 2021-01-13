@@ -19,7 +19,7 @@
                 <td>{{return.student.phone_number}}</td>
                 <td>{{return.equip.equip_id}}</td>
                 <td>{{return.equip.get_equip_type_display}}</td>
-                <td>{{return.return_date}}</td>
+		<td>{{return.return_date | date:'Y-m-d'}} &nbsp; &nbsp; {{return.return_date | date:'h:i A'}}</td>
             </tr>
         {% endfor %}
         </tbody>
