@@ -74,20 +74,29 @@
                     <tr>
                         <td>{{equip.equip_id}}</td>
                         <td>{{equip.get_equip_type_display}}</td>
-                        {% if equip.rent_status == False %}
-                        <td id='rent_possible'>대여 가능</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        {% if equip.rent_status == 'possible' %}
+                            <td id='rent_possible'>대여 가능</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        {% elif equip.rent_status == 'impossible' %}
+                            <td id='rent_impossible'>대여중</td>
+                            {%for rent in rents%}
+                                {%if rent.equip.equip_id == equip.equip_id%}
+                                <td>{{rent.student.student_id}}</td>
+                                <td>{{rent.student.name}}</td>
+                                <td>{{rent.rent_date | date:'Y-m-d'}} &nbsp; &nbsp; {{rent.rent_date | date:'h:i A'}}</td>
+                                {%endif%}
+                            {%endfor%}
                         {% else %}
-                        <td id='rent_impossible'>대여중</td>
-                        {%for rent in rents%}
-                            {%if rent.equip.equip_id == equip.equip_id%}
-                            <td>{{rent.student.student_id}}</td>
-                            <td>{{rent.student.name}}</td>
-			    <td>{{rent.rent_date | date:'Y-m-d'}} &nbsp; &nbsp; {{rent.rent_date | date:'h:i A'}}</td>
-                            {%endif%}
-                        {%endfor%}
+                            <td id='rent_pending'>반납보류</td>
+                            {%for rent in rents%}
+                                {%if rent.equip.equip_id == equip.equip_id%}
+                                <td>{{rent.student.student_id}}</td>
+                                <td>{{rent.student.name}}</td>
+                                <td>{{rent.rent_date | date:'Y-m-d'}} &nbsp; &nbsp; {{rent.rent_date | date:'h:i A'}}</td>
+                                {%endif%}
+                            {%endfor%}
                         {% endif %}
                         <td><a href="{% url 'equipments:equipment_detail' pk=equip.pk %}"><img src ="/static/edit.png"></a></td>
                         <td><a href="{% url 'equipments:equipment_remove' pk=equip.pk %}"><img src ="/static/rubbish.png"></a></td>

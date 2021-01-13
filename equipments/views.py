@@ -99,9 +99,9 @@ def equipment_remove(request, pk):
     }
     equip = get_object_or_404(Equipment, pk=pk)
     if request.method == "POST":
-        if equip.rent_status:
+        if equip.rent_status == 'impossible' or equip.rent_status == 'pending':
             return redirect('equipments:equipment_list')
-        else:
+        elif equip.rent_status == 'possible':
             equip.delete()
             return redirect('equipments:equipment_list')
     
@@ -113,10 +113,10 @@ def equipment_remove(request, pk):
 def equip_remove_check(request):
     equip_id = request.GET.get('equip_id')
     equip = Equipment.objects.get(equip_id=equip_id)
-    if equip.rent_status:
-        remove="fail"
-    else:
+    if equip.rent_status == 'possible':
         remove="pass"
+    else:
+        remove="fail"
     ctx = {'remove':remove}
     return JsonResponse(ctx)
 

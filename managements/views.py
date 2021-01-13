@@ -46,7 +46,7 @@ def rent(request):
                         rent_info.student = rent_student
                         rent_info.equip = rent_equip
                         rent_info.rent_date = timezone.now()
-                        rent_equip.rent_status = True
+                        rent_equip.rent_status = 'impossible'
                         rent_equip.save()
                         rent_info.save()
 
@@ -240,7 +240,7 @@ def return_(request):
 @login_required(login_url='/users/')       
 def return_result(request, pk):
         rent_equip = Equipment.objects.get(pk=pk)
-        rent_equip.rent_status = False
+        rent_equip.rent_status = 'possible'
         rent_equip.save()
         rent = RentManage.objects.get(equip = rent_equip)
         rent_student = Student.objects.get(student_id=rent.student.student_id)
