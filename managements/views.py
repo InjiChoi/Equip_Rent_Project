@@ -363,6 +363,18 @@ def search_rent_pledge(request):
         }
 
         return render(request,'managements/lookup_rent_list.html',ctx)
+
+#대여 리스트에서 대여별 상세페이지 관련 뷰
+@login_required(login_url='/users')
+def rent_detail_page(request,pk):
+        rent = get_object_or_404(RentManage,pk=pk)
+        rent_images = Equip_Picture.objects.all().filter(rent=rent.pk)
+        ctx={
+                'rent':rent,
+                'rent_images':rent_images
+        }
+        return render(request,'managements/rent_detail.html',ctx)
+
                 
 
 

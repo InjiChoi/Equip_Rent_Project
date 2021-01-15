@@ -9,6 +9,7 @@ urlpatterns = [
     path('rent/search/', views.lookup_student, name="lookup_student"),
     path('rent/rent_overlap_check/', views.rent_overlap_check, name='rent_overlap_check'),# 대여중인 기자재 중복 검사
     path('rent/rent_list/', views.rent_list, name="rent_list"),
+    path('rent/rent_detail_page/<int:pk>/', views.rent_detail_page, name="rent_detail_page"),
     path('rent/rent_list/search_rent_list/', views.search_rent_list, name="search_rent_list"),
     path('rent/rent_list/search_rent_pledge/', views.search_rent_pledge, name="search_rent_pledge"),
     path('return/', views.return_, name="return_"),
