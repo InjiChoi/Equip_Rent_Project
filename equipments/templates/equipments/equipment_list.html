@@ -22,6 +22,20 @@
                     }
                 })
             });
+            $("input[name=search_button2]").click(function(){
+                alert('기자재 상태 정보를 조회합니다.');
+                var search_status = $('#search_status').val();
+                event.preventDefault()
+                $.ajax({
+                    url:'search_rent_status/',
+                    data:{
+                        'search_status':search_status, 
+                    },
+                    success:function(data){
+                        $('#search_equip_list').html(data)
+                    }
+                })
+            });
         });
     </script>
 {% endblock custom_script %}
@@ -50,6 +64,17 @@
         </div>
         <div class="col-item">
             <input class="search_btn" type="submit" value="조회" name="search_button">
+        </div>
+        <div class="col-item"> 
+            <select class='form-select' name="search_status" id="search_status">
+                <option value="">기자재 상태</option>
+                <option value="possible">대여 가능</option>
+                <option value="impossible">대여 중</option>
+                <option value="pending">반납 보류</option>
+            </select>
+        </div>
+        <div class="col-item">
+            <input class="search_btn" type="submit" value="조회" name="search_button2">
         </div>
         </form>
     </div>

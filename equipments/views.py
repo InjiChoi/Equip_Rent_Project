@@ -145,3 +145,24 @@ def list_search(request):
     }
 
     return render(request, 'equipments/lookup_equip_list.html', ctx)
+
+#기자재 리스트에서 대여 상태(rent_status) 검색하는 뷰
+@login_required(login_url='/users/')
+def search_rent_status(request):
+        search_status = request.GET.get('search_status')
+        rents = RentManage.objects.all()
+
+        if search_status =="":
+                search_status = None
+        
+        if search_status is not None:
+                search_list = Equipment.objects.all().filter(rent_status=search_status)
+        else:
+                search_list = Equipment.objects.all()
+
+        ctx = {
+                "search_list":search_list,
+                "rents":rents
+        }
+
+        return render(request, 'equipments/lookup_equip_list.html', ctx)
