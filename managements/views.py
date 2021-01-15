@@ -375,6 +375,20 @@ def rent_detail_page(request,pk):
         }
         return render(request,'managements/rent_detail.html',ctx)
 
+#대여 상세페이지에서 서약서 메일 재발송 관련 뷰
+@login_required(login_url='/users')
+def resend_pledge(request,pk):
+        rent = get_object_or_404(RentManage,pk=pk)
+        current_site = get_current_site(request) 
+        html_message = render_to_string('managements/user_activate_email.html', {
+                'rent_info': rent,
+                'domain': current_site.domain,
+        })
+        mail_title = "숙명여자대학교 IT공학과 기자재 대여 서약서"
+        email = EmailMultiAlternatives(subject = mail_title, body=html_message, to=[rent.student.email])
+        email.content_subtype = 'html'
+        email.send()
+        return redirect('managements:rent_list')
                 
 
 

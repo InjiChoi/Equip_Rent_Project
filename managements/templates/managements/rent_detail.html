@@ -21,6 +21,8 @@
                     <td><b>물품종류</b></td>
                     <td><b>대여일</b></td>
                     <td><b>학적 상태</b></td>
+                    <td><b>서약서</b></td>
+                    <td><b>메일 재발송</b></td>
                 </tr>
             </thead>
             <tbody>
@@ -32,6 +34,14 @@
                     <td>{{rent.equip.get_equip_type_display}}</td>
                     <td>{{rent.rent_date | date:'Y-m-d'}} &nbsp; &nbsp; {{rent.rent_date | date:'h:i A'}}</td>
                     <td>{{rent.student.status}}</td>
+                    <td>
+                        {% if rent.active %}
+                            <p style="color:green; text-align:center">O</p>
+                        {% else %}
+                            <p style="color:red; text-align:center">X</p>
+                        {% endif %}
+                    </td>
+                    <td><a href="{% url 'managements:resend_pledge' pk=rent.pk %}" onClick="alert('서약서 메일을 재발송 합니다.')"><img src ="/static/email.png"></a></td>
                 </tr>
             </tbody>
         </table>
