@@ -185,7 +185,7 @@ def rent_list(request):
         limit = page_size * page
         offset = limit - page_size
         rents_count = RentManage.objects.all().count()
-        rents = RentManage.objects.all()[offset:limit]
+        rents = RentManage.objects.all().order_by('-id')[offset:limit]
 
         page_total = ceil(rents_count/page_size)
         if page_total == 0:
@@ -255,7 +255,7 @@ def return_list(request):
         limit = page_size * page
         offset = limit - page_size
         returns_count = ReturnHistory.objects.all().count()
-        returns = ReturnHistory.objects.all()[offset:limit]
+        returns = ReturnHistory.objects.all().order_by('-id')[offset:limit]
         page_total = ceil(returns_count/page_size)
         if page_total == 0:
                 page_total += 1
@@ -299,16 +299,16 @@ def search_return_list(request):
 
     
     if search_input and selected_equip_type:
-        search_list = ReturnHistory.objects.all().filter(((Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))|Q(equip__equip_id__contains=search_input)), equip__equip_type__contains=selected_equip_type)
+        search_list = ReturnHistory.objects.all().filter(((Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))|Q(equip__equip_id__contains=search_input)), equip__equip_type__contains=selected_equip_type).order_by('-id')
 
     elif search_input:
-        search_list = ReturnHistory.objects.all().filter(Q(equip__equip_id__contains=search_input)|Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))
+        search_list = ReturnHistory.objects.all().filter(Q(equip__equip_id__contains=search_input)|Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input)).order_by('-id')
 
     elif selected_equip_type:
-        search_list = ReturnHistory.objects.all().filter(equip__equip_type__contains=selected_equip_type)
+        search_list = ReturnHistory.objects.all().filter(equip__equip_type__contains=selected_equip_type).order_by('-id')
 
     else:
-        search_list = ReturnHistory.objects.all()
+        search_list = ReturnHistory.objects.all().order_by('-id')
 
     ctx = {
         'search_list':search_list
@@ -328,16 +328,16 @@ def search_rent_list(request):
 
     
     if search_input and selected_equip_type:
-        search_list = RentManage.objects.all().filter(((Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))|Q(equip__equip_id__contains=search_input)), equip__equip_type__contains=selected_equip_type)
+        search_list = RentManage.objects.all().filter(((Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))|Q(equip__equip_id__contains=search_input)), equip__equip_type__contains=selected_equip_type).order_by('-id')
 
     elif search_input:
-        search_list = RentManage.objects.all().filter(Q(equip__equip_id__contains=search_input)|Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))
+        search_list = RentManage.objects.all().filter(Q(equip__equip_id__contains=search_input)|Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input)).order_by('-id')
 
     elif selected_equip_type:
-        search_list = RentManage.objects.all().filter(equip__equip_type__contains=selected_equip_type)
+        search_list = RentManage.objects.all().filter(equip__equip_type__contains=selected_equip_type).order_by('-id')
 
     else:
-        search_list = RentManage.objects.all()
+        search_list = RentManage.objects.all().order_by('-id')
 
     ctx = {
         'search_list':search_list
@@ -354,9 +354,9 @@ def search_rent_pledge(request):
                 search_pledge = None
         
         if search_pledge is not None:
-                search_list = RentManage.objects.all().filter(active=search_pledge)
+                search_list = RentManage.objects.all().filter(active=search_pledge).order_by('-id')
         else:
-                search_list = RentManage.objects.all()
+                search_list = RentManage.objects.all().order_by('-id')
         
         ctx = {
                 "search_list":search_list
