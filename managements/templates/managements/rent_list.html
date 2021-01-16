@@ -96,7 +96,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for rent in rents reversed %}
+                {% for rent in rents%}
                     <tr style="cursor:pointer;" onClick="location.href='{%url 'managements:rent_detail_page' pk=rent.pk %}'">
                         <td>{{rent.student.student_id}}</td>
                         <td>{{rent.student.name}}</td>

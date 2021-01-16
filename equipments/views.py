@@ -51,7 +51,7 @@ def equipment_list(request):
     limit = page_size * page
     offset = limit - page_size
     equipments_count = Equipment.objects.all().count()
-    equipments = Equipment.objects.all()[offset:limit]
+    equipments = Equipment.objects.all().order_by('-id')[offset:limit]
     page_total = ceil(equipments_count/page_size)
     rents = RentManage.objects.all()
     if page_total == 0:
