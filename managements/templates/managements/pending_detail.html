@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'managements/manage_list.css' %}">
+    <link rel="stylesheet" href="{% static 'managements/rent_page.css' %}">
+{% endblock custom_css %}
+
+{%block content%}
+    <div class="subtitle" style="margin-top: 50px; text-align: center;">
+        <h1 style='font-weight:bold; '>보류 상세 정보</h1>
+    </div>
+    <div class="container">
+        <table class='table table-striped rent_list_table'>
+            <thead>
+                <tr>
+                    <td><b>학번</b></td>
+                    <td><b>이름</b></td>
+                    <td><b>연락처</b></td>
+                    <td><b>물품 번호</b></td>
+                    <td><b>물품 종류</b></td>
+                    <td><b>보류일</b></td>
+                    <td><b>학적 상태</b></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{pending.student.student_id}}</td>
+                    <td>{{pending.student.name}}</td>
+                    <td>{{pending.student.phone_number}}</td>
+                    <td>{{pending.equip.equip_id}}</td>
+                    <td>{{pending.equip.get_equip_type_display}}</td>
+                    <td>{{pending.pending_date | date:'Y-m-d'}} &nbsp; &nbsp; {{pending.pending_date | date:'h:i A'}}</td>
+                    <td>{{pending.student.status}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style='text-align:center;'>
+            {% for image in pending_images %}
+                <img src="{{ image.pending_equip_pic.url }}" class='pending_equip_img' style="width:300px; margin-bottom:30px"> <br>
+            {% endfor %}
+        </div>
+        <div style='text-align:center; margin-bottom:50px'>
+            <button onclick="location.href='{% url 'managements:return_result' pending.equip.pk %}'; alert('반납이 완료되었습니다.')" class='submit_btn'>반납</button>
+        </div>
+        <div style='text-align:center; margin-bottom:50px'>
+            <button onclick="location.href='{% url 'managements:pending_list' %}'" class='submit_btn'>뒤로가기</button>
+        </div>
+    </div>
+{%endblock content%}
