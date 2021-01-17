@@ -47,8 +47,11 @@
         </table>
         <div style='text-align:center;'>
             {% for image in rent_images %}
-                <img src="{{ image.equip_pic.url }}" class='rent_equip_img'> <br>
+                <img src="{{ image.equip_pic.url }}" class='rent_equip_img' style="width:300px; margin-bottom:30px"> <br>
             {% endfor %}
+        </div>
+        <div style='text-align:center; margin-bottom:50px'>
+            <button onclick="location.href='{% url 'managements:rent_list' %}'" class='submit_btn'>뒤로가기</button>
         </div>
     </div>
 {%endblock content%}

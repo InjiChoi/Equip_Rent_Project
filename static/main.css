@@ -127,6 +127,10 @@ a.dropdown-toggle {
     background-color:rgb(6, 6, 150);
 }
 
+#search_input {
+    width:400px;
+}
+
 /* **************************************** */
 /* TABLE CSS */
 .info_table {
@@ -200,9 +204,7 @@ select {
     appearance: none;
     display: inline-block;
 }
-.input-item {
-    width: 300px;
-}
+
 .search-nav {
     margin-bottom: 30px;
 }
