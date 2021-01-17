@@ -261,6 +261,9 @@ def pending(request, pk):
                 'rent_equip':rent_equip,
                 'rent':rent,
         }
+        if rent_equip.rent_status == 'pending':
+                pending = PendingHistory.objects.get(equip=rent_equip)
+                return redirect('managements:pending_detail_page', pending.pk)
         return render(request, 'managements/pending.html', ctx)
 
 # 보류 처리 view
@@ -459,3 +462,22 @@ def pending_detail(request, pk):
         return render(request, 'managements/pending_detail.html', ctx)
 
 
+# 보류 중복 검사
+@login_required(login_url='/users/')
+def pending_overlap_check(request):
+        equip_id = request.GET.get('equip_id')
+        equip = Equipment.objects.get(equip_id=equip_id)
+        try:
+                pending = PendingHistory.objects.get(equip=equip)
+        except:
+                pending = None
+
+        if pending is not None:
+                overlap='fail'
+        else:
+                overlap='pass'
+
+        ctx = {
+                'overlap':overlap,
+        }
+        return JsonResponse(ctx)

@@ -31,4 +31,5 @@ urlpatterns = [
     path('return/pending/<int:pk>/pending_result', views.pending_result, name="pending_result"),
     path('return/pending_list/', views.pending_list, name="pending_list"),
     path('return/pending_detail_page/<int:pk>/', views.pending_detail, name="pending_detail_page"),
+    path('return/pending_overlap_check/', views.pending_overlap_check, name="pending_overlap_check"),
 ]
