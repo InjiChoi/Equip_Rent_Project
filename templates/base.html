@@ -67,7 +67,8 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">반납<span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="{% url 'managements:return_' %}">반납</a></li>
-                                    <li><a href="{% url 'managements:return_list' %}">반납목록</a></li>
+                                    <li><a href="{% url 'managements:return_list' %}">반납 목록</a></li>
+                                    <li><a href="{% url 'managements:pending_list' %}">보류 목록</a></li>
                                 </ul>
                                 </li>
                             </ul>
@@ -76,7 +77,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">대여 <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="{% url 'managements:rent' %}">대여</a></li>
-                                    <li><a href="{% url 'managements:rent_list' %}">대여현황</a></li>
+                                    <li><a href="{% url 'managements:rent_list' %}">대여 현황</a></li>
                                 </ul>
                                 </li>
                             </ul>

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'managements/rent_page.css' %}">
+{% endblock custom_css %}
+
+{%block content%}
+<div class="container">
+    <div class="row">
+        <div class="subtitle" style="margin-top: 50px; text-align: center;">
+            <h1 style='font-weight:bold; '>보류 사유 입력</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="pendingform ">
+            <form id="pending_form" action="{% url 'managements:pending_result' rent.equip.pk %}" method="post" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
+                                                        <!-- 바코드 스캔 시 자동으로 제출되는 것 방지-->
+                {% csrf_token %}
+                    <input style='opacity:0' name="beforeAmt" id="beforeAmt" value="" onkeyup="eventKeyup(this.value)"/>
+                    <table class="info_table">
+                        <tr>
+                            <td>대여자 학번 : </td>
+                            <td>{{ rent.student.student_id }}</td>
+                            {% comment %} <td><input type="text" name="student" value="{{ rent.student.name }}"></td> {% endcomment %}
+                        </tr>
+                        <tr>
+                            <td>대여 물품 번호 : </td>
+                            <td>{{ rent.equip.equip_id }}</td>
+                            {% comment %} <td><input type="text" name="equip" value="{{ rent.equip.equip_id }}"></td> {% endcomment %}
+                        </tr>
+                        <tr>
+                            <td>반납 보류 사유: </td>
+                            <td>
+                                <input type="text" name="reason" class="form-control" placeholder="보류 사유를 작성하세요.">
+                            </td>
+                        </tr>
+                        <tr style="color:#aaaaaa; ">
+                            <td>이미지 첨부 (선택) : </td>
+                            <td>
+                                <input type="file" name="file" id="file" multiple="multiple"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="submit" value="보류" class='submit_btn' onclick="location.href='{% url 'managements:pending_result' rent.equip.pk %}'; alert('반납이 보류되었습니다.')" /> 
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock%}

@@ -239,3 +239,14 @@ td > a > img {
     margin: 0 auto;
     color:#868686;
 }
+
+#rent_possible {
+    color:green;
+}
+#rent_impossible {
+    color: red;
+}
+#rent_pending {
+    color: rgb(214, 147, 70);
+    /* font-weight: bold; */
+}

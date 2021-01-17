@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import RentManage, ReturnHistory, Equip_Picture
+from .models import RentManage, ReturnHistory, Equip_Picture, PendingHistory, PendingEquipPicture
 from students.models import Student
 from equipments.models import Equipment
 from managements.forms import RentForm, ReturnForm
@@ -200,7 +200,7 @@ def rent_list(request):
 
 # ----------------------------------------------------------------------- #
 
-# 반납 페이지
+# 반납 폼 페이지
 @login_required(login_url='/users/')
 def return_(request):
         if request.method =='POST':
@@ -237,17 +237,57 @@ def return_(request):
 
                 return render(request, 'managements/return.html', ctx)
 
+
+# 반납 처리 view
 @login_required(login_url='/users/')       
 def return_result(request, pk):
         rent_equip = Equipment.objects.get(pk=pk)
         rent_equip.rent_status = 'possible'
         rent_equip.save()
         rent = RentManage.objects.get(equip = rent_equip)
+        pending= PendingHistory.objects.get(equip = rent_equip)
         rent_student = Student.objects.get(student_id=rent.student.student_id)
         return_instance = ReturnHistory.objects.create(student=rent_student, equip=rent_equip, return_date=timezone.now())
         rent.delete()
+        pending.delete()
         return redirect('managements:return_list')
 
+# 보류 폼 작성 view
+@login_required(login_url='/users/')
+def pending(request, pk):
+        rent_equip = Equipment.objects.get(pk=pk)
+        rent = RentManage.objects.get(equip = rent_equip)
+        ctx = {
+                'rent_equip':rent_equip,
+                'rent':rent,
+        }
+        if rent_equip.rent_status == 'pending':
+                pending = PendingHistory.objects.get(equip=rent_equip)
+                return redirect('managements:pending_detail_page', pending.pk)
+        return render(request, 'managements/pending.html', ctx)
+
+# 보류 처리 view
+@login_required(login_url='/users/')
+def pending_result(request, pk):
+        rent_equip = Equipment.objects.get(pk=pk)
+        rent_equip.rent_status = 'pending'
+        rent_equip.save()
+        rent = RentManage.objects.get(equip = rent_equip)
+        rent_student = Student.objects.get(pk=rent.student.pk)
+        if request.method == 'POST':
+                reason = request.POST.get('reason')
+                pending = PendingHistory.objects.create(student=rent_student, equip=rent_equip, reason=reason)
+                rent_pics = request.FILES.getlist('file')
+                for item in rent_pics:
+                        images = PendingEquipPicture.objects.create(pending=pending, pending_equip_pic=item)
+                        images.save()
+                return redirect('managements:pending_list')
+
+        else:
+                return redirect('managements:pending', pk)
+                
+
+# 반납 목록 페이지
 @login_required(login_url='/users/')
 def return_list(request):
         page = int(request.GET.get('page', 1))
@@ -266,6 +306,26 @@ def return_list(request):
                 'returns':returns,
         }
         return render(request, 'managements/return_list.html', ctx)
+
+# 보류 목록 페이지
+@login_required(login_url='/users/')
+def pending_list(request):
+        page = int(request.GET.get('page', 1))
+        page_size = 10
+        limit = page_size * page
+        offset = limit - page_size
+        pendings_count = PendingHistory.objects.all().count()
+        pendings = PendingHistory.objects.all().order_by('-id')[offset:limit]
+        page_total = ceil(pendings_count/page_size)
+        if page_total == 0:
+                page_total += 1
+        ctx = {
+                'page':page,
+                'page_total':page_total,
+                'page_range':range(1, page_total),
+                'pendings':pendings,
+        }
+        return render(request, 'managements/pending_list.html', ctx)
 
 #대여시 학생 조회
 @login_required(login_url='/users/')
@@ -389,6 +449,35 @@ def resend_pledge(request,pk):
         email.content_subtype = 'html'
         email.send()
         return redirect('managements:rent_detail_page',pk)
-                
+
+#보류 리스트에서 보류 별 상세 페이지 뷰
+@login_required(login_url='/users')
+def pending_detail(request, pk):
+        pending = PendingHistory.objects.get(pk=pk)
+        pending_images = PendingEquipPicture.objects.all().filter(pending=pending.pk)
+        ctx = {
+                'pending':pending,
+                'pending_images':pending_images,
+        }
+        return render(request, 'managements/pending_detail.html', ctx)
 
 
+# 보류 중복 검사
+@login_required(login_url='/users/')
+def pending_overlap_check(request):
+        equip_id = request.GET.get('equip_id')
+        equip = Equipment.objects.get(equip_id=equip_id)
+        try:
+                pending = PendingHistory.objects.get(equip=equip)
+        except:
+                pending = None
+
+        if pending is not None:
+                overlap='fail'
+        else:
+                overlap='pass'
+
+        ctx = {
+                'overlap':overlap,
+        }
+        return JsonResponse(ctx)

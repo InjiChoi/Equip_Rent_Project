@@ -114,7 +114,7 @@
                                 {%endif%}
                             {%endfor%}
                         {% else %}
-                            <td id='rent_pending'>반납보류</td>
+                            <td id='rent_pending'>반납 보류</td>
                             {%for rent in rents%}
                                 {%if rent.equip.equip_id == equip.equip_id%}
                                 <td>{{rent.student.student_id}}</td>

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <div class="subtitle" style="margin-top: 50px; text-align: center;">
+        <h1 style='font-weight:bold; '>보류 목록 페이지</h1>
+    </div>
+
+    <div id="search_return_list">
+        <div class="container">
+            <table class='table table-striped return_list_table'>
+                <thead>
+                    <tr>
+                        <td><b>학번</b></td>
+                        <td><b>이름</b></td>
+                        <td><b>연락처</b></td>
+                        <td><b>물품 번호</b></td>
+                        <td><b>물품 종류</b></td>
+                        <td><b>보류일</b></td>
+                        <td><b>보류 사유</b></td>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for pending in pendings %}
+                    <tr  style="cursor:pointer;" onClick="location.href='{%url 'managements:pending_detail_page' pk=pending.pk %}'">
+                        <td>{{pending.student}}</td>
+                        <td>{{pending.student.name}}</td>
+                        <td>{{pending.student.phone_number}}</td>
+                        <td>{{pending.equip.equip_id}}</td>
+                        <td>{{pending.equip.get_equip_type_display}}</td>
+			            <td>{{pending.pending_date | date:'Y-m-d'}} &nbsp; &nbsp; {{pending.pending_date | date:'h:i A'}}</td>
+                        <td>{{pending.reason}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="container" id="paginator">
+        <div id="page_div">
+            {% if page != 1 %}
+                <a href = '?page={{page|add:-1}}'><img id="next", src="{% static 'prev.svg' %}"></a>
+            {% else %}
+                <a href="?page=1"><img id="next", src="{% static 'prev.svg' %}"></a>
+            {% endif %}
+        </div>
+        <div id="page_div">
+            <h3>{{page}}&nbsp;/&nbsp;{{page_total}}</h3>
+        </div>
+        <div id="page_div">
+            {% if page != page_total %}
+                <a href = '?page={{page|add:1}}'><img id="next", src="{% static 'next.svg' %}"></a>
+            {% else %}
+                <a href="?page={{page_total}}"><img id="next", src="{% static 'next.svg' %}"></a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}
