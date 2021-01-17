@@ -388,7 +388,7 @@ def resend_pledge(request,pk):
         email = EmailMultiAlternatives(subject = mail_title, body=html_message, to=[rent.student.email])
         email.content_subtype = 'html'
         email.send()
-        return redirect('managements:rent_list')
+        return redirect('managements:rent_detail_page',pk)
                 
 
 
