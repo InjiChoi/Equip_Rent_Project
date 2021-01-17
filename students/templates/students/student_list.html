@@ -34,7 +34,7 @@
         <form action="" method="post">
             {% csrf_token %}
             <div class="col-item input-item">
-            <input type="text" class="form-control" name="search_key" placeholder="검색할 사항을 입력하시오." id="search_key">
+            <input type="text" class="form-control" name="search_key" placeholder="검색할 사항을 입력하세요.(학번, 이름, 연락처, 이메일)" id="search_input">
             </div>
             <div class="col-item">
                 <input class="search_btn" type="submit" value="조회" name="search_button">
@@ -48,7 +48,7 @@
                 <tr>
                     <td><b>학번</b></td>
                     <td><b>이름</b></td>
-                    <td><b>핸드폰 번호</b></td>
+                    <td><b>연락처</b></td>
                     <td><b>이메일</b></td>
                     <td><b>학적</b></td>
                     <td><b>수정</b></td>
