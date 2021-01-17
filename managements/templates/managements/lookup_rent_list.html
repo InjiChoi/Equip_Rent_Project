@@ -6,8 +6,9 @@
                 <td><b>학번</b></td>
                 <td><b>이름</b></td>
                 <td><b>연락처</b></td>
-                <td><b>물품번호</b></td>
-                <td><b>물품종류</b></td>
+                <td><b>물품 번호</b></td>
+                <td><b>물품 종류</b></td>
+                <td><b>대여 상태</b></td>
                 <td><b>대여일</b></td>
                 <td><b>학적 상태</b></td>
                 <td><b>서약서</b></td>
@@ -21,6 +22,11 @@
                 <td>{{rent.student.phone_number}}</td>
                 <td>{{rent.equip.equip_id}}</td>
                 <td>{{rent.equip.get_equip_type_display}}</td>
+                {% if rent.equip.rent_status == 'pending' %}
+                    <td id='rent_pending'>반납 보류</td>
+                {% elif rent.equip.rent_status == 'impossible' %}    
+                    <td id='rent_impossible'>대여중</td>
+                {% endif %}
 		        <td>{{rent.rent_date | date:'Y-m-d'}} &nbsp; &nbsp; {{rent.rent_date | date:'h:i A'}}</td>
                 <td>{{rent.student.status}}</td>
                 <td>
