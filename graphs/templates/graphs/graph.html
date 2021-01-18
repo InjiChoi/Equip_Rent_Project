@@ -3,6 +3,36 @@
 
 {% block custom_script %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script>
+        var config = {
+            type: 'bar',
+            data: {
+                datasets: [
+                    {data: {{ equip|safe }},
+                    backgroundColor: ['#cccccc', '#cccccc', '#cccccc'],
+                    label: '전체'},
+                    {data: {{ rent|safe }},
+                    backgroundColor: ['#E53A40', '#E53A40', '#E53A40'],
+                    label: '대여중'}
+                ],
+                labels: {{ labels|safe }}
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        display: true,
+                        ticks: {
+                            suggestedMin: 0,
+                        }
+                    }]
+                }
+            }
+        };
+        window.onload = function() {
+        var ctx = document.getElementById('bar-chart').getContext('2d');
+        window.myBar = new Chart(ctx, config)
+        };
+    </script>
 {% endblock %}
 
 {% block custom_css %}
@@ -21,5 +51,8 @@
     <div class="container">
     {% block equip_type %}
     {% endblock equip_type %}
+    </div>
+    <div class="container" style="width: 60%; text-align:center">
+        <canvas id="bar-chart"></canvas>
     </div>
 {% endblock content %}
