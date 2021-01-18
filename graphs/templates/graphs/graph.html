@@ -2,11 +2,24 @@
 {% load static %}
 
 {% block custom_script %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 {% endblock %}
 
 {% block custom_css %}
 {% endblock custom_css %}
 
 {% block content %}
-    <h1>통계 페이지</h1>
+    <div class="subtitle" style="margin-top: 50px; text-align: center;">
+        <h1 style='font-weight:bold; '>기자재 별 대여 현황</h1>
+    </div>
+    <div class="container">
+        <button onclick="location.href='{% url 'graphs:graph_main' %}'" class='submit_btn'>전체 </button>
+        <button onclick="location.href='{% url 'graphs:graph_laptop' %}'" class='submit_btn'>노트북</button>
+        <button onclick="location.href='{% url 'graphs:graph_tablet' %}'" class='submit_btn'>태블릿</button>
+        <button onclick="location.href='{% url 'graphs:graph_sensor' %}'" class='submit_btn'>센서</button>
+    </div>
+    <div class="container">
+    {% block equip_type %}
+    {% endblock equip_type %}
+    </div>
 {% endblock content %}
