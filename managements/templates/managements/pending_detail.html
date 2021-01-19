@@ -35,16 +35,31 @@
                 </tr>
             </tbody>
         </table>
-        <div style='text-align:center;'>
+        <div>
+            <h3>[보류 사유] </h3>
+            <h4>{{pending.reason}}</h4>
+        </div>
+        <hr>
+        <div style='text-align:center; display:flex; justify-content:space-around; margin-top:30px;'>
+            <div>
+            <h2>대여 시 상태 사진</h2>
+            <hr style="border: 1px solid black"/>
+            {% for image in rent_images %}
+                <img src="{{ image.equip_pic.url }}" class='equip_img' style="width:300px; margin-bottom:30px">
+            {% endfor %}
+            </div>
+            <div>
+            <h2>보류 사유 참고 사진</h2>
+            <hr style="border: 1px solid black"/>
             {% for image in pending_images %}
                 <img src="{{ image.pending_equip_pic.url }}" class='pending_equip_img' style="width:300px; margin-bottom:30px"> <br>
             {% endfor %}
+            </div>
         </div>
+        <div>
         <div style='text-align:center; margin-bottom:50px'>
-            <button onclick="location.href='{% url 'managements:return_result' pending.equip.pk %}'; alert('반납이 완료되었습니다.')" class='submit_btn'>반납</button>
-        </div>
-        <div style='text-align:center; margin-bottom:50px'>
-            <button onclick="location.href='{% url 'managements:pending_list' %}'" class='submit_btn'>뒤로가기</button>
+            <button onclick="location.href='{% url 'managements:return_result' pending.equip.pk %}'; alert('반납이 완료되었습니다.')" class='submit_btn' style='margin:0 5px'>반납</button>
+            <button onclick="location.href='{% url 'managements:pending_list' %}'" class='submit_btn' style='margin:0 5px'>목록</button>
         </div>
     </div>
 {%endblock content%}

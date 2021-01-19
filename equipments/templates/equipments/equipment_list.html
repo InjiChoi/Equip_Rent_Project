@@ -152,10 +152,10 @@
             </div>
             <div class='flex-item'>
                 {% if equipments.has_next %}
-                    <img src="{% static 'next.png' %}" onclick="location.href='?page={{equipments.next_page_number}}'">
+                    <img src="{% static 'next.png' %}" onclick="location.href='?page={{equipments.next_page_number}}'" style="cursor: pointer">
                     <img src="{% static 'nexter.png' %}" onclick="location.href='?page={{equipments.paginator.num_pages}}'" style="cursor: pointer">
                 {% else %}
-                    <img src="{% static 'next.png' %}" onclick="location.href='?page={{equipments.paginator.num_pages}}'">
+                    <img src="{% static 'next.png' %}" onclick="location.href='?page={{equipments.paginator.num_pages}}'" style="cursor: pointer">
                     <img src="{% static 'nexter.png' %}" onclick="location.href='?page={{equipments.paginator.num_pages}}'" style="cursor: pointer">
                 {% endif %}
             </div>

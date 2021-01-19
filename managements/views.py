@@ -455,9 +455,11 @@ def resend_pledge(request,pk):
 def pending_detail(request, pk):
         pending = PendingHistory.objects.get(pk=pk)
         pending_images = PendingEquipPicture.objects.all().filter(pending=pending.pk)
+        rent_images = Equip_Picture.objects.all().filter(rent__equip=pending.equip)
         ctx = {
                 'pending':pending,
                 'pending_images':pending_images,
+                'rent_images':rent_images,
         }
         return render(request, 'managements/pending_detail.html', ctx)
 
