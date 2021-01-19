@@ -3,7 +3,6 @@
 
 {% block custom_script %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-    <script src="https://cdn.rawgit.com/emn178/Chart.PieceLabel.js/master/build/Chart.PieceLabel.min.js"></script>
     <script>
         var config = {
             type: 'pie',
@@ -32,7 +31,7 @@
 {% endblock %}
 
 {% block equip_type %}
-    <div id="container" style="width: 100%;">
+    <div class="container" style="width: 90%; margin-top:20px;">
         <canvas id="pie-chart"></canvas>
     </div>
 {% endblock equip_type %}

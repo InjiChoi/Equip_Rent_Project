@@ -49,10 +49,11 @@
         <button onclick="location.href='{% url 'graphs:graph_sensor' %}'" class='submit_btn'>센서</button>
     </div>
     <div class="container">
-    {% block equip_type %}
-    {% endblock equip_type %}
+        {% block equip_type %}
+        <div class="container" style="width: 100%; text-align:center">
+            <canvas id="bar-chart"></canvas>
+        </div>
+        {% endblock equip_type %}
     </div>
-    <div class="container" style="width: 60%; text-align:center">
-        <canvas id="bar-chart"></canvas>
-    </div>
+    
 {% endblock content %}
