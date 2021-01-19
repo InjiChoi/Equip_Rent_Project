@@ -10,21 +10,24 @@
                 alert('입력한 정보를 조회합니다.');
                 var search_input = $('#search_input').val();
                 var search_select = $('#search_select').val();
+                $('#search_status option:eq(0)').prop("selected", true);
                 event.preventDefault()
                 $.ajax({
                     url:'list_search/',
                     data:{
                         'search_input':search_input, 
-                        'search_select':search_select
+                        'search_select':search_select,
                     },
                     success:function(data){
-                        $('#search_equip_list').html(data)
+                        $('#search_equip').html(data)
                     }
                 })
             });
             $("input[name=search_button2]").click(function(){
                 alert('기자재 상태 정보를 조회합니다.');
                 var search_status = $('#search_status').val();
+                $('#search_input').val('');
+                $('#search_select option:eq(0)').prop("selected", true);
                 event.preventDefault()
                 $.ajax({
                     url:'search_rent_status/',
@@ -32,7 +35,7 @@
                         'search_status':search_status, 
                     },
                     success:function(data){
-                        $('#search_equip_list').html(data)
+                        $('#search_equip').html(data)
                     }
                 })
             });
@@ -56,7 +59,7 @@
         </div>
         <div class="col-item">    
             <select class='form-select' name="search_select" id="search_select">
-                <option selected value="">기자재 종류</option>
+                <option id="default" selected value="">기자재 종류</option>
                 <option value="laptop">노트북</option>
                 <option value="tablet">태블릿</option>
                 <option value="sensor">센서</option>
@@ -78,76 +81,84 @@
         </div>
         </form>
     </div>
-    <div id="search_equip_list">
-        <div class="container">
-            <table class='table table-striped'>
-                <thead>
-                    <tr>
-                        <td><b>물품 번호</b></td>
-                        <td><b>물품 종류</b></td>
-                        <td><b>대여 상태</b></td>
-                        <td><b>대여자 학번</b></td>
-                        <td><b>대여자 이름</b></td>
-                        <td><b>대여일</b></td>
-                        <td><b>수정</b></td>
-                        <td><b>삭제</b></td>
-                    </tr>
-                </thead>
-                <tbody>
-                
-                {% for equip in equipments %}
-                    <tr>
-                        <td>{{equip.equip_id}}</td>
-                        <td>{{equip.get_equip_type_display}}</td>
-                        {% if equip.rent_status == 'possible' %}
-                            <td id='rent_possible'>대여 가능</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        {% elif equip.rent_status == 'impossible' %}
-                            <td id='rent_impossible'>대여중</td>
-                            {%for rent in rents%}
-                                {%if rent.equip.equip_id == equip.equip_id%}
-                                <td>{{rent.student.student_id}}</td>
-                                <td>{{rent.student.name}}</td>
-                                <td>{{rent.rent_date | date:'Y-m-d'}} &nbsp; &nbsp; {{rent.rent_date | date:'h:i A'}}</td>
-                                {%endif%}
-                            {%endfor%}
-                        {% else %}
-                            <td id='rent_pending'>반납 보류</td>
-                            {%for rent in rents%}
-                                {%if rent.equip.equip_id == equip.equip_id%}
-                                <td>{{rent.student.student_id}}</td>
-                                <td>{{rent.student.name}}</td>
-                                <td>{{rent.rent_date | date:'Y-m-d'}} &nbsp; &nbsp; {{rent.rent_date | date:'h:i A'}}</td>
-                                {%endif%}
-                            {%endfor%}
-                        {% endif %}
-                        <td><a href="{% url 'equipments:equipment_detail' pk=equip.pk %}"><img src ="/static/edit.png"></a></td>
-                        <td><a href="{% url 'equipments:equipment_remove' pk=equip.pk %}"><img src ="/static/rubbish.png"></a></td>
-                    </tr>   
-                {% endfor %} 
-                </tbody>
-            </table>
+    <div id="search_equip">
+        <div id="search_equip_list">
+            <div class="container">
+                <table class='table table-striped'>
+                    <thead>
+                        <tr>
+                            <td><b>물품 번호</b></td>
+                            <td><b>물품 종류</b></td>
+                            <td><b>대여 상태</b></td>
+                            <td><b>대여자 학번</b></td>
+                            <td><b>대여자 이름</b></td>
+                            <td><b>대여일</b></td>
+                            <td><b>수정</b></td>
+                            <td><b>삭제</b></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
+                    {% for equip in equipments %}
+                        <tr>
+                            <td>{{equip.equip_id}}</td>
+                            <td>{{equip.get_equip_type_display}}</td>
+                            {% if equip.rent_status == 'possible' %}
+                                <td id='rent_possible'>대여 가능</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            {% elif equip.rent_status == 'impossible' %}
+                                <td id='rent_impossible'>대여중</td>
+                                {%for rent in rents%}
+                                    {%if rent.equip.equip_id == equip.equip_id%}
+                                    <td>{{rent.student.student_id}}</td>
+                                    <td>{{rent.student.name}}</td>
+                                    <td>{{rent.rent_date | date:'Y-m-d'}} &nbsp; &nbsp; {{rent.rent_date | date:'h:i A'}}</td>
+                                    {%endif%}
+                                {%endfor%}
+                            {% else %}
+                                <td id='rent_pending'>반납 보류</td>
+                                {%for rent in rents%}
+                                    {%if rent.equip.equip_id == equip.equip_id%}
+                                    <td>{{rent.student.student_id}}</td>
+                                    <td>{{rent.student.name}}</td>
+                                    <td>{{rent.rent_date | date:'Y-m-d'}} &nbsp; &nbsp; {{rent.rent_date | date:'h:i A'}}</td>
+                                    {%endif%}
+                                {%endfor%}
+                            {% endif %}
+                            <td><a href="{% url 'equipments:equipment_detail' pk=equip.pk %}"><img src ="/static/edit.png"></a></td>
+                            <td><a href="{% url 'equipments:equipment_remove' pk=equip.pk %}"><img src ="/static/rubbish.png"></a></td>
+                        </tr>   
+                    {% endfor %} 
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-    <div class="container" id='paginator'>
-        <div id="page_div">
-            {% if page != 1 %}
-                <a href = '?page={{page|add:-1}}'><img id="next", src="{% static 'prev.svg' %}"></a>
+        <div class="container" id='paginator'>
+            <div class='flex-item'>
+                {% if equipments.has_previous %}
+                    <img src="{% static 'prever.png' %}" onclick="location.href='?page=1'" style="cursor: pointer">
+                    <img src="{% static 'prev.png' %}" onclick="location.href='?page={{equipments.previous_page_number}}'" style="cursor: pointer">
                 {% else %}
-                <a href="?page=1"><img id="next", src="{% static 'prev.svg' %}"></a>
-            {% endif %}
-        </div>
-        <div id="page_div">
-            <h3>{{page}}&nbsp;/&nbsp;{{page_total}}</h3>
-        </div>
-        <div id="page_div">
-            {% if page != page_total %}
-            <a href = '?page={{page|add:1}}'><img id="next", src="{% static 'next.svg' %}"></a>
-            {% else %}
-            <a href="?page={{page_total}}"><img id="next", src="{% static 'next.svg' %}"></a>
-            {% endif %}
+                    <img src="{% static 'prever.png' %}" onclick="location.href='?page=1'" style="cursor: pointer">
+                    <img src="{% static 'prev.png' %}" onclick="location.href='?page=1'" style="cursor: pointer">
+                {% endif %}
+            </div>
+            <div class='flex-item'>
+                    <div style="font-size:3rem">{{equipments.number}}</div>
+                    <div style="font-size:3rem">/</div>
+                    <div style="font-size:3rem">{{equipments.paginator.num_pages}}</div>
+            </div>
+            <div class='flex-item'>
+                {% if equipments.has_next %}
+                    <img src="{% static 'next.png' %}" onclick="location.href='?page={{equipments.next_page_number}}'">
+                    <img src="{% static 'nexter.png' %}" onclick="location.href='?page={{equipments.paginator.num_pages}}'" style="cursor: pointer">
+                {% else %}
+                    <img src="{% static 'next.png' %}" onclick="location.href='?page={{equipments.paginator.num_pages}}'">
+                    <img src="{% static 'nexter.png' %}" onclick="location.href='?page={{equipments.paginator.num_pages}}'" style="cursor: pointer">
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock content %}

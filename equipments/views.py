@@ -9,6 +9,7 @@ import json
 from django.http import JsonResponse, HttpResponse
 from math import ceil
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 @login_required(login_url='/users/')
 def equipment_register(request):
@@ -46,21 +47,12 @@ def equipment_overlap_check(request):
 # 기자재 리스트 페이지
 @login_required(login_url='/users/')
 def equipment_list(request):
-    page = int(request.GET.get('page', 1))
-    page_size =10
-    limit = page_size * page
-    offset = limit - page_size
-    equipments_count = Equipment.objects.all().count()
-    equipments = Equipment.objects.all().order_by('-id')[offset:limit]
-    page_total = ceil(equipments_count/page_size)
+    equip = Equipment.objects.all().order_by('-id')
+    paginator = Paginator(equip, 10)
+    page = request.GET.get('page')
     rents = RentManage.objects.all()
-    if page_total == 0:
-                page_total += 1
-                
+    equipments = paginator.get_page(page)
     ctx = {
-        "page": page,
-        "page_total": page_total,
-        "page_range": range(1, page_total),
         'equipments': equipments,
         'rents':rents,
     }
@@ -125,6 +117,7 @@ def list_search(request):
     selected_equip_id = request.GET.get('search_input')
     selected_equip_type = request.GET.get('search_select')
     rents = RentManage.objects.all()
+
     if selected_equip_type == "":
         selected_equip_type = False
     
@@ -139,30 +132,41 @@ def list_search(request):
 
     else:
         search_list = Equipment.objects.all()
+
+    search_list = search_list.order_by('-id')
+    paginator = Paginator(search_list, 10)
+    page = request.GET.get('page')
+    equipments = paginator.get_page(page)
+    
     ctx = {
-        'search_list':search_list,
+        'equipments':equipments,
         'rents':rents,
     }
-
-    return render(request, 'equipments/lookup_equip_list.html', ctx)
+    return render(request, 'equipments/equip_list_search_1.html', ctx)
 
 #기자재 리스트에서 대여 상태(rent_status) 검색하는 뷰
 @login_required(login_url='/users/')
 def search_rent_status(request):
-        search_status = request.GET.get('search_status')
-        rents = RentManage.objects.all()
+    search_status = request.GET.get('search_status')
+    rents = RentManage.objects.all()
 
-        if search_status =="":
-                search_status = None
-        
-        if search_status is not None:
-                search_list = Equipment.objects.all().filter(rent_status=search_status)
-        else:
-                search_list = Equipment.objects.all()
+    if search_status =="":
+            search_status = None
+    
+    if search_status is not None:
+            search_list = Equipment.objects.all().filter(rent_status=search_status)
+    else:
+            search_list = Equipment.objects.all()
 
-        ctx = {
-                "search_list":search_list,
-                "rents":rents
-        }
+    search_list = search_list.order_by('-id')
+    paginator = Paginator(search_list, 10)
+    page = request.GET.get('page')
+    equipments = paginator.get_page(page)
 
-        return render(request, 'equipments/lookup_equip_list.html', ctx)
+    ctx = {
+            "equipments":equipments,
+            "rents":rents,
+    }
+
+    return render(request, 'equipments/equip_list_search_2.html', ctx)
+
