@@ -30,7 +30,11 @@
                         <td>{{pending.equip.equip_id}}</td>
                         <td>{{pending.equip.get_equip_type_display}}</td>
 			            <td>{{pending.pending_date | date:'Y-m-d'}} &nbsp; &nbsp; {{pending.pending_date | date:'h:i A'}}</td>
-                        <td>{{pending.reason}}</td>
+                        {%if pending.reason|length > 10 %}
+                            <td>{{pending.reason|slice:":10"}}...</td>
+                        {%else%}
+                            <td>{{pending.reason}}</td>
+                        {%endif%}
                     </tr>
                 {% endfor %}
                 </tbody>
