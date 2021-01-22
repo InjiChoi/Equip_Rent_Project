@@ -21,7 +21,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.decorators import login_required
-
+from django.core.paginator import Paginator
 
 @login_required(login_url='/users/')
 def main_page(request):
@@ -177,24 +177,15 @@ def return_exist_check(request):
 
         return JsonResponse(ctx)
 
-
+#대여 현황 
 @login_required(login_url='/users/')
 def rent_list(request):
-        page = int(request.GET.get('page', 1))
-        page_size = 10
-        limit = page_size * page
-        offset = limit - page_size
-        rents_count = RentManage.objects.all().count()
-        rents = RentManage.objects.all().order_by('-id')[offset:limit]
-
-        page_total = ceil(rents_count/page_size)
-        if page_total == 0:
-                page_total += 1
+        rent = RentManage.objects.all().order_by('-id')
+        paginator = Paginator(rent,10)
+        page = request.GET.get('page')
+        rents = paginator.get_page(page)
         ctx = {
                 'rents':rents,
-                'page':page,
-                'page_total':page_total,
-                'page_range':range(1, page_total),
         }
         return render(request, 'managements/rent_list.html', ctx)
 
@@ -380,30 +371,34 @@ def search_return_list(request):
 #대여 리스트에서 검색하는 뷰
 @login_required(login_url='/users/')
 def search_rent_list(request):
-    search_input = request.GET.get('search_input')
-    selected_equip_type = request.GET.get('search_select')
-    
-    if selected_equip_type == "":
-        selected_equip_type = False
+        search_input = request.GET.get('search_input')
+        selected_equip_type = request.GET.get('search_select')
+        
+        if selected_equip_type == "":
+                selected_equip_type = False
 
-    
-    if search_input and selected_equip_type:
-        search_list = RentManage.objects.all().filter(((Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))|Q(equip__equip_id__contains=search_input)), equip__equip_type__contains=selected_equip_type).order_by('-id')
+        
+        if search_input and selected_equip_type:
+                search_list = RentManage.objects.all().filter(((Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))|Q(equip__equip_id__contains=search_input)), equip__equip_type__contains=selected_equip_type)
 
-    elif search_input:
-        search_list = RentManage.objects.all().filter(Q(equip__equip_id__contains=search_input)|Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input)).order_by('-id')
+        elif search_input:
+                search_list = RentManage.objects.all().filter(Q(equip__equip_id__contains=search_input)|Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))
 
-    elif selected_equip_type:
-        search_list = RentManage.objects.all().filter(equip__equip_type__contains=selected_equip_type).order_by('-id')
+        elif selected_equip_type:
+                search_list = RentManage.objects.all().filter(equip__equip_type__contains=selected_equip_type)
 
-    else:
-        search_list = RentManage.objects.all().order_by('-id')
+        else:
+                search_list = RentManage.objects.all()
 
-    ctx = {
-        'search_list':search_list
-    }
+        search_list = search_list.order_by('-id')
+        paginator = Paginator(search_list,10)
+        page = request.GET.get('page')
+        rents = paginator.get_page(page)
+        ctx = {
+                'rents':rents
+        }
 
-    return render(request, 'managements/lookup_rent_list.html', ctx)   
+        return render(request, 'managements/rent_list_search_1.html', ctx)   
 
 #대여 리스트에서 서약서 여부를 검색하는 뷰
 @login_required(login_url='/users/')
@@ -418,11 +413,14 @@ def search_rent_pledge(request):
         else:
                 search_list = RentManage.objects.all().order_by('-id')
         
+        paginator = Paginator(search_list,10)
+        page = request.GET.get('page')
+        rents = paginator.get_page(page)
         ctx = {
-                "search_list":search_list
+                "rents":rents
         }
 
-        return render(request,'managements/lookup_rent_list.html',ctx)
+        return render(request,'managements/rent_list_search_2.html',ctx)
 
 #대여 리스트에서 대여별 상세페이지 관련 뷰
 @login_required(login_url='/users')

@@ -1,0 +1,91 @@
+{%load static%}
+<div id="search_rent">
+    <div id = "search_rent_list">
+        <div class="container">
+            <table class='table table-striped rent_list_table'>
+                <thead>
+                    <tr>
+                        <td><b>학번</b></td>
+                        <td><b>이름</b></td>
+                        <td><b>연락처</b></td>
+                        <td><b>물품번호</b></td>
+                        <td><b>물품종류</b></td>
+                        <td><b>대여 상태</b></td>
+                        <td><b>대여일</b></td>
+                        <td><b>학적 상태</b></td>
+                        <td><b>서약서</b></td>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for rent in rents%}
+                    <tr style="cursor:pointer;" onClick="location.href='{%url 'managements:rent_detail_page' pk=rent.pk %}'">
+                        <td>{{rent.student.student_id}}</td>
+                        <td>{{rent.student.name}}</td>
+                        <td>{{rent.student.phone_number}}</td>
+                        <td>{{rent.equip.equip_id}}</td>
+                        <td>{{rent.equip.get_equip_type_display}}</td>
+                        {% if rent.equip.rent_status == 'pending' %}
+                            <td id='rent_pending'>반납 보류</td>
+                        {% elif rent.equip.rent_status == 'impossible' %}    
+                            <td id='rent_impossible'>대여중</td>
+                        {% endif %}
+                        <td>{{rent.rent_date | date:'Y-m-d'}} &nbsp; &nbsp; {{rent.rent_date | date:'h:i A'}}</td>
+                        <td>{{rent.student.status}}</td>
+                        <td>
+                            {% if rent.active %}
+                                <span style="color:green; text-align:center">O</span>
+                            {% else %}
+                                <span style="color:red; text-align:center">X</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="container" id='paginator'>
+        <div class="flex-item">
+            {% if rents.has_previous %}
+                <img src="{% static 'prever.png' %}" name='paginator' id='1' style="cursor: pointer">
+                <img src="{% static 'prev.png' %}" name='paginator' id='{{rents.previous_page_number}}' style="cursor: pointer">
+            {% else %}
+                <img src="{% static 'prever.png' %}" name='paginator' id='1' style="cursor: pointer">
+                <img src="{% static 'prev.png' %}" name='paginator' id='1' style="cursor: pointer">
+            {% endif %}
+        </div>
+        <div class="flex-item">
+                <div style="font-size:3rem">{{rents.number}}</div>
+                <div style="font-size:3rem">/</div>
+                <div style="font-size:3rem">{{rents.paginator.num_pages}}</div>
+        </div>
+        <div class="flex-item">
+            {% if rents.has_next %}
+                <img src="{% static 'next.png' %}" name='paginator' id='{{rents.next_page_number}}' style="cursor: pointer">
+                <img src="{% static 'nexter.png' %}" name='paginator' id='{{rents.paginator.num_pages}}' style="cursor: pointer">
+            {% else %}
+                <img src="{% static 'next.png' %}" name='paginator' id='{{rents.paginator.num_pages}}' style="cursor: pointer"> 
+                <img src="{% static 'nexter.png' %}" name='paginator' id='{{rents.paginator.num_pages}}' style="cursor: pointer">
+            {% endif %}
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $("img[name=paginator]").click(function(){
+            var search_input = $('#search_input').val();
+            var search_select = $('#search_select').val();
+            event.preventDefault()
+            $.ajax({
+                url:'search_rent_list/?search_input='+ search_input + '?search_select=' + search_select + '&page=' + $(this).attr('id'),
+                data:{
+                    'search_input':search_input, 
+                    'search_select':search_select,
+                },
+                success:function(data){
+                    $('#search_rent').html(data)
+                }
+            })
+        });
+    });
+</script>
