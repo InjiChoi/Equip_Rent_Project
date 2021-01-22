@@ -9,21 +9,24 @@
             $("input[name=search_button]").click(function(){
                 alert('입력한 정보를 조회합니다.');
                 var search_key = $('#search_key').val();
+                console.log(search_key)
                 event.preventDefault()
                 $.ajax({
                     url:'list_search/',
-                    data:{'search_key':search_key},
+                    data:{
+                        'search_key':search_key,
+                    },
                     success:function(data){
-                        $('#search_student_list').html(data)
+                        $('#search_student').html(data)
                     }
                 })
-
             });
         });
     </script>
 {% endblock custom_script %}
 
 {% block custom_css %}
+    <link rel="stylesheet" href="{% static 'students/student_list.css' %}">
 {% endblock custom_css %}
 
 {% block content %}
@@ -34,60 +37,68 @@
         <form action="" method="post">
             {% csrf_token %}
             <div class="col-item input-item">
-            <input type="text" class="form-control" name="search_key" placeholder="검색할 사항을 입력하세요.(학번, 이름, 연락처, 이메일)" id="search_input">
+            <input type="text" class="form-control" name="search_key" placeholder="검색할 사항을 입력하세요.(학번, 이름, 연락처, 이메일)" id="search_key">
             </div>
             <div class="col-item">
                 <input class="search_btn" type="submit" value="조회" name="search_button">
             </div>
         </form>
     </div>
-    <div id="search_student_list">
-        <div class="container">
-        <table class='table table-striped'>
-            <thead>
-                <tr>
-                    <td><b>학번</b></td>
-                    <td><b>이름</b></td>
-                    <td><b>연락처</b></td>
-                    <td><b>이메일</b></td>
-                    <td><b>학적</b></td>
-                    <td><b>수정</b></td>
-                    <td><b>삭제</b></td>
-                </tr>
-            </thead>
-            <tbody>
-            {% for student in students reversed %}
-                <tr>
-                    <td>{{student.student_id}}</td>
-                    <td>{{student.name}}</td>
-                    <td>{{student.phone_number}}</td>
-                    <td>{{student.email}}</td>
-                    <td>{{student.status}}</td>
-                    <td><a href="{% url 'students:student_detail' pk=student.pk %}"><img src ="/static/edit.png"></a></td>
-                    <td><a href="{% url 'students:student_remove' pk=student.pk %}"><img src ="/static/rubbish.png"></a></td>
-                </tr>   
-            {% endfor %} 
-            </tbody>
-        </table>
+    <div id="search_student">
+        <div id="search_student_list">
+            <div class="container">
+            <table class='table table-striped'>
+                <thead>
+                    <tr>
+                        <td><b>학번</b></td>
+                        <td><b>이름</b></td>
+                        <td><b>연락처</b></td>
+                        <td><b>이메일</b></td>
+                        <td><b>학적</b></td>
+                        <td><b>수정</b></td>
+                        <td><b>삭제</b></td>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for student in students %}
+                    <tr>
+                        <td>{{student.student_id}}</td>
+                        <td>{{student.name}}</td>
+                        <td>{{student.phone_number}}</td>
+                        <td>{{student.email}}</td>
+                        <td>{{student.status}}</td>
+                        <td><a href="{% url 'students:student_detail' pk=student.pk %}"><img src ="/static/edit.png"></a></td>
+                        <td><a href="{% url 'students:student_remove' pk=student.pk %}"><img src ="/static/rubbish.png"></a></td>
+                    </tr>   
+                {% endfor %} 
+                </tbody>
+            </table>
+            </div>
         </div>
-    </div>
-    <div class="container" id='paginator'>
-        <div id="page_div">
-            {% if page != 1 %}
-                <a href = '?page={{page|add:-1}}'><img id="next", src="{% static 'prev.png' %}"></a>
+        <div class="container" id='paginator'>
+            <div class='flex-item'>
+                {% if students.has_previous %}
+                    <img src="{% static 'prever.png' %}" onclick="location.href='?page=1'" style="cursor: pointer">
+                    <img src="{% static 'prev.png' %}" onclick="location.href='?page={{students.previous_page_number}}'" style="cursor: pointer">
                 {% else %}
-                <a href="?page=1"><img id="next", src="{% static 'prev.png' %}"></a>
-            {% endif %}
-        </div>
-        <div id="page_div">
-            <h3>{{page}}&nbsp;/&nbsp;{{page_total}}</h3>
-        </div>
-        <div id="page_div">
-            {% if page != page_total %}
-            <a href = '?page={{page|add:1}}'><img id="next", src="{% static 'next.png' %}"></a>
-            {% else %}
-            <a href="?page={{page_total}}"><img id="next", src="{% static 'next.png' %}"></a>
-            {% endif %}
+                    <img src="{% static 'prever.png' %}" onclick="location.href='?page=1'" style="cursor: pointer">
+                    <img src="{% static 'prev.png' %}" onclick="location.href='?page=1'" style="cursor: pointer">
+                {% endif %}
+            </div>
+            <div class='flex-item'>
+                    <div style="font-size:3rem">{{students.number}}</div>
+                    <div style="font-size:3rem">/</div>
+                    <div style="font-size:3rem">{{students.paginator.num_pages}}</div>
+            </div>
+            <div class='flex-item'>
+                {% if students.has_next %}
+                    <img src="{% static 'next.png' %}" onclick="location.href='?page={{students.next_page_number}}'" style="cursor: pointer">
+                    <img src="{% static 'nexter.png' %}" onclick="location.href='?page={{students.paginator.num_pages}}'" style="cursor: pointer">
+                {% else %}
+                    <img src="{% static 'next.png' %}" onclick="location.href='?page={{students.paginator.num_pages}}'" style="cursor: pointer">
+                    <img src="{% static 'nexter.png' %}" onclick="location.href='?page={{students.paginator.num_pages}}'" style="cursor: pointer">
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock content %}
