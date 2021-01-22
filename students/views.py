@@ -109,4 +109,4 @@ def list_search(request):
     ctx = {
         'students': students,
     }
-    return render(request, 'students/lookup_student_list.html', ctx)
+    return render(request, 'students/student_list_search.html', ctx)

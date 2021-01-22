@@ -341,7 +341,7 @@ def search_return_list(request):
         'returns':returns,
     }
 
-    return render(request, 'managements/lookup_return_list.html', ctx)   
+    return render(request, 'managements/return_list_search.html', ctx)   
 
 
 #대여 리스트에서 검색하는 뷰
