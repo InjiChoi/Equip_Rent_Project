@@ -12,6 +12,8 @@
     align-items: center;
     justify-content: center;
 }
+
 #paginator .flex-item:nth-child(2) div {
     margin: 0 7px;
 }
+
