@@ -50,42 +50,42 @@
                                 </li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
-                                <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">학생 관리<span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{% url 'students:student_register' %}">학생 등록</a></li>
-                                    <li><a href="{% url 'students:student_list' %}">학생 관리 목록</a></li>
-                                </ul>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link  dropdown-toggle" href="{% url 'students:student_register' %}" data-toggle="dropdown">  학생  </a>
+                                    <ul class="dropdown-menu fade-up">
+                                    <li><a class="dropdown-item" href="{% url 'students:student_register' %}"> 학생 등록</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'students:student_list' %}"> 학생 목록 </a></li>
+                                    </ul>
                                 </li>
-                            </ul>
+                            </ul>     
                             <ul class="nav navbar-nav navbar-right">
-                                <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">기자재 관리<span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{% url 'equipments:equipment_register' %}">기자재 등록</a></li>
-                                    <li><a href="{% url 'equipments:equipment_list' %}">기자재 관리 목록</a></li>
-                                </ul>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown">  기자재  </a>
+                                    <ul class="dropdown-menu fade-up">
+                                    <li><a class="dropdown-item" href="{% url 'equipments:equipment_register' %}"> 기자재 등록</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'equipments:equipment_list' %}"> 기자재 목록 </a></li>
+                                    </ul>
                                 </li>
-                            </ul>
+                            </ul>      
                             <ul class="nav navbar-nav navbar-right">
-                                <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">반납<span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{% url 'managements:return_' %}">반납</a></li>
-                                    <li><a href="{% url 'managements:return_list' %}">반납 목록</a></li>
-                                    <li><a href="{% url 'managements:pending_list' %}">보류 목록</a></li>
-                                </ul>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown">  반납  </a>
+                                    <ul class="dropdown-menu fade-up">
+                                    <li><a class="dropdown-item" href="{% url 'managements:return_' %}"> 반납 </a></li>
+                                    <li><a class="dropdown-item" href="{% url 'managements:return_list' %}"> 반납 목록</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'managements:pending_list' %}"> 보류 목록 </a></li>
+                                    </ul>
                                 </li>
-                            </ul>
+                            </ul>         
                             <ul class="nav navbar-nav navbar-right">
-                                <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">대여 <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{% url 'managements:rent' %}">대여</a></li>
-                                    <li><a href="{% url 'managements:rent_list' %}">대여 현황</a></li>
-                                </ul>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown">  대여  </a>
+                                    <ul class="dropdown-menu fade-up">
+                                    <li><a class="dropdown-item" href="{% url 'managements:rent' %}"> 대여 </a></li>
+                                    <li><a class="dropdown-item" href="{% url 'managements:rent_list' %}"> 대여 목록</a></li>
+                                    </ul>
                                 </li>
-                            </ul>
+                            </ul>                                               
                             {%endif%}
                         </div><!-- /.navbar-collapse -->
                     </div><!-- /.container-fluid -->
