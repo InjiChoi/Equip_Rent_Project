@@ -9,7 +9,7 @@ from django.db import IntegrityError
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Q
-from math import ceil
+from django.core.paginator import Paginator
 
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
@@ -290,19 +290,11 @@ def pending_result(request, pk):
 # 반납 목록 페이지
 @login_required(login_url='/users/')
 def return_list(request):
-        page = int(request.GET.get('page', 1))
-        page_size = 10
-        limit = page_size * page
-        offset = limit - page_size
-        returns_count = ReturnHistory.objects.all().count()
-        returns = ReturnHistory.objects.all().order_by('-id')[offset:limit]
-        page_total = ceil(returns_count/page_size)
-        if page_total == 0:
-                page_total += 1
+        return_list = ReturnHistory.objects.all().order_by('-id')
+        paginator = Paginator(return_list, 10)
+        page = request.GET.get('page')
+        returns = paginator.get_page(page)
         ctx = {
-                'page':page,
-                'page_total':page_total,
-                'page_range':range(1, page_total),
                 'returns':returns,
         }
         return render(request, 'managements/return_list.html', ctx)
@@ -357,7 +349,6 @@ def search_return_list(request):
     if selected_equip_type == "":
         selected_equip_type = False
 
-    
     if search_input and selected_equip_type:
         search_list = ReturnHistory.objects.all().filter(((Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))|Q(equip__equip_id__contains=search_input)), equip__equip_type__contains=selected_equip_type).order_by('-id')
 
@@ -370,8 +361,12 @@ def search_return_list(request):
     else:
         search_list = ReturnHistory.objects.all().order_by('-id')
 
+    paginator = Paginator(search_list, 10)
+    page = request.GET.get('page')
+    returns = paginator.get_page(page)
+
     ctx = {
-        'search_list':search_list
+        'returns':returns,
     }
 
     return render(request, 'managements/lookup_return_list.html', ctx)   
