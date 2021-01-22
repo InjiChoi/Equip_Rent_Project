@@ -33,6 +33,12 @@ a.dropdown-toggle {
     background-color: transparent;
 }
 
+.navbar .navbar-nav>.open>a, 
+.navbar .navbar-nav>.open>a:focus, 
+.navbar .navbar-nav>.open>a:hover {
+    background-color: rgb(33,56,117);
+}
+
 .header-affix {
     margin-top: 0;
     height: 100px;
