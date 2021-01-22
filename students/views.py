@@ -5,7 +5,7 @@ from django.contrib import messages
 import json
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Q
-from math import ceil
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='/users/')
@@ -45,20 +45,11 @@ def student_overlap_check(request):
 
 @login_required(login_url='/users/')
 def student_list(request):
-    page = int(request.GET.get('page', 1))
-    page_size = 10
-    limit = page_size * page
-    offset = limit - page_size
-    students_count = Student.objects.all().count()
-    students = Student.objects.all()[offset:limit]
-    page_total = ceil(students_count/page_size)
-    if page_total == 0:
-                page_total += 1
-                
+    student = Student.objects.all().order_by('-id')
+    paginator = Paginator(student, 10)
+    page = request.GET.get('page')
+    students = paginator.get_page(page)
     ctx = {
-        'page':page,
-        'page_total':page_total,
-        'page_range':range(1, page_total),
         'students':students,
     }
     return render(request, 'students/student_list.html', ctx)
@@ -107,12 +98,15 @@ def student_remove(request, pk):
 @login_required(login_url='/users/')
 def list_search(request):
     search_key = request.GET.get('search_key') # 검색어 가져오기
+    print(search_key)
     search_list = Student.objects.all()
     if search_key: # 만약 검색어가 존재하면
         search_list = search_list.filter(Q(name__contains=search_key)|Q(student_id__contains=search_key)|Q(phone_number__contains=search_key)|Q(email__contains=search_key)) 
-
+    search_list = search_list.order_by('-id')
+    paginator = Paginator(search_list, 10)
+    page = request.GET.get('page')
+    students = paginator.get_page(page)
     ctx = {
-            'search_list': search_list
+        'students': students,
     }
-    
     return render(request, 'students/lookup_student_list.html', ctx)

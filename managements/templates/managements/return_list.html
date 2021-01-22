@@ -10,17 +10,15 @@
                 alert('입력한 정보를 조회합니다.');
                 var search_input = $('#search_input').val();
                 var search_select = $('#search_select').val();
-                console.log(search_input);
-                console.log(search_select);
                 event.preventDefault()
                 $.ajax({
                     url:'search_return_list/',
                     data:{
                         'search_input':search_input, 
-                        'search_select':search_select
+                        'search_select':search_select,
                     },
                     success:function(data){
-                        $('#search_return_list').html(data)
+                        $('#search_return').html(data)
                     }
                 })
 
@@ -56,51 +54,59 @@
         </div>
         </form>
     </div>
-    <div id="search_return_list">
-        <div class="container">
-            <table class='table table-striped return_list_table'>
-                <thead>
-                    <tr>
-                        <td><b>학번</b></td>
-                        <td><b>이름</b></td>
-                        <td><b>연락처</b></td>
-                        <td><b>물품번호</b></td>
-                        <td><b>물품종류</b></td>
-                        <td><b>반납일</b></td>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for return in returns%}
-                    <tr>
-                        <td>{{return.student}}</td>
-                        <td>{{return.student.name}}</td>
-                        <td>{{return.student.phone_number}}</td>
-                        <td>{{return.equip.equip_id}}</td>
-                        <td>{{return.equip.get_equip_type_display}}</td>
-			<td>{{return.return_date | date:'Y-m-d'}} &nbsp; &nbsp; {{return.return_date | date:'h:i A'}}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+    <div id="search_return">
+        <div id="search_return_list">
+            <div class="container">
+                <table class='table table-striped return_list_table'>
+                    <thead>
+                        <tr>
+                            <td><b>학번</b></td>
+                            <td><b>이름</b></td>
+                            <td><b>연락처</b></td>
+                            <td><b>물품번호</b></td>
+                            <td><b>물품종류</b></td>
+                            <td><b>반납일</b></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for return in returns%}
+                        <tr>
+                            <td>{{return.student}}</td>
+                            <td>{{return.student.name}}</td>
+                            <td>{{return.student.phone_number}}</td>
+                            <td>{{return.equip.equip_id}}</td>
+                            <td>{{return.equip.get_equip_type_display}}</td>
+                <td>{{return.return_date | date:'Y-m-d'}} &nbsp; &nbsp; {{return.return_date | date:'h:i A'}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-    <div class="container" id="paginator">
-        <div id="page_div">
-            {% if page != 1 %}
-                <a href = '?page={{page|add:-1}}'><img id="next", src="{% static 'prev.svg' %}"></a>
-            {% else %}
-                <a href="?page=1"><img id="next", src="{% static 'prev.svg' %}"></a>
-            {% endif %}
-        </div>
-        <div id="page_div">
-            <h3>{{page}}&nbsp;/&nbsp;{{page_total}}</h3>
-        </div>
-        <div id="page_div">
-            {% if page != page_total %}
-                <a href = '?page={{page|add:1}}'><img id="next", src="{% static 'next.svg' %}"></a>
-            {% else %}
-                <a href="?page={{page_total}}"><img id="next", src="{% static 'next.svg' %}"></a>
-            {% endif %}
+        <div class="container" id='paginator'>
+            <div class='flex-item'>
+                {% if returns.has_previous %}
+                    <img src="{% static 'prever.png' %}" onclick="location.href='?page=1'" style="cursor: pointer">
+                    <img src="{% static 'prev.png' %}" onclick="location.href='?page={{returns.previous_page_number}}'" style="cursor: pointer">
+                {% else %}
+                    <img src="{% static 'prever.png' %}" onclick="location.href='?page=1'" style="cursor: pointer">
+                    <img src="{% static 'prev.png' %}" onclick="location.href='?page=1'" style="cursor: pointer">
+                {% endif %}
+            </div>
+            <div class='flex-item'>
+                    <div style="font-size:3rem">{{returns.number}}</div>
+                    <div style="font-size:3rem">/</div>
+                    <div style="font-size:3rem">{{returns.paginator.num_pages}}</div>
+            </div>
+            <div class='flex-item'>
+                {% if returns.has_next %}
+                    <img src="{% static 'next.png' %}" onclick="location.href='?page={{returns.next_page_number}}'" style="cursor: pointer">
+                    <img src="{% static 'nexter.png' %}" onclick="location.href='?page={{returns.paginator.num_pages}}'" style="cursor: pointer">
+                {% else %}
+                    <img src="{% static 'next.png' %}" onclick="location.href='?page={{returns.paginator.num_pages}}'" style="cursor: pointer">
+                    <img src="{% static 'nexter.png' %}" onclick="location.href='?page={{equipments.paginator.num_pages}}'" style="cursor: pointer">
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock content %}

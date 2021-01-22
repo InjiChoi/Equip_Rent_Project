@@ -7,7 +7,6 @@ from .forms import EquipForm
 from django.contrib import messages
 import json
 from django.http import JsonResponse, HttpResponse
-from math import ceil
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 
