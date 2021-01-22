@@ -298,25 +298,6 @@ def return_list(request):
         }
         return render(request, 'managements/return_list.html', ctx)
 
-# 보류 목록 페이지
-@login_required(login_url='/users/')
-def pending_list(request):
-        page = int(request.GET.get('page', 1))
-        page_size = 10
-        limit = page_size * page
-        offset = limit - page_size
-        pendings_count = PendingHistory.objects.all().count()
-        pendings = PendingHistory.objects.all().order_by('-id')[offset:limit]
-        page_total = ceil(pendings_count/page_size)
-        if page_total == 0:
-                page_total += 1
-        ctx = {
-                'page':page,
-                'page_total':page_total,
-                'page_range':range(1, page_total),
-                'pendings':pendings,
-        }
-        return render(request, 'managements/pending_list.html', ctx)
 
 #대여시 학생 조회
 @login_required(login_url='/users/')
@@ -448,6 +429,18 @@ def resend_pledge(request,pk):
         email.send()
         return redirect('managements:rent_detail_page',pk)
 
+# 보류 목록 페이지
+@login_required(login_url='/users/')
+def pending_list(request):
+        pending = PendingHistory.objects.all().order_by('-id')
+        paginator = Paginator(pending,10)
+        page = request.GET.get('page')
+        pendings = paginator.get_page(page)
+
+        ctx = {
+                'pendings':pendings
+        }
+        return render(request, 'managements/pending_list.html', ctx)
 #보류 리스트에서 보류 별 상세 페이지 뷰
 @login_required(login_url='/users')
 def pending_detail(request, pk):
@@ -481,3 +474,35 @@ def pending_overlap_check(request):
                 'overlap':overlap,
         }
         return JsonResponse(ctx)
+
+# 보류 목록 검색
+@login_required(login_url='/users/')
+def search_pending_list(request):
+        search_input = request.GET.get('search_input')
+        selected_equip_type = request.GET.get('search_select')
+        if selected_equip_type == "":
+                selected_equip_type = False
+
+        
+        if search_input and selected_equip_type:
+                search_list = PendingHistory.objects.all().filter(((Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))|Q(equip__equip_id__contains=search_input)), equip__equip_type__contains=selected_equip_type)
+
+        elif search_input:
+                search_list = PendingHistory.objects.all().filter(Q(equip__equip_id__contains=search_input)|Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))
+
+        elif selected_equip_type:
+                search_list = PendingHistory.objects.all().filter(equip__equip_type__contains=selected_equip_type)
+
+        else:
+                search_list = PendingHistory.objects.all()
+
+        print(search_list)
+        search_list = search_list.order_by('-id')
+        paginator = Paginator(search_list,10)
+        page = request.GET.get('page')
+        pendings = paginator.get_page(page)
+        ctx = {
+                'pendings':pendings
+        }
+
+        return render(request, 'managements/pending_list_search.html', ctx)   
