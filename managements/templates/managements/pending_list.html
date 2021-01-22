@@ -44,9 +44,9 @@
     <div class="container" id="paginator">
         <div id="page_div">
             {% if page != 1 %}
-                <a href = '?page={{page|add:-1}}'><img id="next", src="{% static 'prev.svg' %}"></a>
+                <a href = '?page={{page|add:-1}}'><img id="next", src="{% static 'prev.png' %}"></a>
             {% else %}
-                <a href="?page=1"><img id="next", src="{% static 'prev.svg' %}"></a>
+                <a href="?page=1"><img id="next", src="{% static 'prev.png' %}"></a>
             {% endif %}
         </div>
         <div id="page_div">
@@ -54,9 +54,9 @@
         </div>
         <div id="page_div">
             {% if page != page_total %}
-                <a href = '?page={{page|add:1}}'><img id="next", src="{% static 'next.svg' %}"></a>
+                <a href = '?page={{page|add:1}}'><img id="next", src="{% static 'next.png' %}"></a>
             {% else %}
-                <a href="?page={{page_total}}"><img id="next", src="{% static 'next.svg' %}"></a>
+                <a href="?page={{page_total}}"><img id="next", src="{% static 'next.png' %}"></a>
             {% endif %}
         </div>
     </div>
