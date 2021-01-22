@@ -129,7 +129,7 @@ a.dropdown-toggle {
     background-color: rgb(33,56,117);
 }
 
-#search_input {
+#search_input, #search_key {
     width:400px;
 }
 

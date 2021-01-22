@@ -104,7 +104,7 @@
             <form id="rent_form" action="" method="post" onkeydown="return event.key != 'Enter';" enctype="multipart/form-data">
                                                         <!-- 바코드 스캔 시 자동으로 제출되는 것 방지-->
                 {% csrf_token %}
-                    <input style='opacity:0' name="beforeAmt" id="beforeAmt" value="" onkeyup="eventKeyup(this.value)"/>
+                    <input style='opacity:0; cursor:default;' name="beforeAmt" id="beforeAmt" value="" onkeyup="eventKeyup(this.value)"/>
                     <table class="info_table">
                         <tr>
                             <td>학번 : </td>

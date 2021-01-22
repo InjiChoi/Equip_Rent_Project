@@ -2,7 +2,7 @@
 <div id="search_pending">
     <div id="search_pending_list">
         <div class="container">
-            <table class='table table-striped return_list_table'>
+            <table class='table table-striped table-hover'>
                 <thead>
                     <tr>
                         <td><b>학번</b></td>
@@ -16,7 +16,7 @@
                 </thead>
                 <tbody>
                 {% for pending in pendings %}
-                    <tr  style="cursor:pointer;" onClick="location.href='{%url 'managements:pending_detail_page' pk=pending.pk %}'">
+                    <tr style="cursor:pointer;" onClick="location.href='{%url 'managements:pending_detail_page' pk=pending.pk %}'">
                         <td>{{pending.student}}</td>
                         <td>{{pending.student.name}}</td>
                         <td>{{pending.student.phone_number}}</td>
