@@ -477,7 +477,6 @@ def search_pending_list(request):
         selected_equip_type = request.GET.get('search_select')
         if selected_equip_type == "":
                 selected_equip_type = False
-
         
         if search_input and selected_equip_type:
                 search_list = PendingHistory.objects.all().filter(((Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))|Q(equip__equip_id__contains=search_input)), equip__equip_type__contains=selected_equip_type)
@@ -491,7 +490,6 @@ def search_pending_list(request):
         else:
                 search_list = PendingHistory.objects.all()
 
-        print(search_list)
         search_list = search_list.order_by('-id')
         paginator = Paginator(search_list,10)
         page = request.GET.get('page')
