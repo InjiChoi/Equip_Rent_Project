@@ -8,6 +8,12 @@ class RentManage(models.Model):
     equip = models.ForeignKey(Equipment, on_delete=models.CASCADE, related_name='rent_equip',null=True)
     rent_date = models.DateTimeField(blank=True, null=True)
     active = models.BooleanField(default=False)
+    
+    tag_attach = models.BooleanField(default=True)
+    equip_work = models.BooleanField(default=True)
+    accessories = models.BooleanField(null=True, blank=True)
+    manager = models.CharField(max_length=20)
+
 
     def publish(self):
         self.rent_date = timezone.now()

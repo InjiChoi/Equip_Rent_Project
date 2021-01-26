@@ -3,7 +3,7 @@ from managements.models import RentManage, ReturnHistory, Equip_Picture, Pending
 # Register your models here.
 @admin.register(RentManage)
 class RentManageAdmin(admin.ModelAdmin):
-    list_display=('student', 'equip','rent_date',)
+    list_display=('student', 'equip','rent_date', 'tag_attach', 'equip_work', 'accessories', 'manager',)
 
 @admin.register(Equip_Picture)
 class EquipPictureAdmin(admin.ModelAdmin):
