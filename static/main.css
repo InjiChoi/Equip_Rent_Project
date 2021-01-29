@@ -151,7 +151,6 @@ a.dropdown-toggle {
 .info_table {
     border-collapse: separate;
     border-spacing: 1px;
-    text-align: left;
     line-height: 1.5;
     border-top: 1px solid rgb(241, 235, 235);
     margin: 0 auto;
@@ -167,7 +166,6 @@ a.dropdown-toggle {
 }
 
 .info_table td {
-    text-align: center;
     font-weight: bold;
     font-size:2rem;
     width: 400px;
@@ -177,10 +175,25 @@ a.dropdown-toggle {
     border-bottom: 1px solid rgb(241, 235, 235);
 }
 
+.info_table tr > td:nth-child(1) {
+    text-align: left;
+    padding-left: 120px;
+}
+
+.info_table tr > td:nth-child(2) {
+    text-align: center;
+}
+
 .info_table select {
     width:270px;
     height:36px;
     font-size:15px;
+}
+
+.info_table #file {
+    width:270px;
+    height:36px;
+    margin: 0 auto;
 }
 
 .subtitle {
