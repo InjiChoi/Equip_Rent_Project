@@ -6,7 +6,7 @@ from managements.models import RentManage, ReturnHistory
 class RentForm(forms.ModelForm):
         class Meta:
                 model = RentManage
-                exclude = ['student', 'equip', 'rent_date',]
+                exclude = ['student', 'equip', 'rent_date','tag_attach','equip_work','accessories','manager',]
 
 # 반납 폼
 class ReturnForm(forms.Form):

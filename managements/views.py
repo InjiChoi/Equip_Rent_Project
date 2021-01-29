@@ -34,6 +34,10 @@ def rent(request):
         if request.method == 'POST':
                 rent_student_id = request.POST.get('student_id')
                 rent_equipment_id = request.POST.get('equip_id')
+                tag_attach = request.POST.get('tag_attach')
+                equip_work = request.POST.get('equip_work')
+                manager = request.POST.get('manager')
+                accessories = request.POST.get('accessories')
                 rent_pics = request.FILES.getlist('file')
 
                 rent_student = get_object_or_404(Student, student_id=rent_student_id)
@@ -45,6 +49,11 @@ def rent(request):
                         rent_info = rent_form.save(commit=False)
                         rent_info.student = rent_student
                         rent_info.equip = rent_equip
+                        rent_info.tag_attach = tag_attach
+                        rent_info.equip_work = equip_work
+                        if rent_info.accessories is not None:
+                                rent_info.accessories = accessories
+                        rent_info.manager = manager
                         rent_info.rent_date = timezone.now()
                         rent_equip.rent_status = 'impossible'
                         rent_equip.save()
@@ -355,10 +364,10 @@ def search_rent_list(request):
 
         
         if search_input and selected_equip_type:
-                search_list = RentManage.objects.all().filter(((Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))|Q(equip__equip_id__contains=search_input)), equip__equip_type__contains=selected_equip_type)
+                search_list = RentManage.objects.all().filter(((Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input))|Q(equip__equip_id__contains=search_input)), equip__equip_type__contains=selected_equip_type)
 
         elif search_input:
-                search_list = RentManage.objects.all().filter(Q(equip__equip_id__contains=search_input)|Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input)|Q(student__phone_number__contains=search_input))
+                search_list = RentManage.objects.all().filter(Q(equip__equip_id__contains=search_input)|Q(student__name__contains=search_input)|Q(student__student_id__contains=search_input))
 
         elif selected_equip_type:
                 search_list = RentManage.objects.all().filter(equip__equip_type__contains=selected_equip_type)
