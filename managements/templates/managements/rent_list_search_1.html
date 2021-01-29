@@ -8,39 +8,63 @@
                     <tr>
                         <td><b>학번</b></td>
                         <td><b>이름</b></td>
-                        <td><b>연락처</b></td>
+                        <td><b>학적 상태</b></td>
                         <td><b>물품번호</b></td>
                         <td><b>물품종류</b></td>
+                        <td><b>물품태그</b></td>
+                        <td><b>기기작동</b></td>
+                        <td><b>악세서리</b></td>
                         <td><b>대여 상태</b></td>
                         <td><b>대여일</b></td>
-                        <td><b>학적 상태</b></td>
+                        <td><b>검사자</b></td>
                         <td><b>서약서</b></td>
                     </tr>
                 </thead>
                 <tbody>
-                {% for rent in rents%}
-                    <tr style="cursor:pointer;" onClick="location.href='{%url 'managements:rent_detail_page' pk=rent.pk %}'">
-                        <td>{{rent.student.student_id}}</td>
-                        <td>{{rent.student.name}}</td>
-                        <td>{{rent.student.phone_number}}</td>
-                        <td>{{rent.equip.equip_id}}</td>
-                        <td>{{rent.equip.get_equip_type_display}}</td>
-                        {% if rent.equip.rent_status == 'pending' %}
-                            <td id='rent_pending'>반납 보류</td>
-                        {% elif rent.equip.rent_status == 'impossible' %}    
-                            <td id='rent_impossible'>대여중</td>
-                        {% endif %}
-                        <td>{{rent.rent_date | date:'Y-m-d'}} &nbsp; &nbsp; {{rent.rent_date | date:'h:i A'}}</td>
-                        <td>{{rent.student.status}}</td>
-                        <td>
-                            {% if rent.active %}
-                                <span style="color:green; text-align:center">O</span>
-                            {% else %}
-                                <span style="color:red; text-align:center">X</span>
+                    {% for rent in rents%}
+                        <tr style="cursor:pointer;" onClick="location.href='{%url 'managements:rent_detail_page' pk=rent.pk %}'">
+                            <td>{{rent.student.student_id}}</td>
+                            <td>{{rent.student.name}}</td>
+                            <td>{{rent.student.status}}</td>
+                            <td>{{rent.equip.equip_id}}</td>
+                            <td>{{rent.equip.get_equip_type_display}}</td>
+                            <td>
+                                {% if rent.tag_attach%}
+                                    <span style="color:green; text-align:center">O</span>
+                                {% else%}    
+                                    <span style="color:red; text-align:center">X</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if rent.equip_work%}
+                                    <span style="color:green; text-align:center">O</span>
+                                {% else%}    
+                                    <span style="color:red; text-align:center">X</span>
+                                {% endif %}
+                            </td>
+                            {% if rent.accessories%}
+                                <td>지급</td>
+                            {%elif rent.accessories is None%}
+                                <td>-</td>
+                            {% else%}    
+                                <td>미지급</td>
                             {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
+                            {% if rent.equip.rent_status == 'pending' %}
+                                <td id='rent_pending'>반납 보류</td>
+                            {% elif rent.equip.rent_status == 'impossible' %}    
+                                <td id='rent_impossible'>대여중</td>
+                            {% endif %}
+                            <td>{{rent.rent_date | date:'Y-m-d'}}</td>
+                            <td>{{rent.manager}}</td>
+                            <td>
+                                {% if rent.active %}
+                                    <span style="color:green; text-align:center">O</span>
+                                {% else %}
+                                    <span style="color:red; text-align:center">X</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
