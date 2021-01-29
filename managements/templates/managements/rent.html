@@ -110,7 +110,7 @@
                                                         <!-- 바코드 스캔 시 자동으로 제출되는 것 방지-->
                 {% csrf_token %}
                     <input style='opacity:0; cursor:default;' name="beforeAmt" id="beforeAmt" value="" onkeyup="eventKeyup(this.value)"/>
-                    <table class="info_table">
+                    <table class="info_table" style="text-align:left;">
                         <tr>
                             <td>학번 : </td>
                             <td><input type="text" name='student_id' id='id_student_id' ></td>
