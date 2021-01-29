@@ -160,7 +160,6 @@ a.dropdown-toggle {
 .info_table tr {
     width: 200px;
     padding: 10px;
-    /*font-weight: bold;*/
     vertical-align: top;
     border-bottom: 1px solid rgb(241, 235, 235);
 }
@@ -169,7 +168,6 @@ a.dropdown-toggle {
     font-weight: bold;
     font-size:2rem;
     width: 400px;
-    /*width: 500px;*/
     padding: 10px;
     vertical-align: top;
     border-bottom: 1px solid rgb(241, 235, 235);
@@ -195,7 +193,12 @@ a.dropdown-toggle {
     height:36px;
     margin: 0 auto;
 }
+#id_equip_id, #id_student_id, #id_manager, #id_name, #id_phone_number, #id_email {
+    width:270px;
+    height:36px;
+}
 
+/* ------------------------------------------------- */
 .subtitle {
     margin-top: 50px;
     margin-bottom:50px;
