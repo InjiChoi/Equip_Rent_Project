@@ -245,11 +245,14 @@ def return_result(request, pk):
         rent_equip.rent_status = 'possible'
         rent_equip.save()
         rent = RentManage.objects.get(equip = rent_equip)
-        pending= PendingHistory.objects.get(equip = rent_equip)
         rent_student = Student.objects.get(student_id=rent.student.student_id)
         return_instance = ReturnHistory.objects.create(student=rent_student, equip=rent_equip, return_date=timezone.now())
         rent.delete()
-        pending.delete()
+        try: 
+                pending = PendingHistory.objects.get(equip = rent_equip)
+                pending.delete()
+        except:
+                pending = None
         return redirect('managements:return_list')
 
 # 보류 폼 작성 view
