@@ -3,10 +3,11 @@ from .models import Student
 from .forms import StudentForm
 from django.contrib import messages
 import json
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponseBadRequest, HttpResponse
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+from django import forms
 
 @login_required(login_url='/users/')
 def student_register(request):
@@ -23,6 +24,27 @@ def student_register(request):
     else:
         student_form = StudentForm()
         return render(request, 'students/student_register.html', {'student_form':student_form})
+
+# 학생 excel 한꺼번에 등록
+class UploadFileForm(forms.Form):
+    file = forms.FileField()
+
+@login_required(login_url='/users/')
+def student_excel_register(request):
+    if request.method == "POST":
+        form = UploadFileForm(request.POST,
+                              request.FILES)
+        if form.is_valid():
+            request.FILES['file'].save_to_database(
+                name_columns_by_row=0, # 첫 번째 행 제목
+                model=Student,
+                mapdict=['student_id', 'name', 'phone_number', 'email'])
+            return redirect('students:student_list')
+        else:
+            return HttpResponseBadRequest()
+    else:
+        form = UploadFileForm()
+    return render(request, 'students/student_excel_register.html', {'form': form})
 
 
 # 학생 번호 중복 확인
