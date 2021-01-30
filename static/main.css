@@ -280,6 +280,22 @@ td > a > img {
     /* font-weight: bold; */
 }
 
+.rent_detail tr {
+    width: 200px;
+    padding: 10px;
+    vertical-align: top;
+    border-bottom: 1px solid rgb(241, 235, 235);
+}
+
+.rent_detail td {
+    font-weight: bold;
+    font-size:1.7rem;
+    width: 400px;
+    padding: 10px;
+    vertical-align: top;
+    border-bottom: 1px solid rgb(241, 235, 235);
+}
+
 @media all and (min-width: 992px) {
 	.navbar .nav-item .dropdown-menu{  display:block; opacity: 0;  visibility: hidden; transition:.3s; margin-top:0;  }
 	.navbar .nav-item:hover .nav-link{ color: #fff;  }
