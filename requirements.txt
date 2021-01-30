@@ -8,6 +8,7 @@ six==1.15.0
 sqlparse==0.4.1
 
 # excel upload
+django-excel==0.0.10
 lml==0.1.0
 pyexcel==0.6.6
 pyexcel-io==0.6.4

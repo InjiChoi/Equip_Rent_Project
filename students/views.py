@@ -8,6 +8,8 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django import forms
+from django.core.validators import FileExtensionValidator
+from django.db import IntegrityError
 
 @login_required(login_url='/users/')
 def student_register(request):
@@ -27,21 +29,23 @@ def student_register(request):
 
 # 학생 excel 한꺼번에 등록
 class UploadFileForm(forms.Form):
-    file = forms.FileField()
+    file = forms.FileField(validators=[FileExtensionValidator(allowed_extensions=['xlsx', 'xls'])])
 
 @login_required(login_url='/users/')
 def student_excel_register(request):
     if request.method == "POST":
-        form = UploadFileForm(request.POST,
-                              request.FILES)
-        if form.is_valid():
-            request.FILES['file'].save_to_database(
-                name_columns_by_row=0, # 첫 번째 행 제목
-                model=Student,
-                mapdict=['student_id', 'name', 'phone_number', 'email'])
-            return redirect('students:student_list')
-        else:
-            return HttpResponseBadRequest()
+        try:
+            form = UploadFileForm(request.POST, request.FILES)
+            if form.is_valid():
+                request.FILES['file'].save_to_database(
+                    name_columns_by_row=0, # 첫 번째 행 제목
+                    model=Student,
+                    mapdict=['student_id', 'name', 'phone_number', 'email'])
+                return redirect('students:student_list')
+            else:
+                return redirect('students:student_excel_register')
+        except IntegrityError:
+            return redirect('students:student_excel_register')
     else:
         form = UploadFileForm()
     return render(request, 'students/student_excel_register.html', {'form': form})
