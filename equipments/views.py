@@ -6,9 +6,11 @@ from students.models import Student
 from .forms import EquipForm
 from django.contrib import messages
 import json
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponseBadRequest, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django import forms
+
 
 @login_required(login_url='/users/')
 def equipment_register(request):
@@ -24,6 +26,27 @@ def equipment_register(request):
     else:
         equipment_form = EquipForm()
         return render(request, 'equipments/equipment_register.html', {'equipment_form':equipment_form})
+
+# 기자재 excel 한꺼번에 등록
+class UploadFileForm(forms.Form):
+    file = forms.FileField()
+
+@login_required(login_url='/users/')
+def equip_excel_register(request):
+    if request.method == "POST":
+        form = UploadFileForm(request.POST,
+                              request.FILES)
+        if form.is_valid():
+            request.FILES['file'].save_to_database(
+                name_columns_by_row=0, # 첫 번째 행 제목
+                model=Equipment,
+                mapdict=['equip_id', 'equip_type'])
+            return redirect('equipments:equipment_list')
+        else:
+            return HttpResponseBadRequest()
+    else:
+        form = UploadFileForm()
+    return render(request, 'equipments/equip_excel_register.html', {'form': form})
 
 # 기자재 물품 번호 중복 확인
 @login_required(login_url='/users/')

@@ -6,3 +6,13 @@ Pillow==8.0.1
 pytz==2020.1
 six==1.15.0
 sqlparse==0.4.1
+
+# excel upload
+lml==0.1.0
+pyexcel==0.6.6
+pyexcel-io==0.6.4
+pyexcel-webio==0.1.4
+pyexcel-xls==0.6.2
+texttable==1.6.3
+xlrd==1.2.0
+xlwt==1.3.0

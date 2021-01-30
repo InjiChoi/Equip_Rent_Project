@@ -12,4 +12,5 @@ urlpatterns = [
     path('detail/<int:pk>/',views.equipment_detail, name='equipment_detail'),
     path('remove/<int:pk>/',views.equipment_remove, name='equipment_remove'),
     path('remove/check/', views.equip_remove_check, name='equip_remove_check'),
+    path('equip_excel_register/', views.equip_excel_register, name='equip_excel_register'),
 ]

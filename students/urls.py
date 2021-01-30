@@ -10,4 +10,5 @@ urlpatterns = [
     path('student_check/', views.student_overlap_check, name='student_overlap_check'),
     path('detail/<int:pk>/',views.student_detail, name='student_detail'),
     path('remove/<int:pk>/',views.student_remove, name='student_remove'),
+    path('student_excel_register/', views.student_excel_register, name='student_excel_register'),
 ]
