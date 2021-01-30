@@ -1,6 +1,27 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block script %}
+<script type="text/javaScript">
+    function id_overlap_check() {
+        $.ajax({
+            url: "{% url 'equipments:equipment_excel_register' %}",
+            data: {
+            },
+            datatype:'json',
+            success: function (data) {
+                if (data['register'] == 'fail') {
+                    alert("이미 등록되어 있는 기자재입니다.");
+                    cancelFormSubmission();
+                    return false;
+                    document.querySelector('.submit_btn').setAttribute('disabled', true);
+                } 
+            }
+        })
+    }
+</script>
+{% endblock script %}
+
 {% block custom_css %}
     <link rel="stylesheet" href="{% static 'excel_register.css' %}">
 {% endblock custom_css %}
