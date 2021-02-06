@@ -65,6 +65,7 @@
                             <td><b>연락처</b></td>
                             <td><b>물품번호</b></td>
                             <td><b>물품종류</b></td>
+                            <td><b>검사자</b></td>
                             <td><b>반납일</b></td>
                         </tr>
                     </thead>
@@ -76,7 +77,8 @@
                             <td>{{return.student.phone_number}}</td>
                             <td>{{return.equip.equip_id}}</td>
                             <td>{{return.equip.get_equip_type_display}}</td>
-                <td>{{return.return_date | date:'Y-m-d'}} &nbsp; &nbsp; {{return.return_date | date:'h:i A'}}</td>
+                            <td>{{return.manager}}</td>
+                            <td>{{return.return_date | date:'Y-m-d'}} &nbsp; &nbsp; {{return.return_date | date:'h:i A'}}</td>
                         </tr>
                     {% endfor %}
                     </tbody>

@@ -206,6 +206,7 @@ def return_(request):
         if request.method =='POST':
                 equip_id = request.POST.get('equip_id')
                 student_id = request.POST.get('student_id')
+                manager = request.POST.get('manager')
 
                 try :   
                         student = get_object_or_404(Student, student_id=student_id)
@@ -218,6 +219,7 @@ def return_(request):
                                 'equip':equip,
                                 'rent':rent,
                                 'rent_images':rent_images,
+                                'manager' : manager
                         }
 
                         return render(request,'managements/return_info.html',ctx)
@@ -240,13 +242,13 @@ def return_(request):
 
 # 반납 처리 view
 @login_required(login_url='/users/')       
-def return_result(request, pk):
+def return_result(request, pk, manager):
         rent_equip = Equipment.objects.get(pk=pk)
         rent_equip.rent_status = 'possible'
         rent_equip.save()
         rent = RentManage.objects.get(equip = rent_equip)
         rent_student = Student.objects.get(student_id=rent.student.student_id)
-        return_instance = ReturnHistory.objects.create(student=rent_student, equip=rent_equip, return_date=timezone.now())
+        return_instance = ReturnHistory.objects.create(student=rent_student, equip=rent_equip, return_date=timezone.now() ,manager=manager)
         rent.delete()
         try: 
                 pending = PendingHistory.objects.get(equip = rent_equip)
