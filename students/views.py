@@ -27,23 +27,27 @@ def student_register(request):
         student_form = StudentForm()
         return render(request, 'students/student_register.html', {'student_form':student_form})
 
-# 학생 excel 한꺼번에 등록
+# 학생 일괄 등록 폼
 class UploadFileForm(forms.Form):
-    file = forms.FileField(validators=[FileExtensionValidator(allowed_extensions=['xlsx', 'xls'])])
+    file = forms.FileField(validators=[FileExtensionValidator(allowed_extensions=['xlsx', 'xls'])]) #xlsx와 xls 확장자만 허용
 
+#학생 일괄 등록 excel view 
 @login_required(login_url='/users/')
 def student_excel_register(request):
+    # 파일 업로드 시
     if request.method == "POST":
         try:
             form = UploadFileForm(request.POST, request.FILES)
             if form.is_valid():
                 request.FILES['file'].save_to_database(
-                    name_columns_by_row=0, # 첫 번째 행 제목
-                    model=Student,
-                    mapdict=['student_id', 'name', 'phone_number', 'email'])
+                    name_columns_by_row=0, # 첫 번째 행은 db에 저장 X 
+                    model=Student, #저장 타겟이 되는 학생 모델
+                    mapdict=['student_id', 'name', 'phone_number', 'email']) #엑셀에 있는 열의 값을 이 순서대로 모델에 저장
                 return redirect('students:student_list')
+            #업로드 파일의 문제가 있는 경우
             else:
                 return redirect('students:student_excel_register')
+        #db에 있는 학생이 엑셀에 있는경우 예외처리  
         except IntegrityError:
             return redirect('students:student_excel_register')
     else:

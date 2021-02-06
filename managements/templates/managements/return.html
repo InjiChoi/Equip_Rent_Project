@@ -33,6 +33,11 @@
                 event.preventDefault()
                 return false;
             }
+            else if ($('#id_manager').val() == ''){
+                alert('검사자 이름을 입력해주세요.')
+                event.preventDefault()
+                return false;
+            }
 
             id_overlap_input = document.querySelector('input[name="equip_id"]');
             id_overlap_input_st = document.querySelector('input[name="student_id"]');
@@ -91,6 +96,10 @@
                         <td>물품 번호 : </td>
                         <td><input type="text" name="equip_id" id='id_equip_id'></td>
                         <td id="scan_td"><input type="button" name='cur_focus2' value='기자재 스캔' class='scan_btn'></td>
+                    </tr>
+                    <tr>
+                        <td>검사자 : </td>
+                        <td><input type="text" name="manager" id='id_manager'></td>
                     </tr>
                     </table>
                     <input type="button" value="조회" class='submit_btn' onclick='id_overlap_check()'>

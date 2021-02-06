@@ -80,7 +80,8 @@
             </tr>
             <tr>
                 <td><b>대여일 : </b></td>
-                <td>{{rent.rent_date | date:'Y-m-d'}} &nbsp;{{rent.rent_date | date:'h:i A'}}</td>            </tr>
+                <td>{{rent.rent_date | date:'Y-m-d'}} &nbsp;{{rent.rent_date | date:'h:i A'}}</td>            
+            </tr>
             <tr>
                 <td><b>검사자 : </b></td>
                 <td>{{rent.manager}}</td>
@@ -132,6 +133,7 @@
                 </tr>
             </tbody> {% endcomment %}
         </table>
+        <br/>
         <div style='text-align:center;'>
             {% for image in rent_images %}
                 <img src="{{ image.equip_pic.url }}" class='rent_equip_img' style="width:300px; margin-bottom:30px"> <br>
