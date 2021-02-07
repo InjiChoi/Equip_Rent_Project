@@ -218,7 +218,7 @@ def rent_excel_download(request):
     font_style = xlwt.XFStyle()
     rows = RentManage.objects.all().values_list('student__student_id', 'student__name', 'student__status', 'equip__equip_id', 'equip__equip_type', 'tag_attach', 'equip_work', 'accessories', 'rent_date', 'manager', 'active')
     
-    rows = [[rent_date.strftime("%Y-%m-%d %H:%M") if isinstance(rent_date, datetime) else rent_date for rent_date in row] for row in rows ]
+    rows = [[rent_date.strftime("%Y-%m-%d") if isinstance(rent_date, datetime) else rent_date for rent_date in row] for row in rows ]
     for row in rows :
         row_num += 1
         for col_num in range(len(row)):
@@ -352,7 +352,7 @@ def return_excel_download(request):
     font_style = xlwt.XFStyle()
     rows = ReturnHistory.objects.all().values_list('student__student_id', 'student__name', 'student__phone_number', 'equip__equip_id', 'equip__equip_type', 'manager', 'return_date')
     
-    rows = [[return_date.strftime("%Y-%m-%d %H:%M") if isinstance(return_date, datetime) else return_date for return_date in row] for row in rows ]
+    rows = [[return_date.strftime("%Y-%m-%d") if isinstance(return_date, datetime) else return_date for return_date in row] for row in rows ]
     for row in rows :
         row_num += 1
         for col_num in range(len(row)):
@@ -526,7 +526,7 @@ def pending_excel_download(request):
     font_style = xlwt.XFStyle()
     rows = PendingHistory.objects.all().values_list('student__student_id', 'student__name', 'student__phone_number', 'equip__equip_id', 'equip__equip_type', 'pending_date', 'reason')
     
-    rows = [[pending_date.strftime("%Y-%m-%d %H:%M") if isinstance(pending_date, datetime) else pending_date for pending_date in row] for row in rows ]
+    rows = [[pending_date.strftime("%Y-%m-%d") if isinstance(pending_date, datetime) else pending_date for pending_date in row] for row in rows ]
     for row in rows :
         row_num += 1
         for col_num in range(len(row)):
