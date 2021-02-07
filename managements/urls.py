@@ -15,6 +15,7 @@ urlpatterns = [
     path('rent/resend_pledge/<int:pk>/', views.resend_pledge, name="resend_pledge"),
     path('rent/rent_list/search_rent_list/', views.search_rent_list, name="search_rent_list"),
     path('rent/rent_list/search_rent_pledge/', views.search_rent_pledge, name="search_rent_pledge"),
+    path('rent/rent_list/rent_excel_download', views.rent_excel_download, name='rent_excel_download'),
     path('rent/activate/<int:pk>/', views.activate, name="activate"),
     path('rent/email_success/', views.email_success, name="email_success"),
 
@@ -24,6 +25,7 @@ urlpatterns = [
     path('return/return_result/<int:pk>/<str:manager>/', views.return_result, name='return_result'),
     path('return/return_list/', views.return_list, name="return_list"),
     path('return/return_list/search_return_list/', views.search_return_list, name="search_return_list"),
+    path('return/reurn_list/return_excel_download/', views.return_excel_download, name="return_excel_download"),
     path('return/return_info/', views.return_, name="return_info"),
 
     # 보류 관련
@@ -31,6 +33,7 @@ urlpatterns = [
     path('return/pending/<int:pk>/pending_result', views.pending_result, name="pending_result"),
     path('return/pending_list/', views.pending_list, name="pending_list"),
     path('return/pending_list/search_pending_list/', views.search_pending_list, name="search_pending_list"),
+    path('return/pending_list/pending_excel_download/', views.pending_excel_download, name='pending_excel_download'),
     path('return/pending_detail_page/<int:pk>/', views.pending_detail, name="pending_detail_page"),
     path('return/pending_overlap_check/', views.pending_overlap_check, name="pending_overlap_check"),
 ]
