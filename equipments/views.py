@@ -10,6 +10,7 @@ from django.http import JsonResponse, HttpResponseBadRequest, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django import forms
+import xlwt
 
 
 @login_required(login_url='/users/')
@@ -22,7 +23,6 @@ def equipment_register(request):
             return redirect('equipments:equipment_list')
         else :
             return redirect('equipments:equipment_register')
-        
     else:
         equipment_form = EquipForm()
         return render(request, 'equipments/equipment_register.html', {'equipment_form':equipment_form})
@@ -47,6 +47,33 @@ def equip_excel_register(request):
     else:
         form = UploadFileForm()
     return render(request, 'equipments/equip_excel_register.html', {'form': form})
+
+# 기자재 리스트 엑셀 export
+@login_required(login_url='/users/')
+def equip_excel_download(request):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="equipments.xls"'
+
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Equipments')
+    row_num = 0 # sheet header
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+    
+    columns = ['물품번호', '물품종류', '대여상태']
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+
+    font_style = xlwt.XFStyle()
+    
+    rows = Equipment.objects.all().values_list('equip_id', 'equip_type', 'rent_status')
+    for row in rows :
+        row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+    
+    wb.save(response)
+    return response
 
 # 기자재 물품 번호 중복 확인
 @login_required(login_url='/users/')
