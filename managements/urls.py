@@ -15,6 +15,7 @@ urlpatterns = [
     path('rent/resend_pledge/<int:pk>/', views.resend_pledge, name="resend_pledge"),
     path('rent/rent_list/search_rent_list/', views.search_rent_list, name="search_rent_list"),
     path('rent/rent_list/search_rent_pledge/', views.search_rent_pledge, name="search_rent_pledge"),
+    path('rent/rent_list/rent_excel_download', views.rent_excel_download, name='rent_excel_download'),
     path('rent/activate/<int:pk>/', views.activate, name="activate"),
     path('rent/email_success/', views.email_success, name="email_success"),
 

@@ -21,7 +21,8 @@ from django.utils.encoding import force_bytes, force_text
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
+import xlwt
+from datetime import datetime
 
 @login_required(login_url='/users/')
 def main_page(request):
@@ -177,7 +178,6 @@ def return_exist_check(request):
         else :
                 r_exist = "none"
 
-        
         ctx = {
                 'r_exist': r_exist, 
                 'e_exist': e_exist,
@@ -197,6 +197,35 @@ def rent_list(request):
                 'rents':rents,
         }
         return render(request, 'managements/rent_list.html', ctx)
+
+
+# 대여 리스트 엑셀 export
+@login_required(login_url='/users/')
+def rent_excel_download(request):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="rent_list.xls"'
+
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('RentManage')
+    row_num = 0 # sheet header
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    columns = ['학번', '이름', '학적상태', '물품번호', '물품종류', '물품태그', '기기작동', '악세서리', '대여일', '검사자', '서약서']
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+        
+    font_style = xlwt.XFStyle()
+    rows = RentManage.objects.all().values_list('student__student_id', 'student__name', 'student__status', 'equip__equip_id', 'equip__equip_type', 'tag_attach', 'equip_work', 'accessories', 'rent_date', 'manager', 'active')
+    
+    rows = [[rent_date.strftime("%Y-%m-%d %H:%M") if isinstance(rent_date, datetime) else rent_date for rent_date in row] for row in rows ]
+    for row in rows :
+        row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+    
+    wb.save(response)
+    return response        
 
 # ----------------------------------------------------------------------- #
 

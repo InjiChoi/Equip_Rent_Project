@@ -79,6 +79,9 @@
             <input class="search_btn" type="submit" value="조회" name="search_button2">
         </div>
         </form>
+        <div id="excel-icon-wrapper">
+        <a href="{% url 'managements:rent_excel_download' %}"><img id="excel-icon" src="{% static 'excel.png' %}" alt=""></a>
+        </div>
     </div>
     <div id="search_rent">
         <div id = "search_rent_list">
