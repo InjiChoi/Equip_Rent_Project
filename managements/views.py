@@ -206,7 +206,7 @@ def rent_excel_download(request):
     response['Content-Disposition'] = 'attachment; filename="rent_list.xls"'
 
     wb = xlwt.Workbook(encoding='utf-8')
-    ws = wb.add_sheet('RentManage')
+    ws = wb.add_sheet('RentManage_rent')
     row_num = 0 # sheet header
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
@@ -332,6 +332,34 @@ def return_list(request):
                 'returns':returns,
         }
         return render(request, 'managements/return_list.html', ctx)
+
+# 반납 리스트 엑셀 export
+@login_required(login_url='/users/')
+def return_excel_download(request):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="return_list.xls"'
+
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('RentManage_Return')
+    row_num = 0 # sheet header
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    columns = ['학번', '이름', '연락처', '물품번호', '물품종류', '검사자', '반납일']
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+        
+    font_style = xlwt.XFStyle()
+    rows = ReturnHistory.objects.all().values_list('student__student_id', 'student__name', 'student__phone_number', 'equip__equip_id', 'equip__equip_type', 'manager', 'return_date')
+    
+    rows = [[return_date.strftime("%Y-%m-%d %H:%M") if isinstance(return_date, datetime) else return_date for return_date in row] for row in rows ]
+    for row in rows :
+        row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+    
+    wb.save(response)
+    return response  
 
 
 #대여시 학생 조회

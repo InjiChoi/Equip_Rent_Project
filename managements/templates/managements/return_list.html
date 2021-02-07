@@ -53,6 +53,9 @@
             <input class="search_btn" type="submit" value="조회" name="search_button">
         </div>
         </form>
+        <div id="excel-icon-wrapper">
+        <a href="{% url 'managements:return_excel_download' %}"><img id="excel-icon" src="{% static 'excel.png' %}" alt=""></a>
+        </div>
     </div>
     <div id="search_return">
         <div id="search_return_list">

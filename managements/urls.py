@@ -25,6 +25,7 @@ urlpatterns = [
     path('return/return_result/<int:pk>/<str:manager>/', views.return_result, name='return_result'),
     path('return/return_list/', views.return_list, name="return_list"),
     path('return/return_list/search_return_list/', views.search_return_list, name="search_return_list"),
+    path('return/reurn_list/return_excel_download/', views.return_excel_download, name="return_excel_download"),
     path('return/return_info/', views.return_, name="return_info"),
 
     # 보류 관련
