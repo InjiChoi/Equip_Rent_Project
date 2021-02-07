@@ -80,6 +80,9 @@
             <input class="search_btn" type="submit" value="조회" name="search_button2">
         </div>
         </form>
+        <div id="excel-icon-wrapper">
+        <a href="{% url 'equipments:equip_excel_download' %}"><img id="excel-icon" src="{% static 'excel.png' %}" alt=""></a>
+        </div>
     </div>
     <div id="search_equip">
         <div id="search_equip_list">
