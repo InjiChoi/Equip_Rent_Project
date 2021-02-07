@@ -237,6 +237,7 @@ select {
 }
 
 .search-nav {
+    position: relative;
     margin-bottom: 30px;
 }
 
@@ -303,4 +304,14 @@ td > a > img {
 	.navbar .dropdown-menu.fade-up{ top:180%;  }
     .navbar .nav-item:hover .dropdown-menu{ transition: .3s; opacity:1; visibility:visible; top:100%; transform: rotateX(0deg); }
     .navbar-nav > li > .dropdown-menu { background-color: rgba(255,255,255,0.7); }
+}
+
+
+#excel-icon-wrapper {
+    position: absolute;
+    top: 0;
+    right: 15;
+}
+#excel-icon {
+    height: 34px;
 }
