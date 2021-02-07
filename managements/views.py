@@ -340,7 +340,7 @@ def return_excel_download(request):
     response['Content-Disposition'] = 'attachment; filename="return_list.xls"'
 
     wb = xlwt.Workbook(encoding='utf-8')
-    ws = wb.add_sheet('RentManage_Return')
+    ws = wb.add_sheet('ReturnHistory_Return')
     row_num = 0 # sheet header
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
@@ -360,7 +360,6 @@ def return_excel_download(request):
     
     wb.save(response)
     return response  
-
 
 #대여시 학생 조회
 @login_required(login_url='/users/')
@@ -507,6 +506,36 @@ def pending_list(request):
                 'pendings':pendings
         }
         return render(request, 'managements/pending_list.html', ctx)
+
+# 보류 리스트 엑셀 export
+@login_required(login_url='/users/')
+def pending_excel_download(request):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="pending_list.xls"'
+
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('PendingHistory_Pending')
+    row_num = 0 # sheet header
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    columns = ['학번', '이름', '연락처', '물품번호', '물품종류', '보류일', '보류사유']
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+        
+    font_style = xlwt.XFStyle()
+    rows = PendingHistory.objects.all().values_list('student__student_id', 'student__name', 'student__phone_number', 'equip__equip_id', 'equip__equip_type', 'pending_date', 'reason')
+    
+    rows = [[pending_date.strftime("%Y-%m-%d %H:%M") if isinstance(pending_date, datetime) else pending_date for pending_date in row] for row in rows ]
+    for row in rows :
+        row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+    
+    wb.save(response)
+    return response  
+
+
 #보류 리스트에서 보류 별 상세 페이지 뷰
 @login_required(login_url='/users')
 def pending_detail(request, pk):

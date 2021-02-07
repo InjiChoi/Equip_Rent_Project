@@ -33,6 +33,7 @@ urlpatterns = [
     path('return/pending/<int:pk>/pending_result', views.pending_result, name="pending_result"),
     path('return/pending_list/', views.pending_list, name="pending_list"),
     path('return/pending_list/search_pending_list/', views.search_pending_list, name="search_pending_list"),
+    path('return/pending_list/pending_excel_download/', views.pending_excel_download, name='pending_excel_download'),
     path('return/pending_detail_page/<int:pk>/', views.pending_detail, name="pending_detail_page"),
     path('return/pending_overlap_check/', views.pending_overlap_check, name="pending_overlap_check"),
 ]
