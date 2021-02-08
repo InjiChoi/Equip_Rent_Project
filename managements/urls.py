@@ -35,5 +35,6 @@ urlpatterns = [
     path('return/pending_list/search_pending_list/', views.search_pending_list, name="search_pending_list"),
     path('return/pending_list/pending_excel_download/', views.pending_excel_download, name='pending_excel_download'),
     path('return/pending_detail_page/<int:pk>/', views.pending_detail, name="pending_detail_page"),
+    path('return/pending_detail_page/return/<int:pk>/', views.pending_to_return, name="pending_to_return"), # 보류=>반납
     path('return/pending_overlap_check/', views.pending_overlap_check, name="pending_overlap_check"),
 ]

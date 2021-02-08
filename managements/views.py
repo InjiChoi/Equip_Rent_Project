@@ -286,6 +286,24 @@ def return_result(request, pk, manager):
                 pending = None
         return redirect('managements:return_list')
 
+# 보류 => 반납 처리 view
+def pending_to_return(request, pk):
+        print(1)
+        if request.method == 'POST':
+                print(2)
+                manager = request.POST.get('manager')
+                print(manager)
+                rent_equip = Equipment.objects.get(pk=pk)
+                rent_equip.rent_status = 'possible'
+                rent_equip.save()
+                rent = RentManage.objects.get(equip = rent_equip)
+                rent_student = Student.objects.get(student_id=rent.student.student_id)
+                return_instance = ReturnHistory.objects.create(student=rent_student, equip=rent_equip, return_date=timezone.now() ,manager=manager)
+                rent.delete()
+                pending = PendingHistory.objects.get(equip = rent_equip)
+                pending.delete()
+        return redirect('managements:return_list')
+
 # 보류 폼 작성 view
 @login_required(login_url='/users/')
 def pending(request, pk):

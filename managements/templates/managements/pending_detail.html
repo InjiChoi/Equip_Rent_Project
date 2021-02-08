@@ -6,6 +6,13 @@
     <link rel="stylesheet" href="{% static 'managements/rent_page.css' %}">
 {% endblock custom_css %}
 
+{% block custom_script %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+
+{% endblock custom_script %}
+
 {%block content%}
     <div class="subtitle" style="margin-top: 50px; text-align: center;">
         <h1 style='font-weight:bold; '>보류 상세 정보</h1>
@@ -56,9 +63,15 @@
             {% endfor %}
             </div>
         </div>
+        <input type = "text" name = "pk" id="id_pk" value = {{pending.equip.pk}}> 
+        
         <div>
         <div style='text-align:center; margin-bottom:50px'>
-            <button onclick="location.href='{% url 'managements:return_result' pending.equip.pk %}'; alert('반납이 완료되었습니다.')" class='submit_btn' style='margin:0 5px'>반납</button>
+            <form method="post" action="{% url 'managements:pending_to_return' pending.equip.pk %}">
+            {% csrf_token %}
+                <input type="text" name="manager" id='id_manager'>
+                <button type="submit" class='submit_btn' style='margin:0 5px' >반납</button>
+            </form>
             <button onclick="location.href='{% url 'managements:pending_list' %}'" class='submit_btn' style='margin:0 5px'>목록</button>
         </div>
     </div>
