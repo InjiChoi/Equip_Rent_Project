@@ -541,12 +541,12 @@ def pending_excel_download(request):
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
-    columns = ['학번', '이름', '연락처', '물품번호', '물품종류', '보류일', '보류사유']
+    columns = ['학번', '이름', '연락처', '물품번호', '물품종류', '검사자' ,'보류일', '보류사유']
     for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num], font_style)
         
     font_style = xlwt.XFStyle()
-    rows = PendingHistory.objects.all().values_list('student__student_id', 'student__name', 'student__phone_number', 'equip__equip_id', 'equip__equip_type', 'pending_date', 'reason')
+    rows = PendingHistory.objects.all().values_list('student__student_id', 'student__name', 'student__phone_number', 'equip__equip_id', 'equip__equip_type', 'manager','pending_date', 'reason')
     
     rows = [[pending_date.strftime("%Y-%m-%d") if isinstance(pending_date, datetime) else pending_date for pending_date in row] for row in rows ]
     for row in rows :
