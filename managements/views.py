@@ -288,11 +288,8 @@ def return_result(request, pk, manager):
 
 # 보류 => 반납 처리 view
 def pending_to_return(request, pk):
-        print(1)
         if request.method == 'POST':
-                print(2)
                 manager = request.POST.get('manager')
-                print(manager)
                 rent_equip = Equipment.objects.get(pk=pk)
                 rent_equip.rent_status = 'possible'
                 rent_equip.save()
@@ -306,13 +303,16 @@ def pending_to_return(request, pk):
 
 # 보류 폼 작성 view
 @login_required(login_url='/users/')
-def pending(request, pk):
+def pending(request, pk, manager):
         rent_equip = Equipment.objects.get(pk=pk)
+        manager = manager
         rent = RentManage.objects.get(equip = rent_equip)
         ctx = {
                 'rent_equip':rent_equip,
                 'rent':rent,
+                'manager':manager,
         }
+        print(2)
         if rent_equip.rent_status == 'pending':
                 pending = PendingHistory.objects.get(equip=rent_equip)
                 return redirect('managements:pending_detail_page', pending.pk)
@@ -320,7 +320,7 @@ def pending(request, pk):
 
 # 보류 처리 view
 @login_required(login_url='/users/')
-def pending_result(request, pk):
+def pending_result(request, pk, manager):
         rent_equip = Equipment.objects.get(pk=pk)
         rent_equip.rent_status = 'pending'
         rent_equip.save()
@@ -328,7 +328,7 @@ def pending_result(request, pk):
         rent_student = Student.objects.get(pk=rent.student.pk)
         if request.method == 'POST':
                 reason = request.POST.get('reason')
-                pending = PendingHistory.objects.create(student=rent_student, equip=rent_equip, reason=reason)
+                pending = PendingHistory.objects.create(student=rent_student, equip=rent_equip, reason=reason ,manager = manager)
                 rent_pics = request.FILES.getlist('file')
                 for item in rent_pics:
                         images = PendingEquipPicture.objects.create(pending=pending, pending_equip_pic=item)
@@ -336,7 +336,11 @@ def pending_result(request, pk):
                 return redirect('managements:pending_list')
 
         else:
-                return redirect('managements:pending', pk)
+                ctx = {
+                        'manager': manager,
+                        'pk' : pk
+                }
+                return redirect('managements:pending', pk, manager)
                 
 
 # 반납 목록 페이지
@@ -537,12 +541,12 @@ def pending_excel_download(request):
     font_style = xlwt.XFStyle()
     font_style.font.bold = True
 
-    columns = ['학번', '이름', '연락처', '물품번호', '물품종류', '보류일', '보류사유']
+    columns = ['학번', '이름', '연락처', '물품번호', '물품종류', '검사자' ,'보류일', '보류사유']
     for col_num in range(len(columns)):
         ws.write(row_num, col_num, columns[col_num], font_style)
         
     font_style = xlwt.XFStyle()
-    rows = PendingHistory.objects.all().values_list('student__student_id', 'student__name', 'student__phone_number', 'equip__equip_id', 'equip__equip_type', 'pending_date', 'reason')
+    rows = PendingHistory.objects.all().values_list('student__student_id', 'student__name', 'student__phone_number', 'equip__equip_id', 'equip__equip_type', 'manager','pending_date', 'reason')
     
     rows = [[pending_date.strftime("%Y-%m-%d") if isinstance(pending_date, datetime) else pending_date for pending_date in row] for row in rows ]
     for row in rows :
