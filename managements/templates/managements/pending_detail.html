@@ -9,7 +9,16 @@
 {% block custom_script %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-
+    <script type = "text/javaScript">
+    // 보류=>반납 시에 검사자 이름 빈칸 검사
+    function manager_check(e){
+        if ($('#id_manager').val() == ''){
+            alert("검사자 이름을 입력해주세요.");
+            event.preventDefault()
+            return false;
+        }
+    }
+    </script>
 
 {% endblock custom_script %}
 
@@ -71,7 +80,7 @@
             {% csrf_token %}
                 <h4 style = "display : inline"> 검사자 : </h4><input type="text" name="manager" id='id_manager'>
 
-                <button type="submit" class='submit_btn' style='margin:0 5px' >반납</button>
+                <button type="submit" class='submit_btn' style='margin:0 5px' onclick ="manager_check()">반납</button>
             </form>
             <button onclick="location.href='{% url 'managements:pending_list' %}'" class='submit_btn' style='margin:0 5px'>목록</button>
         </div>

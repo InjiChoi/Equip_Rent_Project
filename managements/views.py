@@ -304,7 +304,6 @@ def pending_to_return(request, pk):
 # 보류 폼 작성 view
 @login_required(login_url='/users/')
 def pending(request, pk, manager):
-        print(manager)
         rent_equip = Equipment.objects.get(pk=pk)
         manager = manager
         rent = RentManage.objects.get(equip = rent_equip)
@@ -322,9 +321,6 @@ def pending(request, pk, manager):
 # 보류 처리 view
 @login_required(login_url='/users/')
 def pending_result(request, pk, manager):
-        print(1)
-        print(manager)
-        print(pk)
         rent_equip = Equipment.objects.get(pk=pk)
         rent_equip.rent_status = 'pending'
         rent_equip.save()
