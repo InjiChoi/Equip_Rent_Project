@@ -105,7 +105,7 @@
         </div>
         <div style='text-align:center; margin:30px 0'>
             <input type="button" class="submit_btn" value="반납" onclick="location.href='{% url 'managements:return_result' equip.pk manager%}'; alert('반납이 완료되었습니다.')">
-            <input type="button" class="submit_btn" value="보류" onclick="id_overlap_check(); location.href='{% url 'managements:pending' equip.pk %}';">
+            <input type="button" class="submit_btn" value="보류" onclick="id_overlap_check(); location.href='{% url 'managements:pending' equip.pk manager%}';">
         </div>
     </div>
 {%endblock content%}

@@ -26,6 +26,7 @@
                     <td><b>연락처</b></td>
                     <td><b>물품 번호</b></td>
                     <td><b>물품 종류</b></td>
+                    <td><b>검사자</b></td>
                     <td><b>보류일</b></td>
                     <td><b>학적 상태</b></td>
                 </tr>
@@ -37,6 +38,7 @@
                     <td>{{pending.student.phone_number}}</td>
                     <td>{{pending.equip.equip_id}}</td>
                     <td>{{pending.equip.get_equip_type_display}}</td>
+                    <td>{{pending.manager}}</td>
                     <td>{{pending.pending_date | date:'Y-m-d'}} &nbsp; &nbsp; {{pending.pending_date | date:'h:i A'}}</td>
                     <td>{{pending.student.status}}</td>
                 </tr>
@@ -63,13 +65,12 @@
             {% endfor %}
             </div>
         </div>
-        <input type = "text" name = "pk" id="id_pk" value = {{pending.equip.pk}}> 
         
-        <div>
         <div style='text-align:center; margin-bottom:50px'>
-            <form method="post" action="{% url 'managements:pending_to_return' pending.equip.pk %}">
+            <form method="post" action="{% url 'managements:pending_to_return' pending.equip.pk %}" style = "display : inline">
             {% csrf_token %}
-                <input type="text" name="manager" id='id_manager'>
+                <h4 style = "display : inline"> 검사자 : </h4><input type="text" name="manager" id='id_manager'>
+
                 <button type="submit" class='submit_btn' style='margin:0 5px' >반납</button>
             </form>
             <button onclick="location.href='{% url 'managements:pending_list' %}'" class='submit_btn' style='margin:0 5px'>목록</button>

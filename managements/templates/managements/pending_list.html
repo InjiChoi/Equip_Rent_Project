@@ -68,6 +68,7 @@
                             <td><b>연락처</b></td>
                             <td><b>물품 번호</b></td>
                             <td><b>물품 종류</b></td>
+                            <td><b>검사자</b></td>
                             <td><b>보류일</b></td>
                             <td><b>보류 사유</b></td>
                         </tr>
@@ -80,6 +81,7 @@
                             <td>{{pending.student.phone_number}}</td>
                             <td>{{pending.equip.equip_id}}</td>
                             <td>{{pending.equip.get_equip_type_display}}</td>
+                            <td>{{pending.manager}}</td>
                             <td>{{pending.pending_date | date:'Y-m-d'}} &nbsp; &nbsp; {{pending.pending_date | date:'h:i A'}}</td>
                             {%if pending.reason|length > 10 %}
                                 <td>{{pending.reason|slice:":10"}}...</td>

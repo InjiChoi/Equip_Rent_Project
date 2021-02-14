@@ -288,11 +288,8 @@ def return_result(request, pk, manager):
 
 # 보류 => 반납 처리 view
 def pending_to_return(request, pk):
-        print(1)
         if request.method == 'POST':
-                print(2)
                 manager = request.POST.get('manager')
-                print(manager)
                 rent_equip = Equipment.objects.get(pk=pk)
                 rent_equip.rent_status = 'possible'
                 rent_equip.save()
@@ -306,13 +303,17 @@ def pending_to_return(request, pk):
 
 # 보류 폼 작성 view
 @login_required(login_url='/users/')
-def pending(request, pk):
+def pending(request, pk, manager):
+        print(manager)
         rent_equip = Equipment.objects.get(pk=pk)
+        manager = manager
         rent = RentManage.objects.get(equip = rent_equip)
         ctx = {
                 'rent_equip':rent_equip,
                 'rent':rent,
+                'manager':manager,
         }
+        print(2)
         if rent_equip.rent_status == 'pending':
                 pending = PendingHistory.objects.get(equip=rent_equip)
                 return redirect('managements:pending_detail_page', pending.pk)
@@ -320,7 +321,10 @@ def pending(request, pk):
 
 # 보류 처리 view
 @login_required(login_url='/users/')
-def pending_result(request, pk):
+def pending_result(request, pk, manager):
+        print(1)
+        print(manager)
+        print(pk)
         rent_equip = Equipment.objects.get(pk=pk)
         rent_equip.rent_status = 'pending'
         rent_equip.save()
@@ -328,7 +332,7 @@ def pending_result(request, pk):
         rent_student = Student.objects.get(pk=rent.student.pk)
         if request.method == 'POST':
                 reason = request.POST.get('reason')
-                pending = PendingHistory.objects.create(student=rent_student, equip=rent_equip, reason=reason)
+                pending = PendingHistory.objects.create(student=rent_student, equip=rent_equip, reason=reason ,manager = manager)
                 rent_pics = request.FILES.getlist('file')
                 for item in rent_pics:
                         images = PendingEquipPicture.objects.create(pending=pending, pending_equip_pic=item)
@@ -336,7 +340,11 @@ def pending_result(request, pk):
                 return redirect('managements:pending_list')
 
         else:
-                return redirect('managements:pending', pk)
+                ctx = {
+                        'manager': manager,
+                        'pk' : pk
+                }
+                return redirect('managements:pending', pk, manager)
                 
 
 # 반납 목록 페이지

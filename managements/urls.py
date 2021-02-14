@@ -29,8 +29,8 @@ urlpatterns = [
     path('return/return_info/', views.return_, name="return_info"),
 
     # 보류 관련
-    path('return/pending/<int:pk>', views.pending, name="pending"),
-    path('return/pending/<int:pk>/pending_result', views.pending_result, name="pending_result"),
+    path('return/pending/<int:pk>/<str:manager>/', views.pending, name="pending"),
+    path('return/pending/pending_result/<int:pk>/<str:manager>/', views.pending_result, name="pending_result"),
     path('return/pending_list/', views.pending_list, name="pending_list"),
     path('return/pending_list/search_pending_list/', views.search_pending_list, name="search_pending_list"),
     path('return/pending_list/pending_excel_download/', views.pending_excel_download, name='pending_excel_download'),

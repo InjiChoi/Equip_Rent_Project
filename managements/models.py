@@ -37,6 +37,7 @@ class PendingHistory(models.Model):
     equip= models.ForeignKey(Equipment, on_delete=models.CASCADE, null=True)
     reason = models.TextField()
     pending_date = models.DateTimeField(auto_now_add=True)
+    manager = models.CharField(max_length=20)
 
 class PendingEquipPicture(models.Model):
     pending_equip_pic = models.ImageField(upload_to="pending_equip_pic/%Y/%m/%d/", default=None)
