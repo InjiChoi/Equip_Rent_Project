@@ -39,6 +39,10 @@ def rent(request):
                 equip_work = request.POST.get('equip_work')
                 manager = request.POST.get('manager')
                 accessories = request.POST.get('accessories')
+                
+                if (accessories == "None"):
+                        accessories = None
+                
                 rent_pics = request.FILES.getlist('file')
 
                 rent_student = get_object_or_404(Student, student_id=rent_student_id)
@@ -52,7 +56,7 @@ def rent(request):
                         rent_info.equip = rent_equip
                         rent_info.tag_attach = tag_attach
                         rent_info.equip_work = equip_work
-                        if rent_info.accessories is not None:
+                        if accessories is not None:
                                 rent_info.accessories = accessories
                         rent_info.manager = manager
                         rent_info.rent_date = timezone.now()
