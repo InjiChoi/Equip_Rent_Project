@@ -4,7 +4,7 @@
 
 ### CUSTOM ###
 # secrets.json
-# */my_settings.py
+*/mysettings.py
 staticfiles/
 ### Django ###
 *.log

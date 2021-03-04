@@ -31,7 +31,6 @@ with open(secret_file) as f:
 
 def get_secrete(setting, secrets=secrets):
     try:
-        print("check: ", secrets[setting])
         return secrets[setting]
     except KeyError:
         error_msg = "Set the {} environment variable".format(setting)
@@ -43,7 +42,8 @@ SECRET_KEY = get_secrete("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['3.36.23.133', '127.0.0.1', 'www.equiprent.site', 'equiprent.site', 'ec2-3-36-23-133.ap-northeast-2.compute.amazonaws.com']
+ALLOWED_HOSTS = ['3.36.23.133', '127.0.0.1', 'www.equiprent.site', 'equiprent.site', 
+            'itserver1.sookmyung.ac.kr',]
 
 
 # Application definition
