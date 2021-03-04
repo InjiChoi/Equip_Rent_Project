@@ -105,13 +105,13 @@ WSGI_APPLICATION = 'EquipManage.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': my_settings.DATABASES['ENGINE'],
-        'NAME': my_settings.DATABASES['NAME'],
-        'USER': my_settings.DATABASES['USER'],
-        'PASSWORD': my_settings.DATABASES['PASSWORD'],
-        'HOST': my_settings.DATABASES['HOST'],
-        'PORT': my_settings.DATABASES['PORT'],
-        'OPTIONS': my_settings.DATABASES['OPTIONS']
+        'ENGINE': mysettings.DATABASES['ENGINE'],
+        'NAME': mysettings.DATABASES['NAME'],
+        'USER': mysettings.DATABASES['USER'],
+        'PASSWORD': mysettings.DATABASES['PASSWORD'],
+        'HOST': mysettings.DATABASES['HOST'],
+        'PORT': mysettings.DATABASES['PORT'],
+        'OPTIONS': mysettings.DATABASES['OPTIONS']
         }
     }
 # Password validation
