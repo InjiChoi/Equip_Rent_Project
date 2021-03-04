@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 import json
 from django.core.exceptions import ImproperlyConfigured
-from . import my_settings
+from . import mysettings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -171,12 +171,13 @@ MEDIA_URL = '/media/'
 SITE_ID = 1
 
 
-EMAIL_BACKEND = my_settings.EMAIL['EMAIL_BACKEND']
-EMAIL_USE_TLS = my_settings.EMAIL['EMAIL_USE_TLS']
-EMAIL_PORT = my_settings.EMAIL['EMAIL_PORT']
-EMAIL_HOST = my_settings.EMAIL['EMAIL_HOST']
-EMAIL_HOST_USER = my_settings.EMAIL['EMAIL_HOST_USER']
-EMAIL_HOST_PASSWORD = my_settings.EMAIL['EMAIL_HOST_PASSWORD']
+EMAIL_BACKEND = mysettings.EMAIL['EMAIL_BACKEND']
+EMAIL_USE_TLS = mysettings.EMAIL['EMAIL_USE_TLS']
+EMAIL_PORT = mysettings.EMAIL['EMAIL_PORT']
+EMAIL_HOST = mysettings.EMAIL['EMAIL_HOST']
+EMAIL_HOST_USER = mysettings.EMAIL['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = mysettings.EMAIL['EMAIL_HOST_PASSWORD']
+
 
 FILE_UPLOAD_HANDLERS = ("django_excel.ExcelMemoryFileUploadHandler",
                         "django_excel.TemporaryExcelFileUploadHandler")
