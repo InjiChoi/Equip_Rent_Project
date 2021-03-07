@@ -1,0 +1,27 @@
+<html> 
+    <body> 
+        <style> input{ width:300px; } </style> 
+        <form action="https://www.googleapis.com/oauth2/v4/token" method="post" enctype="application/x-www-form-urlencoded"> 
+            code : <input type="text" id="codebox" name="code"><br> 
+            client_id : <input type="text" name="client_id" value="304565812460-eepkc5tf0qliflnq9pn01r0ufdnn4680.apps.googleusercontent.com"><br> 
+            client_secret : <input type="text" name="client_secret" value="pjdggMI1G2AOsa5c3koKS_bs"><br> 
+            redirect_uri : <input type="text" name="redirect_uri" value="http://localhost:8000/receivecode.html"><br> 
+            grant_type : <input type="text" name="grant_type" value="authorization_code"><br> 
+            <input type="submit"> 
+        </form> 
+        <script> 
+            function getHttpParam(name) { 
+                var regexS = "[\\?&]" + name + "=([^&#]*)"; 
+                var regex = new RegExp(regexS); 
+                var results = regex.exec(window.location.href); 
+                if (results == null) { 
+                    return 2; 
+                } else { 
+                    return results[1]; 
+                }
+            } 
+            var ret = getHttpParam("code"); 
+            document.getElementById("codebox").value = ret; 
+        </script> 
+    </body> 
+</html>
