@@ -42,7 +42,7 @@ SECRET_KEY = get_secrete("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['3.36.23.133', '127.0.0.1', 'www.equiprent.site', 'equiprent.site', 
+ALLOWED_HOSTS = ['3.36.23.133', '127.0.0.1', '203.252.206.12', 
             'itserver1.sookmyung.ac.kr',]
 
 
